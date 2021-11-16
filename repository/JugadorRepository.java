@@ -26,4 +26,23 @@ public class JugadorRepository {
         }
         return false;
     }
+
+    public Jugador devolverJugadorValidado(Jugador jugadorActual) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getNombre().equalsIgnoreCase(jugadorActual.getNombre())
+                    && jugador.getContrasena().equalsIgnoreCase(jugadorActual.getContrasena())) {
+                return jugador;
+            }
+        }
+        return null;
+    }
+
+    public boolean nombreJugadorDisponible(String nombreJugador){
+        for (Jugador jugador : jugadores) {
+            if(jugador.getNombre().equalsIgnoreCase(nombreJugador)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

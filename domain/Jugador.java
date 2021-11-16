@@ -15,6 +15,10 @@ public class Jugador {
         this.mazo = mazo;
     }
 
+    public Jugador(String nombre, String contrasena) {
+
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -25,6 +29,10 @@ public class Jugador {
 
     public List<CartaInterface> getMazo() {
         return mazo;
+    }
+
+    public void setMazo(List<CartaInterface> mazo) {
+        this.mazo = mazo;
     }
 
     public int cantidadCartasMazo() {
