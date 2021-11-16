@@ -21,12 +21,8 @@ public class CartaRepository {
         mazoAcuatico.add(carta);
     }
 
-    public List<CartaInterface> seleccionarMazo(String tipoMazo) {
-        if(tipoMazo.equalsIgnoreCase("Terrestre")){
-            return mazoTerrestre;
-        }else{
-            return mazoAcuatico;
-        }
+    public List<CartaInterface> getMazoTerrestre() {
+        return mazoTerrestre;
     }
 
     public List<CartaInterface> getMazoAcuatico() {

@@ -16,7 +16,8 @@ public class Jugador {
     }
 
     public Jugador(String nombre, String contrasena) {
-
+        this.nombre = nombre;
+        this.contrasena = contrasena;
     }
 
     public String getNombre() {

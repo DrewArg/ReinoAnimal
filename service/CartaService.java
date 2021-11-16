@@ -1,5 +1,8 @@
 package service;
 
+import java.util.List;
+
+import inter.CartaInterface;
 import repository.CartaRepository;
 
 public class CartaService {
@@ -15,7 +18,7 @@ public class CartaService {
 
     }
 
-    public void crearCartasMazoTerrestre() {
+    private void crearCartasMazoTerrestre() {
         String nombre;
         boolean sePuedeBajarTablero = false;
         boolean enCementerio = false;
@@ -33,7 +36,7 @@ public class CartaService {
         int camuflaje = 1;
         int enamoramiento = 1;
 
-        for (int i = 1; i <= cartasMazo + 100; i++) {
+        for (int i = 100; i < cartasMazo + 100; i++) {
 
             tipoMazo = "Terrestre";
 
@@ -164,7 +167,7 @@ public class CartaService {
         }
     }
 
-    public void crearCartasMazoAcuatico() {
+    private void crearCartasMazoAcuatico() {
         String nombre;
         boolean sePuedeBajarTablero = false;
         boolean enCementerio = false;
@@ -182,7 +185,7 @@ public class CartaService {
         int captura = 1;
         int fortalecimiento = 1;
 
-        for (int i = 200; i <= cartasMazo + 200; i++) {
+        for (int i = 200; i < cartasMazo + 200; i++) {
             tipoMazo = "Acuático";
 
             if (tortugas > 0) {
@@ -310,6 +313,17 @@ public class CartaService {
 
             idUnico++;
         }
+    }
+
+    public List<CartaInterface> seleccionarMazo(String tipoMazo) {
+        if (tipoMazo.equalsIgnoreCase("Terrestre")) {
+            crearCartasMazoTerrestre();
+            return cartaRepository.getMazoTerrestre();
+        } else {
+            crearCartasMazoAcuatico();
+            return cartaRepository.getMazoTerrestre();
+        }
+
     }
 
 }

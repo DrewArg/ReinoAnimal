@@ -9,7 +9,7 @@ public class JugadorRepository {
 
     private List<Jugador> jugadores = new ArrayList<Jugador>();
 
-    public void crearJugador(Jugador jugador) {
+    public void agregarJugador(Jugador jugador) {
         jugadores.add(jugador);
     }
 
@@ -18,6 +18,7 @@ public class JugadorRepository {
     }
 
     public boolean validarJugador(Jugador jugadorActual) {
+
         for (Jugador jugador : jugadores) {
             if (jugador.getNombre().equalsIgnoreCase(jugadorActual.getNombre())
                     && jugador.getContrasena().equalsIgnoreCase(jugadorActual.getContrasena())) {
@@ -37,12 +38,21 @@ public class JugadorRepository {
         return null;
     }
 
-    public boolean nombreJugadorDisponible(String nombreJugador){
+    public boolean nombreJugadorDisponible(String nombreJugador) {
         for (Jugador jugador : jugadores) {
-            if(jugador.getNombre().equalsIgnoreCase(nombreJugador)){
+            if (jugador.getNombre().equalsIgnoreCase(nombreJugador)) {
                 return false;
             }
         }
         return true;
     }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public int getCantidadJugadores() {
+        return jugadores.size();
+    }
+
 }
