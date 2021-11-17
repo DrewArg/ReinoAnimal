@@ -31,7 +31,7 @@ public class Animal implements CartaInterface {
     }
 
     private void inicializarFlags() {
-        enMazo = false;
+        enMazo = true;
 
         sePuedeBajarTablero = false;
         enTablero = false;

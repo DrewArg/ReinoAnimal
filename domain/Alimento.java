@@ -24,7 +24,7 @@ public class Alimento implements CartaInterface {
     }
 
     private void inicializarFlags() {
-        enMazo = false;
+        enMazo = true;
 
         sePuedeBajarTablero = false;
         enTablero = false;

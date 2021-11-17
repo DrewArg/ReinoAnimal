@@ -25,7 +25,7 @@ public class Habilidad implements CartaInterface {
     }
 
     private void inicializarFlags() {
-        enMazo = false;
+        enMazo = true;
 
         sePuedeBajarTablero = false;
         enTablero = false;
