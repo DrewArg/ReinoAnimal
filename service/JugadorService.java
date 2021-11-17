@@ -10,10 +10,13 @@ import repository.JugadorRepository;
 public class JugadorService {
 
     JugadorRepository jugadorRepository = new JugadorRepository();
+    AnimalService animalService = new AnimalService();
+    AlimentoService alimentoService = new AlimentoService();
 
-    public void crearJugadorYGuardarlo(String nombre, String contrasena, List<CartaInterface> mazo) {
+    public Jugador crearJugadorGuardarloYDevolverlo(String nombre, String contrasena, List<CartaInterface> mazo) {
         Jugador jugador = new Jugador(nombre, contrasena, mazo);
         jugadorRepository.agregarJugador(jugador);
+        return jugador;
     }
 
     public Jugador crearJugadorYDevolverlo(String nombre, String contrasena) {
@@ -28,7 +31,16 @@ public class JugadorService {
         }
     }
 
-    public List<Jugador> ingresarDosJugadores(Jugador jugador1, Jugador jugador2) {
+    public Jugador validarJugadorYDevolverlo(Jugador jugador) {
+
+        if (jugadorRepository.validarJugador(jugador)) {
+            return jugadorRepository.devolverJugadorValidado(jugador);
+        }
+
+        return null;
+    }
+
+    public List<Jugador> validarDosJugadores(Jugador jugador1, Jugador jugador2) {
 
         List<Jugador> jugadoresPartida = new ArrayList<Jugador>();
 
@@ -44,15 +56,6 @@ public class JugadorService {
 
         return jugadoresPartida;
 
-    }
-
-    public Jugador ingresarJugador(Jugador jugador) {
-
-        if (jugadorRepository.validarJugador(jugador)) {
-            return jugadorRepository.devolverJugadorValidado(jugador);
-        }
-
-        return null;
     }
 
     public boolean nombresJugadoresDisponibles(String nombreJugador1, String nombreJugador2) {
@@ -73,12 +76,11 @@ public class JugadorService {
 
     }
 
-    public int getCantidadJugadores() {
-        return jugadorRepository.getCantidadJugadores();
+    public void pasarAnimalesEnBatallaAReposo(Jugador jugadorActual) {
+        animalService.pasarAnimalesEnBatallaAReposo(jugadorActual.getCartasTablero());
     }
 
-    public List<Jugador> getJugadores() {
-        return jugadorRepository.getJugadores();
+    public void pasarAlimentosConsumidosAReserva(Jugador jugadorActual) {
+        alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual.getCartasTablero());
     }
-
 }

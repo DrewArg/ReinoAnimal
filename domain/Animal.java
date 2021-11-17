@@ -12,21 +12,35 @@ public class Animal implements CartaInterface {
 
     private boolean enReposo;
     private boolean enBatalla;
-    private boolean enCementerio;
+    private boolean enMazo;
+    private boolean enTablero;
+    private boolean enTableroCementerio;
+    private boolean enMano;
     private String tipoMazo;
 
-    public Animal(int id, String nombre, String efecto, int coste, int dano, boolean sePuedeBajarTablero,
-            boolean enReposo, boolean enBatalla, boolean enCementerio, String tipoMazo) {
+    public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo) {
         this.id = id;
         this.nombre = nombre;
         this.efecto = efecto;
         this.coste = coste;
         this.dano = dano;
-        this.sePuedeBajarTablero = sePuedeBajarTablero;
-        this.enReposo = enReposo;
-        this.enBatalla = enBatalla;
-        this.enCementerio = enCementerio;
         this.tipoMazo = tipoMazo;
+
+        inicializarFlags();
+
+    }
+
+    private void inicializarFlags() {
+        enMazo = false;
+
+        sePuedeBajarTablero = false;
+        enTablero = false;
+        enTableroCementerio = false;
+        enReposo = false;
+        enBatalla = false;
+
+        enMano = false;
+
     }
 
     public int getId() {
@@ -85,12 +99,36 @@ public class Animal implements CartaInterface {
         this.enBatalla = enBatalla;
     }
 
-    public boolean isEnCementerio() {
-        return enCementerio;
+    public boolean isEnTableroCementerio() {
+        return enTableroCementerio;
     }
 
-    public void setEnCementerio(boolean enCementerio) {
-        this.enCementerio = enCementerio;
+    public void setEnTableroCementerio(boolean enCementerio) {
+        this.enTableroCementerio = enCementerio;
+    }
+
+    public boolean isEnMazo() {
+        return enMazo;
+    }
+
+    public void setEnMazo(boolean enMazo) {
+        this.enMazo = enMazo;
+    }
+
+    public boolean isEnTablero() {
+        return enTablero;
+    }
+
+    public void setEnTablero(boolean enTablero) {
+        this.enTablero = enTablero;
+    }
+
+    public boolean isEnMano() {
+        return enMano;
+    }
+
+    public void setEnMano(boolean enMano) {
+        this.enMano = enMano;
     }
 
 }

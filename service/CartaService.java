@@ -20,8 +20,6 @@ public class CartaService {
 
     private void crearCartasMazoTerrestre() {
         String nombre;
-        boolean sePuedeBajarTablero = false;
-        boolean enCementerio = false;
         String tipoMazo;
 
         int cartasMazo = 25;
@@ -41,8 +39,7 @@ public class CartaService {
             tipoMazo = "Terrestre";
 
             if (lobos > 0) {
-                boolean enReposo = false;
-                boolean enBatalla = false;
+
                 String efecto;
                 int coste;
                 int dano;
@@ -54,26 +51,22 @@ public class CartaService {
 
                 lobos--;
 
-                cartaRepository.agregarCartaMazoTerrestre(animalService.crearAnimal(idUnico, nombre, efecto, coste,
-                        dano, sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (ratas > 0) {
                 nombre = "Rata";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Sin efecto.";
                 int coste = 1;
                 int dano = 1;
 
                 ratas--;
 
-                cartaRepository.agregarCartaMazoTerrestre(animalService.crearAnimal(idUnico, nombre, efecto, coste,
-                        dano, sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (iguanas > 0) {
                 nombre = "Iguana";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Puede copiar el ataque de un enemigo y sumarlo al suyo hasta el final del turno.";
                 ;
                 int coste = 3;
@@ -81,13 +74,11 @@ public class CartaService {
 
                 iguanas--;
 
-                cartaRepository.agregarCartaMazoTerrestre(animalService.crearAnimal(idUnico, nombre, efecto, coste,
-                        dano, sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (mantisOrquideas > 0) {
                 nombre = "Mantis Orquídea";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Puedes pagar 1 alimento para tomar una carta de tu cementerio y ponerla en tu mano.";
                 ;
                 int coste = 5;
@@ -95,42 +86,36 @@ public class CartaService {
 
                 mantisOrquideas--;
 
-                cartaRepository.agregarCartaMazoTerrestre(animalService.crearAnimal(idUnico, nombre, efecto, coste,
-                        dano, sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (alimentos > 0) {
                 nombre = "Alimento";
-                boolean enReservaDeAlimentos = false;
-                boolean enAlimentoConsumidos = false;
-
                 alimentos--;
 
-                cartaRepository.agregarCartaMazoTerrestre(alimentoService.crearAlimento(idUnico, nombre,
-                        sePuedeBajarTablero, enReservaDeAlimentos, enAlimentoConsumidos, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(alimentoService.crearAlimento(idUnico, nombre, tipoMazo));
 
             } else if (orquidea > 0) {
                 nombre = "Orquidea";
 
                 String efecto = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. Si Mantis Orquídea está en tu cementerio, puedes revivirla pagando su coste.";
                 int coste = 6;
-                boolean enLineaApoyo = false;
 
                 orquidea--;
 
-                cartaRepository.agregarCartaMazoTerrestre(habitatService.crearHabitat(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enLineaApoyo, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        habitatService.crearHabitat(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (alcantarilla > 0) {
                 nombre = "Alcantarilla";
 
                 String efecto = "Puedes revivir una Rata por turno pagando su coste.";
                 int coste = 3;
-                boolean enLineaApoyo = false;
 
                 alcantarilla--;
 
-                cartaRepository.agregarCartaMazoTerrestre(habitatService.crearHabitat(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enLineaApoyo, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        habitatService.crearHabitat(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (aullido > 0) {
                 nombre = "Aullido";
@@ -139,8 +124,8 @@ public class CartaService {
 
                 aullido--;
 
-                cartaRepository.agregarCartaMazoTerrestre(habilidadService.crearHabilidad(idUnico, nombre, efecto,
-                        coste, sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (camuflaje > 0) {
                 nombre = "Camuflaje";
@@ -149,8 +134,8 @@ public class CartaService {
 
                 camuflaje--;
 
-                cartaRepository.agregarCartaMazoTerrestre(habilidadService.crearHabilidad(idUnico, nombre, efecto,
-                        coste, sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (enamoramiento > 0) {
 
@@ -159,8 +144,8 @@ public class CartaService {
                 int coste = 6;
 
                 enamoramiento--;
-                cartaRepository.agregarCartaMazoTerrestre(habilidadService.crearHabilidad(idUnico, nombre, efecto,
-                        coste, sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoTerrestre(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
             }
 
             idUnico++;
@@ -169,8 +154,6 @@ public class CartaService {
 
     private void crearCartasMazoAcuatico() {
         String nombre;
-        boolean sePuedeBajarTablero = false;
-        boolean enCementerio = false;
         String tipoMazo;
 
         int cartasMazo = 25;
@@ -189,8 +172,6 @@ public class CartaService {
             tipoMazo = "Acuático";
 
             if (tortugas > 0) {
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto;
                 int coste;
                 int dano;
@@ -202,26 +183,22 @@ public class CartaService {
 
                 tortugas--;
 
-                cartaRepository.agregarCartaMazoAcuatico(animalService.crearAnimal(idUnico, nombre, efecto, coste, dano,
-                        sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (pecesPayaso > 0) {
                 nombre = "Pez Payaso";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Sin efecto.";
                 int coste = 1;
                 int dano = 1;
 
                 pecesPayaso--;
 
-                cartaRepository.agregarCartaMazoAcuatico(animalService.crearAnimal(idUnico, nombre, efecto, coste, dano,
-                        sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (pulpos > 0) {
                 nombre = "Pulpo";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Puede perder X puntos de daño permanentemente para devolver X cartas del cementerio al mazo.";
                 ;
                 int coste = 4;
@@ -229,13 +206,11 @@ public class CartaService {
 
                 pulpos--;
 
-                cartaRepository.agregarCartaMazoAcuatico(animalService.crearAnimal(idUnico, nombre, efecto, coste, dano,
-                        sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (tiburonesBlancos > 0) {
                 nombre = "Tiburón Blanco";
-                boolean enReposo = false;
-                boolean enBatalla = false;
                 String efecto = "Puede devorar a un aliado para devorar a un enemigo de coste 3 o menos y adicionar su fuerza a la suya hasta el final del turno.";
                 ;
                 int coste = 5;
@@ -243,42 +218,37 @@ public class CartaService {
 
                 tiburonesBlancos--;
 
-                cartaRepository.agregarCartaMazoAcuatico(animalService.crearAnimal(idUnico, nombre, efecto, coste, dano,
-                        sePuedeBajarTablero, enReposo, enBatalla, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        animalService.crearAnimal(idUnico, nombre, efecto, coste, dano, tipoMazo));
 
             } else if (alimentos > 0) {
                 nombre = "Alimento";
-                boolean enReservaDeAlimentos = false;
-                boolean enAlimentoConsumidos = false;
 
                 alimentos--;
 
-                cartaRepository.agregarCartaMazoAcuatico(alimentoService.crearAlimento(idUnico, nombre,
-                        sePuedeBajarTablero, enReservaDeAlimentos, enAlimentoConsumidos, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(alimentoService.crearAlimento(idUnico, nombre, tipoMazo));
 
             } else if (costa > 0) {
                 nombre = "Costa";
 
                 String efecto = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal devorado hasta ser destruido.";
                 int coste = 6;
-                boolean enLineaApoyo = false;
 
                 costa--;
 
-                cartaRepository.agregarCartaMazoAcuatico(habitatService.crearHabitat(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enLineaApoyo, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        habitatService.crearHabitat(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (anemona > 0) {
                 nombre = "Anemona";
 
                 String efecto = "Puedes duplicar un Pez Payaso en juego pagando su coste hasta el final del turno.";
                 int coste = 3;
-                boolean enLineaApoyo = false;
 
                 anemona--;
 
-                cartaRepository.agregarCartaMazoAcuatico(habitatService.crearHabitat(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enLineaApoyo, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        habitatService.crearHabitat(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (coraza > 0) {
                 nombre = "Coraza";
@@ -287,8 +257,8 @@ public class CartaService {
 
                 coraza--;
 
-                cartaRepository.agregarCartaMazoAcuatico(habilidadService.crearHabilidad(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (captura > 0) {
                 nombre = "Captura";
@@ -297,8 +267,8 @@ public class CartaService {
 
                 captura--;
 
-                cartaRepository.agregarCartaMazoAcuatico(habilidadService.crearHabilidad(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
 
             } else if (fortalecimiento > 0) {
 
@@ -307,8 +277,8 @@ public class CartaService {
                 int coste = 6;
 
                 fortalecimiento--;
-                cartaRepository.agregarCartaMazoAcuatico(habilidadService.crearHabilidad(idUnico, nombre, efecto, coste,
-                        sePuedeBajarTablero, enCementerio, tipoMazo));
+                cartaRepository.agregarCartaMazoAcuatico(
+                        habilidadService.crearHabilidad(idUnico, nombre, efecto, coste, tipoMazo));
             }
 
             idUnico++;

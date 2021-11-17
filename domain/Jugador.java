@@ -1,18 +1,20 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import inter.CartaInterface;
 
 public class Jugador {
     private String nombre;
     private String contrasena;
+    private int turno;
 
-    private List<CartaInterface> mazo;
+    private List<CartaInterface> cartas;
 
-    public Jugador(String nombre, String contrasena, List<CartaInterface> mazo) {
+    public Jugador(String nombre, String contrasena, List<CartaInterface> cartas) {
         this.nombre = nombre;
         this.contrasena = contrasena;
-        this.mazo = mazo;
+        this.cartas = cartas;
     }
 
     public Jugador(String nombre, String contrasena) {
@@ -28,15 +30,101 @@ public class Jugador {
         return contrasena;
     }
 
-    public List<CartaInterface> getMazo() {
-        return mazo;
+    public List<CartaInterface> getCartas() {
+        return cartas;
     }
 
-    public void setMazo(List<CartaInterface> mazo) {
-        this.mazo = mazo;
+    public List<CartaInterface> getCartasMazo() {
+
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnMazo()) {
+                auxiliar.add(carta);
+            }
+        }
+
+        return auxiliar;
     }
 
-    public int cantidadCartasMazo() {
-        return mazo.size();
+    public List<CartaInterface> getCartasTablero() {
+
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                auxiliar.add(carta);
+            }
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getCartasMano() {
+
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnMano()) {
+                auxiliar.add(carta);
+            }
+        }
+
+        return auxiliar;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+    }
+
+    public void robarCartas(int cantidadCartas) {
+
+        if (cantidadCartas >= getCartasMazo().size()) {
+            // se quedo sin cartas
+        } else {
+            for (CartaInterface carta : cartas) {
+                if (tieneCartasElMazo()) {
+
+                    if (carta.isEnMazo()) {
+
+                        if (cantidadCartas > 0) {
+                            cantidadCartas--;
+
+                            carta.setEnMano(true);
+                            carta.setEnMazo(false);
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    public void pasarAlimentosConsumidosAReserva() {
+
+    }
+
+    public void regresarTodasLasCartasAlMazoYBarajar() {
+        setTurno(1);
+
+        for (CartaInterface carta : cartas) {
+            carta.setEnMazo(true);
+
+            carta.setEnTablero(false);
+            carta.setEnTableroCementerio(false);
+            carta.setEnMano(false);
+        }
+    }
+
+    public boolean tieneCartasElMazo() {
+        if (getCartasMazo().size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }
