@@ -10,6 +10,7 @@ import repository.JugadorRepository;
 public class JugadorService {
 
     JugadorRepository jugadorRepository = new JugadorRepository();
+    CartaService cartaService = new CartaService();
     AnimalService animalService = new AnimalService();
     AlimentoService alimentoService = new AlimentoService();
 
@@ -83,4 +84,17 @@ public class JugadorService {
     public void pasarAlimentosConsumidosAReserva(Jugador jugadorActual) {
         alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual.getCartasTablero());
     }
+
+    public void bajarCartaAlTablero(Jugador jugadorActual) {
+        cartaService.bajarCartaAlTablero(jugadorActual);
+    }
+
+    public void seleccionarCartaPorZona(Jugador jugadorAcual) {
+
+    }
+
+    public void mezclarMazo(Jugador jugadorActual) {
+        cartaService.mezclarMazo(jugadorActual);
+    }
+
 }

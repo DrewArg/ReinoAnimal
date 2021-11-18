@@ -1,7 +1,9 @@
 package service;
 
 import java.util.List;
+import java.util.Random;
 
+import domain.Jugador;
 import inter.CartaInterface;
 import repository.CartaRepository;
 
@@ -287,13 +289,41 @@ public class CartaService {
 
     public List<CartaInterface> seleccionarMazo(String tipoMazo) {
         if (tipoMazo.equalsIgnoreCase("Terrestre")) {
+
             crearCartasMazoTerrestre();
             return cartaRepository.getMazoTerrestre();
         } else {
+
             crearCartasMazoAcuatico();
-            return cartaRepository.getMazoTerrestre();
+            return cartaRepository.getMazoAcuatico();
         }
 
     }
 
+    public void bajarCartaAlTablero(Jugador jugadorActual) {
+
+        for (CartaInterface carta : jugadorActual.getCartasMano()) {
+
+        }
+    }
+
+    public void mezclarMazo(Jugador jugadorActual) {
+        Random random = new Random();
+
+        jugadorActual.getCartasMazo();
+
+        // List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+
+        // while (jugadorActual.getCartasMazo().size() > 0) {
+        // int indice = random.nextInt(jugadorActual.getCartasMazo().size());
+        // CartaInterface cartaActual = jugadorActual.getCartasMazo().remove(indice);
+        // auxiliar.add(cartaActual);
+
+        // }
+
+        // for (CartaInterface carta : auxiliar) {
+        // jugadorActual.getCartasMazo().add(carta);
+        // }
+
+    }
 }

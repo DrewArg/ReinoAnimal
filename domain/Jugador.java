@@ -89,6 +89,7 @@ public class Jugador {
                     if (carta.isEnMazo()) {
 
                         if (cantidadCartas > 0) {
+                            System.out.println(cantidadCartas);
                             cantidadCartas--;
 
                             carta.setEnMano(true);
@@ -101,10 +102,6 @@ public class Jugador {
 
             }
         }
-    }
-
-    public void pasarAlimentosConsumidosAReserva() {
-
     }
 
     public void regresarTodasLasCartasAlMazoYBarajar() {
@@ -127,4 +124,5 @@ public class Jugador {
         }
 
     }
+
 }

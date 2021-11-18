@@ -7,6 +7,7 @@ import domain.Jugador;
 import inter.CartaInterface;
 import service.CartaService;
 import service.JugadorService;
+import utilities.Inspector;
 
 public class Juego {
         JugadorService jugadorService = new JugadorService();
@@ -27,6 +28,7 @@ public class Juego {
 
                         if (!loginIniciado) {
                                 loginIniciado = true;
+
                         } else {
                                 opcionElegida = JOptionPane.showOptionDialog(null,
                                                 "¡Bienvenidos a la Batalla del Reino Animal!", "Jugadores",
@@ -91,8 +93,10 @@ public class Juego {
                                         List<CartaInterface> mazoJugador2 = new ArrayList<CartaInterface>();
 
                                         if (mazoElegidoJugador1 == 0) {
+
                                                 mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[0]);
                                         } else {
+
                                                 mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[1]);
                                         }
 
@@ -102,9 +106,11 @@ public class Juego {
                                                         JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 1);
 
                                         if (mazoElegidoJugador2 == 0) {
+
                                                 mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[0]);
 
                                         } else {
+
                                                 mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[1]);
                                         }
 
@@ -184,6 +190,8 @@ public class Juego {
 
         private void iniciarPartida(Jugador jugador1, Jugador jugador2) {
                 regresarTodasLasCartasAlMazoYBarajar(jugador1, jugador2);
+                jugadorService.mezclarMazo(jugador1);
+                jugadorService.mezclarMazo(jugador2);
 
                 JOptionPane.showMessageDialog(null,
                                 "Ambos jugadores arracan con 25 cartas en su mazo, el jugador/a que se quede sin cartas en su mazo, perderá.",
@@ -257,6 +265,23 @@ public class Juego {
 
                 while (opcionElegida != 2) {
                         if (opcionElegida == 0) {
+                                // bajar una carta
+                                String descripcionCartasMano = Inspector
+                                                .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
+
+                                if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
+                                        JOptionPane.showMessageDialog(null,
+                                                        "Actualmente no tienes cartas disponibles para bajar al tablero.",
+                                                        "Sin cartas disponibles", JOptionPane.WARNING_MESSAGE);
+                                } else {
+
+                                        Integer[] cartasMano = Inspector
+                                                        .devolverIDsCartasEnZona(jugadorActual.getCartasMano());
+
+                                        JOptionPane.showOptionDialog(null, descripcionCartasMano, "Tu mano actual",
+                                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                                        null, cartasMano, 0);
+                                }
 
                         } else if (opcionElegida == 1) {
                                 JOptionPane.showMessageDialog(null, "Aún no codeado", "Aun no codeado",
@@ -271,6 +296,7 @@ public class Juego {
                 }
 
                 jugadorActual.robarCartas(1);
+
                 JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " te quedan: "
                                 + jugadorActual.getCartasMazo().size() + " cartas en tu mazo.");
                 JOptionPane.showMessageDialog(null, "Fin de turno " + jugadorActual.getTurno(), "Fin Turno",
