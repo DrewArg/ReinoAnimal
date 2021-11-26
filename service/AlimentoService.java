@@ -52,4 +52,18 @@ public class AlimentoService {
             }
         }
     }
+
+    public int devolverCantidadAlimentosReserva(List<CartaInterface> cartasTablero) {
+        int contador = 0;
+        for (CartaInterface carta : cartasTablero) {
+            if (carta instanceof Alimento) {
+                Alimento alimento = (Alimento) carta;
+                if (alimento.isEnAlimentoConsumidos()) {
+                    contador++;
+                }
+            }
+        }
+
+        return contador;
+    }
 }

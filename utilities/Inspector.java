@@ -25,10 +25,9 @@ public class Inspector {
                 if (carta instanceof Animal) {
                     Animal animal = (Animal) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n"
-                            + animal.getNombre() + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano()
-                            + "\nEfecto: " + animal.getEfecto()
-                            + "\n-----------------------------------------------------";
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                            + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                            + animal.getEfecto() + "\n-----------------------------------------------------";
 
                 } else if (carta instanceof Alimento) {
 
@@ -47,9 +46,9 @@ public class Inspector {
                 } else if (carta instanceof Habitat) {
                     Habitat habitat = (Habitat) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\n"
-                            + habitat.getNombre() + "\nCoste: " + habitat.getCoste() + "\nEfecto: "
-                            + habitat.getEfecto() + "\n-----------------------------------------------------";
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\n" + habitat.getNombre()
+                            + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
+                            + "\n-----------------------------------------------------";
 
                 }
             }
@@ -69,4 +68,5 @@ public class Inspector {
 
         return idsZona;
     }
+
 }
