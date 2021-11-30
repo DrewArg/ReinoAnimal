@@ -58,7 +58,7 @@ public class AlimentoService {
         for (CartaInterface carta : cartasTablero) {
             if (carta instanceof Alimento) {
                 Alimento alimento = (Alimento) carta;
-                if (alimento.isEnAlimentoConsumidos()) {
+                if (alimento.isEnReservaDeAlimentos()) {
                     contador++;
                 }
             }

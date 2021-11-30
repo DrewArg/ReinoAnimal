@@ -92,11 +92,11 @@ public class Habilidad implements CartaInterface {
         this.enTablero = enTablero;
     }
 
-    public boolean isEnTableroCementerio() {
+    public boolean isEnCementerio() {
         return enTableroCementerio;
     }
 
-    public void setEnTableroCementerio(boolean enTableroCementerio) {
+    public void setEnCementerio(boolean enTableroCementerio) {
         this.enTableroCementerio = enTableroCementerio;
     }
 

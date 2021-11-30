@@ -99,11 +99,11 @@ public class Animal implements CartaInterface {
         this.enBatalla = enBatalla;
     }
 
-    public boolean isEnTableroCementerio() {
+    public boolean isEnCementerio() {
         return enTableroCementerio;
     }
 
-    public void setEnTableroCementerio(boolean enCementerio) {
+    public void setEnCementerio(boolean enCementerio) {
         this.enTableroCementerio = enCementerio;
     }
 

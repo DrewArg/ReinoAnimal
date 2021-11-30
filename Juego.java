@@ -317,8 +317,7 @@ public class Juego {
                                 // activarUnEfecto(jugadorActual);
 
                         } else if (opcionElegida == 3) {
-                                // inspeccionarZonaJuego(jugadorActual, jugadorEnemigo);
-
+                                inspeccionarZonaJuego(jugadorActual, jugadorEnemigo);
                         }
 
                         opcionElegida = JOptionPane.showOptionDialog(null,
@@ -362,6 +361,124 @@ public class Juego {
 
                                 }
                         }
+                }
+        }
+
+        private void inspeccionarZonaJuego(Jugador jugadorActual, Jugador jugadorEnemigo) {
+                String[] zonasJuego = { "Mi mano", "Mi Tablero", "Tablero enemigo" };
+
+                int zonaElegida = JOptionPane.showOptionDialog(null, "¿Qué zona de juego quieres inspeccionar?",
+                                "Zonas de Juego", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                zonasJuego, 1);
+
+                String descripcionCartasZona = "";
+
+                switch (zonaElegida) {
+
+                        case 0:
+                                descripcionCartasZona = cartaService
+                                                .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
+                                break;
+
+                        case 1:
+                                String[] zonasTableroAliado = { "Linea de Reposo", "Linea de Batalla", "Linea de Apoyo",
+                                                "Cementerio", "Alimentos en Reserva", "Alimentos Consumidos" };
+                                int zonaTableroAliadoElegida = JOptionPane.showOptionDialog(null,
+                                                "¿Qué parte de tu tablero quieres inspeccionar?", "Tablero",
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                zonasTableroAliado, 0);
+
+                                switch (zonaTableroAliadoElegida) {
+                                        case 0:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getAnimalesEnReposo());
+                                                break;
+
+                                        case 1:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getAnimalesEnBatalla());
+                                                break;
+
+                                        case 2:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getHabitatsEnApoyo());
+
+                                        case 3:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getCartasCementerio());
+                                                break;
+
+                                        case 4:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getAlimentosEnReserva());
+                                                break;
+
+                                        case 5:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorActual.getAlimentosConsumidos());
+                                                break;
+
+                                        default:
+                                                break;
+                                }
+                                break;
+
+                        case 2:
+                                String[] zonasTableroEnemigo = { "Linea de Reposo", "Linea de Batalla",
+                                                "Linea de Apoyo", "Cementerio", "Alimentos en Reserva",
+                                                "Alimentos Consumidos" };
+                                int zonaTableroEnemigoElegida = JOptionPane.showOptionDialog(null,
+                                                "¿Qué parte del tablero enemigo quieres inspeccionar?", "Tablero",
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                zonasTableroEnemigo, 0);
+
+                                switch (zonaTableroEnemigoElegida) {
+                                        case 0:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getAnimalesEnReposo());
+                                                break;
+
+                                        case 1:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getAnimalesEnBatalla());
+                                                break;
+
+                                        case 2:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getHabitatsEnApoyo());
+                                                break;
+
+                                        case 3:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getCartasCementerio());
+
+                                        case 4:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getAlimentosEnReserva());
+                                                break;
+
+                                        case 5:
+                                                descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
+                                                                jugadorEnemigo.getAlimentosConsumidos());
+                                                break;
+
+                                        default:
+                                                break;
+                                }
+                                break;
+                        default:
+                                break;
+                }
+
+                if (descripcionCartasZona.equalsIgnoreCase("Sin cartas")) {
+                        JOptionPane.showMessageDialog(null,
+                                        "Actualmente no hay cartas en esta zona de juego.",
+                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                        JOptionPane.showMessageDialog(null, descripcionCartasZona, "Cartas en esta zona",
+                                        JOptionPane.INFORMATION_MESSAGE);
+
                 }
         }
 

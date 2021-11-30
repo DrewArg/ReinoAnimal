@@ -55,6 +55,109 @@ public class Jugador {
         return auxiliar;
     }
 
+    public List<CartaInterface> getAlimentosEnReserva() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                if (carta instanceof Alimento) {
+
+                    Alimento alimento = (Alimento) carta;
+                    if (alimento.isEnReservaDeAlimentos()) {
+                        auxiliar.add(alimento);
+                    }
+                }
+            }
+
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getAlimentosConsumidos() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                if (carta instanceof Alimento) {
+
+                    Alimento alimento = (Alimento) carta;
+                    if (alimento.isEnAlimentoConsumidos()) {
+                        auxiliar.add(alimento);
+                    }
+                }
+            }
+
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getAnimalesEnReposo() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                if (carta instanceof Animal) {
+
+                    Animal animal = (Animal) carta;
+                    if (animal.isEnReposo()) {
+                        auxiliar.add(animal);
+                    }
+                }
+            }
+
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getAnimalesEnBatalla() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                if (carta instanceof Animal) {
+
+                    Animal animal = (Animal) carta;
+                    if (animal.isEnBatalla()) {
+                        auxiliar.add(animal);
+                    }
+                }
+            }
+
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getHabitatsEnApoyo() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnTablero()) {
+                if (carta instanceof Habitat) {
+
+                    Habitat habitat = (Habitat) carta;
+                    if (habitat.isEnLineaApoyo()) {
+                        auxiliar.add(habitat);
+                    }
+                }
+            }
+
+        }
+
+        return auxiliar;
+    }
+
+    public List<CartaInterface> getCartasCementerio() {
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+        for (CartaInterface carta : cartas) {
+            if (carta.isEnCementerio()) {
+                auxiliar.add(carta);
+
+            }
+
+        }
+
+        return auxiliar;
+    }
+
     public List<CartaInterface> getCartasMano() {
 
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
@@ -116,6 +219,4 @@ public class Jugador {
 
     }
 
-
-    
 }

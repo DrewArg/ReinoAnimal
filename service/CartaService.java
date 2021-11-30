@@ -426,7 +426,7 @@ public class CartaService {
             carta.setEnMazo(true);
 
             carta.setEnTablero(false);
-            carta.setEnTableroCementerio(false);
+            carta.setEnCementerio(false);
 
             if (carta instanceof Animal) {
                 Animal animal = (Animal) carta;
@@ -490,4 +490,7 @@ public class CartaService {
 
     }
 
+    public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
+        return Inspector.devolverCartasEnZonaComoMensaje(zonaAInspeccionar);
+    }
 }

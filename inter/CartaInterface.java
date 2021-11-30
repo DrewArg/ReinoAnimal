@@ -8,8 +8,8 @@ public interface CartaInterface {
     public void setEnMazo(boolean enMazo);
     public boolean isEnTablero();
     public void setEnTablero(boolean enTablero);
-    public boolean isEnTableroCementerio();
-    public void setEnTableroCementerio(boolean enTableroCementerio);
+    public boolean isEnCementerio();
+    public void setEnCementerio(boolean enTableroCementerio);
     public boolean isEnMano();
     public void setEnMano(boolean enMano);
     public boolean isSePuedeBajarTablero();
