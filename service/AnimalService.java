@@ -1,9 +1,7 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import domain.Animal;
+import domain.Jugador;
 import inter.CartaInterface;
 
 public class AnimalService {
@@ -14,46 +12,25 @@ public class AnimalService {
 
     }
 
-    public List<CartaInterface> devolverAnimalesEnReposo(List<CartaInterface> cartasTablero) {
-        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+    public void pasarAnimalesEnBatallaAReposo(Jugador jugadorActual) {
+        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
+            Animal animal = (Animal) carta;
+            animal.setEnBatalla(false);
+            animal.setEnReposo(true);
 
-        for (CartaInterface carta : cartasTablero) {
-            if (carta instanceof Animal) {
-                Animal animal = (Animal) carta;
-                if (animal.isEnReposo()) {
-                    auxiliar.add(animal);
-                }
-            }
         }
-
-        return auxiliar;
     }
 
-    public List<CartaInterface> devolverAnimalesEnBatalla(List<CartaInterface> cartasTablero) {
-        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-
-        for (CartaInterface carta : cartasTablero) {
-            if (carta instanceof Animal) {
-                Animal animal = (Animal) carta;
-                if (animal.isEnBatalla()) {
-                    auxiliar.add(animal);
-                }
-            }
+    public void pasarAnimalesEnReposoABatalla(Jugador jugadorActual) {
+        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
+            Animal animal = (Animal) carta;
+            animal.setEnReposo(false);
+            animal.setEnBatalla(true);
         }
-
-        return auxiliar;
     }
 
-    public void pasarAnimalesEnBatallaAReposo(List<CartaInterface> cartasTablero) {
-        for (CartaInterface carta : cartasTablero) {
-            if (carta instanceof Animal) {
-                Animal animal = (Animal) carta;
-                if (animal.isEnBatalla()) {
-                    animal.setEnBatalla(false);
-                    animal.setEnReposo(true);
-                }
-            }
-        }
+    public int devolverCantidadAnimalesEnReposo(Jugador jugadorActual) {
+        return jugadorActual.getAnimalesEnReposo().size();
     }
 
 }

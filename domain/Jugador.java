@@ -178,31 +178,8 @@ public class Jugador {
         this.turno = turno;
     }
 
-    public void robarCartas(int cantidadCartas) {
-
-        if (cantidadCartas >= getCartasMazo().size()) {
-            // se quedo sin cartas
-        } else {
-            for (CartaInterface carta : cartas) {
-                if (tieneCartasElMazo()) {
-
-                    if (carta.isEnMazo()) {
-
-                        if (cantidadCartas > 0) {
-
-                            cantidadCartas--;
-
-                            carta.setEnMano(true);
-                            carta.setEnMazo(false);
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-    }
+    //esto deberia ser cartaService
+  
 
     public boolean tieneCartasElMazo() {
         if (getCartasMazo().size() == 0) {

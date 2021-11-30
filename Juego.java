@@ -4,14 +4,25 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import domain.Jugador;
+
 import inter.CartaInterface;
+
+import service.AlimentoService;
+import service.AnimalService;
 import service.CartaService;
+import service.HabilidadService;
+import service.HabitatService;
 import service.JugadorService;
 
 public class Juego {
 
-        JugadorService jugadorService = new JugadorService();
-        CartaService cartaService = new CartaService();
+        private JugadorService jugadorService = new JugadorService();
+        private CartaService cartaService = new CartaService();
+
+        private AnimalService animalService = new AnimalService();
+        private AlimentoService alimentoService = new AlimentoService();
+        private HabilidadService habilidadService = new HabilidadService();
+        private HabitatService habitatService = new HabitatService();
 
         public void iniciar() {
                 String[] menuLogin = { "Ingresar 2", "Registrar 2", "Ingresar 1 y Registrar 1", "Salir" };
@@ -91,10 +102,12 @@ public class Juego {
 
                                         if (mazoElegidoJugador1 == 0) {
 
-                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[0]);
+                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[0], animalService,
+                                                                alimentoService, habilidadService, habitatService);
                                         } else {
 
-                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[1]);
+                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[1], animalService,
+                                                                alimentoService, habilidadService, habitatService);
                                         }
 
                                         int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
@@ -104,11 +117,13 @@ public class Juego {
 
                                         if (mazoElegidoJugador2 == 0) {
 
-                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[0]);
+                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[0], animalService,
+                                                                alimentoService, habilidadService, habitatService);
 
                                         } else {
 
-                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[1]);
+                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[1], animalService,
+                                                                alimentoService, habilidadService, habitatService);
                                         }
 
                                         Jugador jugador1 = jugadorService.crearJugadorGuardarloYDevolverlo(
@@ -158,9 +173,13 @@ public class Juego {
                                                 List<CartaInterface> mazoJugadorNuevo = new ArrayList<CartaInterface>();
 
                                                 if (mazoElegido == 0) {
-                                                        mazoJugadorNuevo = cartaService.seleccionarMazo(tiposMazo[0]);
+                                                        mazoJugadorNuevo = cartaService.seleccionarMazo(tiposMazo[0],
+                                                                        animalService, alimentoService,
+                                                                        habilidadService, habitatService);
                                                 } else {
-                                                        mazoJugadorNuevo = cartaService.seleccionarMazo(tiposMazo[1]);
+                                                        mazoJugadorNuevo = cartaService.seleccionarMazo(tiposMazo[1],
+                                                                        animalService, alimentoService,
+                                                                        habilidadService, habitatService);
                                                 }
 
                                                 Jugador jugadorNuevo = jugadorService.crearJugadorGuardarloYDevolverlo(
@@ -254,7 +273,7 @@ public class Juego {
 
                 int manoInicial = 4;
 
-                jugadorActual.robarCartas(manoInicial);
+                cartaService.robarCartasDelMazo(jugadorActual, manoInicial);
         }
 
         private void iniciarSegundoTurno(Jugador jugadorActual) {
@@ -282,7 +301,7 @@ public class Juego {
                                         JOptionPane.QUESTION_MESSAGE, null, opcionesTurno, 2);
                 }
 
-                jugadorActual.robarCartas(1);
+                cartaService.robarCartasDelMazo(jugadorActual, 1);
 
                 JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " haz robado 1 carta.");
 
@@ -294,8 +313,8 @@ public class Juego {
 
         private void iniciarTercerTurnoEnAdelante(Jugador jugadorActual, Jugador jugadorEnemigo) {
 
-                cartaService.pasarAnimalesEnBatallaAReposo(jugadorActual);
-                cartaService.pasarAlimentosConsumidosAReserva(jugadorActual);
+                animalService.pasarAnimalesEnBatallaAReposo(jugadorActual);
+                alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual);
 
                 String[] opcionesTurno = { "Bajar una carta", "Atacar", "Activar un efecto",
                                 "Inspeccionar Zona de Juego", "Pasar" };
@@ -315,6 +334,7 @@ public class Juego {
 
                         } else if (opcionElegida == 2) {
                                 // activarUnEfecto(jugadorActual);
+                                // preguntar donde está la carta para activar el efecto
 
                         } else if (opcionElegida == 3) {
                                 inspeccionarZonaJuego(jugadorActual, jugadorEnemigo);
@@ -328,7 +348,7 @@ public class Juego {
 
                 }
 
-                jugadorActual.robarCartas(1);
+                cartaService.robarCartasDelMazo(jugadorActual, 1);
                 JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " te quedan: "
                                 + jugadorActual.getCartasMazo().size() + " cartas en tu mazo.");
                 JOptionPane.showMessageDialog(null, "Fin de turno " + jugadorActual.getTurno(), "Fin Turno",
@@ -337,8 +357,11 @@ public class Juego {
         }
 
         private void bajarUnaCartaAlTablero(Jugador jugadorActual) {
+
+                int alimentosDisponibles = alimentoService.devolverCantidadAlimentosReserva(jugadorActual);
+
                 String descripcionCartasMano = cartaService
-                                .descripcionCartasDisponiblesParaBajar(jugadorActual);
+                                .devolverDescripcionCartasDisponiblesParaBajar(jugadorActual, alimentosDisponibles);
 
                 if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
                         JOptionPane.showMessageDialog(null,
@@ -346,7 +369,8 @@ public class Juego {
                                         "Sin cartas disponibles", JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                        List<Integer> idsCartasMano = cartaService.filtrarCartasDisponiblesParaBajar(jugadorActual);
+                        List<Integer> idsCartasMano = cartaService.devolverIdsCartasDisponiblesParaBajar(jugadorActual,
+                                        alimentosDisponibles);
 
                         Object[] arrayCartasMano = idsCartasMano.toArray();
 
@@ -357,11 +381,130 @@ public class Juego {
 
                         for (Integer integer : idsCartasMano) {
                                 if (arrayCartasMano[cartaElegida] == integer) {
-                                        cartaService.bajarCartaAlTableroPorId(jugadorActual, integer);
+                                        cartaService.bajarCartaAlTableroPorId(jugadorActual,
+                                                        integer, alimentoService);
 
                                 }
                         }
                 }
+        }
+
+        private void atacar(Jugador jugadorActual, Jugador jugadorEnemigo) {
+                int animalesReposoAtacante = animalService.devolverCantidadAnimalesEnReposo(jugadorActual);
+
+                if (animalesReposoAtacante == 0) {
+                        JOptionPane.showMessageDialog(null,
+                                        jugadorActual.getTurno()
+                                                        + " actualmente no tienes animales disponibles para atacar",
+                                        "Sin animales reposando", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                        String descripcionAnimalesReposo = cartaService
+                                        .devolverDescrpcionAnimalesEnReposo(jugadorActual);
+
+                        List<Integer> idsAnimalesReposo = cartaService.devolverIdsAnimalesEnReposo(jugadorActual);
+
+                        Object[] arrayIdsAnimalesEnReposo = idsAnimalesReposo.toArray();
+
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionAnimalesReposo,
+                                        "Cartas disponibles para bajar al tablero",
+                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                        null, arrayIdsAnimalesEnReposo, 0);
+
+                        for (Integer idAnimalEnReposo : idsAnimalesReposo) {
+                                if (arrayIdsAnimalesEnReposo[cartaElegida] == idAnimalEnReposo) {
+                                        cartaService.pasarAnimalEnReposoAAtaquePorId(jugadorActual, idAnimalEnReposo);
+                                }
+                        }
+
+                        // hasta aca lo pase a ataque pero aun no atacó
+
+                        Carta cartaAtacante = jugadorActual.seleccionarAnimalAtacante();
+
+                        JOptionPane.showMessageDialog(null,
+                                        jugadorEnemigo.getNombre() + ", el jugador "
+                                                        + jugadorActual.getNombre()
+                                                        + " ha decidido atacar con el siguiente animal.",
+                                        "¡Te atacan!", JOptionPane.WARNING_MESSAGE);
+
+                        Inspector.inspeccionarCarta(cartaAtacante);
+
+                        String[] opcionesDefensa = { "Defender", "Activar efecto", "Dejar pasar daño" };
+
+                        int decisionDefensa = JOptionPane.showOptionDialog(null,
+                                        "¿Vas a defender el ataque del atacante?", "Ataque entrante",
+                                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcionesDefensa,
+                                        0);
+
+                        if (decisionDefensa == 0) {
+
+                                int cantidadAnimalesEnReposoDefensa = animalService
+                                                .devolverCantidadAnimalesEnReposo(jugadorEnemigo);
+
+                                if (cantidadAnimalesEnReposoDefensa == 0) {
+                                        JOptionPane.showMessageDialog(null, jugadorEnemigo.getNombre()
+                                                        + " actualmente no tienes animales disponibles para defender",
+                                                        "Sin animales reposando", JOptionPane.WARNING_MESSAGE);
+
+                                        int dañoRecibido = jugadorEnemigo.botarCartasMazo(cartaAtacante);
+
+                                        JOptionPane.showMessageDialog(null,
+                                                        jugadorEnemigo.getNombre() + " ha botado " + dañoRecibido
+                                                                        + " cartas de su mazo.\nLe quedan: "
+                                                                        + jugadorEnemigo.getCartasMazo().size()
+                                                                        + " cartas en su mazo.",
+                                                        "Daño recibido", JOptionPane.WARNING_MESSAGE);
+
+                                } else {
+
+                                        Carta cartaDefensora = jugadorEnemigo.seleccionarAnimalDefensor();
+
+                                        int dañoRecibido = jugadorActual.calcularDañoCombate(cartaAtacante,
+                                                        cartaDefensora);
+
+                                        if (dañoRecibido < 0) {
+                                                jugadorActual.botarCartasMazo(dañoRecibido);
+                                                JOptionPane.showMessageDialog(null,
+                                                                jugadorActual.getNombre() + " ha botado "
+                                                                                + dañoRecibido
+                                                                                + " cartas de su mazo.\nLe quedan: "
+                                                                                + jugadorActual.getCartasMazo().size()
+                                                                                + " cartas en su mazo.",
+                                                                "Daño recibido", JOptionPane.WARNING_MESSAGE);
+
+                                        } else if (dañoRecibido == 0) {
+                                                JOptionPane.showMessageDialog(null, "El calculo de daño ha dado "
+                                                                + dañoRecibido
+                                                                + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo",
+                                                                "Daño igualado", JOptionPane.INFORMATION_MESSAGE);
+
+                                        } else if (dañoRecibido > 0) {
+                                                jugadorEnemigo.botarCartasMazo(dañoRecibido);
+                                                JOptionPane.showMessageDialog(null,
+                                                                jugadorEnemigo.getNombre() + " ha botado "
+                                                                                + dañoRecibido
+                                                                                + " cartas de su mazo.\n Le quedan: "
+                                                                                + jugadorEnemigo.getCartasMazo().size()
+                                                                                + " cartas en su mazo.",
+                                                                "Daño recibido", JOptionPane.WARNING_MESSAGE);
+
+                                        }
+
+                                }
+
+                        } else if (decisionDefensa == 1) {
+                                JOptionPane.showMessageDialog(null, "Aún no codeado", "Aun no codeado",
+                                                JOptionPane.ERROR_MESSAGE);
+                        } else if (decisionDefensa == 2) {
+                                int dañoRecibido = jugadorEnemigo.botarCartasMazo(cartaAtacante);
+                                JOptionPane.showMessageDialog(null, jugadorEnemigo.getNombre() + " ha botado "
+                                                + dañoRecibido + " cartas de su mazo.\nLe quedan: "
+                                                + jugadorEnemigo.getCartasMazo().size() + " cartas en su mazo.",
+                                                "Daño recibido", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                }
+
         }
 
         private void inspeccionarZonaJuego(Jugador jugadorActual, Jugador jugadorEnemigo) {
