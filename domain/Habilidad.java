@@ -7,12 +7,13 @@ public class Habilidad implements CartaInterface {
     private String nombre;
     private String efecto;
     private int coste;
+    private String tipoMazo;
+
     private boolean sePuedeBajarTablero;
     private boolean enMazo;
     private boolean enTablero;
     private boolean enTableroCementerio;
     private boolean enMano;
-    private String tipoMazo;
 
     public Habilidad(int id, String nombre, String efecto, int coste, String tipoMazo) {
         this.id = id;
@@ -59,20 +60,20 @@ public class Habilidad implements CartaInterface {
         this.coste = coste;
     }
 
-    public boolean isSePuedeBajarTablero() {
-        return sePuedeBajarTablero;
-    }
-
-    public void setSePuedeBajarTablero(boolean sePuedeBajarTablero) {
-        this.sePuedeBajarTablero = sePuedeBajarTablero;
-    }
-
     public String getTipoMazo() {
         return tipoMazo;
     }
 
     public void setTipoMazo(String tipoMazo) {
         this.tipoMazo = tipoMazo;
+    }
+
+    public boolean isSePuedeBajarTablero() {
+        return sePuedeBajarTablero;
+    }
+
+    public void setSePuedeBajarTablero(boolean sePuedeBajarTablero) {
+        this.sePuedeBajarTablero = sePuedeBajarTablero;
     }
 
     public boolean isEnMazo() {

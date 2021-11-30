@@ -7,17 +7,18 @@ import domain.Jugador;
 import inter.CartaInterface;
 import service.CartaService;
 import service.JugadorService;
-import utilities.Inspector;
 
 public class Juego {
-        
+
         JugadorService jugadorService = new JugadorService();
+        CartaService cartaService = new CartaService();
 
         public void iniciar() {
                 String[] menuLogin = { "Ingresar 2", "Registrar 2", "Ingresar 1 y Registrar 1", "Salir" };
                 int opcionElegida = JOptionPane.showOptionDialog(null, "¡Bienvenidos a la Batalla del Reino Animal!",
                                 "Jugadores", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
                                 menuLogin, 0);
+
                 boolean loginIniciado = false;
 
                 while (opcionElegida != 3) {
@@ -88,15 +89,12 @@ public class Juego {
                                         List<CartaInterface> mazoJugador1;
                                         List<CartaInterface> mazoJugador2;
 
-                                        CartaService cartaServiceJugador1 = new CartaService();
-                                        CartaService cartaServiceJugador2 = new CartaService();
-
                                         if (mazoElegidoJugador1 == 0) {
 
-                                                mazoJugador1 = cartaServiceJugador1.seleccionarMazo(tiposMazo[0]);
+                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[0]);
                                         } else {
 
-                                                mazoJugador1 = cartaServiceJugador1.seleccionarMazo(tiposMazo[1]);
+                                                mazoJugador1 = cartaService.seleccionarMazo(tiposMazo[1]);
                                         }
 
                                         int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
@@ -106,11 +104,11 @@ public class Juego {
 
                                         if (mazoElegidoJugador2 == 0) {
 
-                                                mazoJugador2 = cartaServiceJugador2.seleccionarMazo(tiposMazo[0]);
+                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[0]);
 
                                         } else {
 
-                                                mazoJugador2 = cartaServiceJugador2.seleccionarMazo(tiposMazo[1]);
+                                                mazoJugador2 = cartaService.seleccionarMazo(tiposMazo[1]);
                                         }
 
                                         Jugador jugador1 = jugadorService.crearJugadorGuardarloYDevolverlo(
@@ -159,8 +157,6 @@ public class Juego {
 
                                                 List<CartaInterface> mazoJugadorNuevo = new ArrayList<CartaInterface>();
 
-                                                CartaService cartaService = new CartaService();
-
                                                 if (mazoElegido == 0) {
                                                         mazoJugadorNuevo = cartaService.seleccionarMazo(tiposMazo[0]);
                                                 } else {
@@ -190,9 +186,15 @@ public class Juego {
         }
 
         private void iniciarPartida(Jugador jugador1, Jugador jugador2) {
-                regresarTodasLasCartasAlMazoYBarajar(jugador1, jugador2);
-                jugadorService.mezclarMazo(jugador1);
-                jugadorService.mezclarMazo(jugador2);
+
+                jugador1.setTurno(1);
+                jugador2.setTurno(1);
+
+                cartaService.regresarTodasLasCartasAlMazo(jugador1);
+                cartaService.regresarTodasLasCartasAlMazo(jugador2);
+
+                jugador1.mezclarMazo();
+                jugador2.mezclarMazo();
 
                 JOptionPane.showMessageDialog(null,
                                 "Ambos jugadores arracan con 25 cartas en su mazo, el jugador/a que se quede sin cartas en su mazo, perderá.",
@@ -266,24 +268,7 @@ public class Juego {
 
                 while (opcionElegida != 2) {
                         if (opcionElegida == 0) {
-                                // bajar una carta
-
-                                CartaService cartaService = new CartaService();
-                                String descripcionCartasMano = cartaService.bajarCartaAlTablero(jugadorActual);
-
-                                if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
-                                        JOptionPane.showMessageDialog(null,
-                                                        "Actualmente no tienes cartas disponibles para bajar al tablero.",
-                                                        "Sin cartas disponibles", JOptionPane.WARNING_MESSAGE);
-                                } else {
-
-                                        Integer[] cartasMano = Inspector
-                                                        .devolverIDsCartasEnZona(jugadorActual.getCartasMano());
-
-                                        JOptionPane.showOptionDialog(null, descripcionCartasMano, "Tu mano actual",
-                                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                                                        null, cartasMano, 0);
-                                }
+                                bajarUnaCartaAlTablero(jugadorActual);
 
                         } else if (opcionElegida == 1) {
                                 JOptionPane.showMessageDialog(null, "Aún no codeado", "Aun no codeado",
@@ -299,6 +284,8 @@ public class Juego {
 
                 jugadorActual.robarCartas(1);
 
+                JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " haz robado 1 carta.");
+
                 JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " te quedan: "
                                 + jugadorActual.getCartasMazo().size() + " cartas en tu mazo.");
                 JOptionPane.showMessageDialog(null, "Fin de turno " + jugadorActual.getTurno(), "Fin Turno",
@@ -307,9 +294,8 @@ public class Juego {
 
         private void iniciarTercerTurnoEnAdelante(Jugador jugadorActual, Jugador jugadorEnemigo) {
 
-                jugadorService.pasarAnimalesEnBatallaAReposo(jugadorActual);
-                jugadorService.pasarAnimalesEnBatallaAReposo(jugadorActual);
-                // jugadorActual.setAlimentosBajadosAlTablero(0);
+                cartaService.pasarAnimalesEnBatallaAReposo(jugadorActual);
+                cartaService.pasarAlimentosConsumidosAReserva(jugadorActual);
 
                 String[] opcionesTurno = { "Bajar una carta", "Atacar", "Activar un efecto",
                                 "Inspeccionar Zona de Juego", "Pasar" };
@@ -322,7 +308,7 @@ public class Juego {
 
                 while (opcionElegida != 4) {
                         if (opcionElegida == 0) {
-                                // bajarUnaCarta(jugadorActual);
+                                bajarUnaCartaAlTablero(jugadorActual);
 
                         } else if (opcionElegida == 1) {
                                 // atacar(jugadorActual, jugadorEnemigo);
@@ -351,9 +337,32 @@ public class Juego {
 
         }
 
-        private void regresarTodasLasCartasAlMazoYBarajar(Jugador jugador1, Jugador jugador2) {
-                jugador1.regresarTodasLasCartasAlMazoYBarajar();
-                jugador2.regresarTodasLasCartasAlMazoYBarajar();
+        private void bajarUnaCartaAlTablero(Jugador jugadorActual) {
+                String descripcionCartasMano = cartaService
+                                .descripcionCartasDisponiblesParaBajar(jugadorActual);
+
+                if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
+                        JOptionPane.showMessageDialog(null,
+                                        "Actualmente no tienes cartas disponibles para bajar al tablero.",
+                                        "Sin cartas disponibles", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                        List<Integer> idsCartasMano = cartaService.filtrarCartasDisponiblesParaBajar(jugadorActual);
+
+                        Object[] arrayCartasMano = idsCartasMano.toArray();
+
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionCartasMano,
+                                        "Cartas disponibles para bajar al tablero",
+                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                        null, arrayCartasMano, 0);
+
+                        for (Integer integer : idsCartasMano) {
+                                if (arrayCartasMano[cartaElegida] == integer) {
+                                        cartaService.bajarCartaAlTableroPorId(jugadorActual, integer);
+
+                                }
+                        }
+                }
         }
 
 }

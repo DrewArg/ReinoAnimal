@@ -1,7 +1,6 @@
 package service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import domain.Alimento;
@@ -303,7 +302,81 @@ public class CartaService {
 
     }
 
-    public String bajarCartaAlTablero(Jugador jugadorActual) {
+    public String bajarCartaAlTableroPorId(Jugador jugadorActual, Integer idCarta) {
+        int alimentosPagados = 0;
+
+        for (CartaInterface carta : jugadorActual.getCartasMano()) {
+
+            if (carta.getId() == idCarta) {
+
+                if (carta.isSePuedeBajarTablero()) {
+
+                    if (carta instanceof Animal) {
+                        Animal animal = (Animal) carta;
+                        int costeAnimal = animal.getCoste();
+
+                        alimentosPagados = pagarCosteCarta(jugadorActual, costeAnimal, alimentosPagados);
+
+                        animal.setEnMano(false);
+                        animal.setEnTablero(true);
+                        animal.setEnReposo(true);
+
+                    } else if (carta instanceof Alimento) {
+                        Alimento alimento = (Alimento) carta;
+                        alimento.setEnMano(false);
+                        alimento.setEnTablero(true);
+                        alimento.setEnReservaDeAlimentos(true);
+
+                    } else if (carta instanceof Habitat) {
+                        Habitat habitat = (Habitat) carta;
+                        int costeHabitat = habitat.getCoste();
+
+                        alimentosPagados = pagarCosteCarta(jugadorActual, costeHabitat, alimentosPagados);
+
+                        habitat.setEnMano(false);
+                        habitat.setEnMano(true);
+                        habitat.setEnLineaApoyo(true);
+
+                    } else if (carta instanceof Habilidad) {
+                        Habilidad habilidad = (Habilidad) carta;
+                        int costeHabilidad = habilidad.getCoste();
+
+                        alimentosPagados = pagarCosteCarta(jugadorActual, costeHabilidad, alimentosPagados);
+
+                        habilidad.setEnMano(false);
+                        habilidad.setEnTablero(true);
+                    }
+
+                }
+
+                return "La carta " + carta.getId() + " ha sido bajada al tablero.";
+            }
+
+        }
+
+        return "La carta no se encuentra en tu mano.";
+
+    }
+
+    private int pagarCosteCarta(Jugador jugadorActual, int costeCarta, int alimentosPagados) {
+
+        for (CartaInterface carta2 : jugadorActual.getCartasTablero()) {
+            if (carta2 instanceof Alimento) {
+                if (alimentosPagados < costeCarta) {
+                    Alimento alimento = (Alimento) carta2;
+                    alimento.setEnReservaDeAlimentos(false);
+                    alimento.setEnAlimentoConsumidos(true);
+                    alimentosPagados++;
+                }
+
+            }
+
+        }
+
+        return alimentosPagados;
+    }
+
+    public String descripcionCartasDisponiblesParaBajar(Jugador jugadorActual) {
 
         int alimentosDisponibles = alimentoService.devolverCantidadAlimentosReserva(jugadorActual.getCartasTablero());
 
@@ -341,9 +414,80 @@ public class CartaService {
         return Inspector.devolverCartasEnZonaComoMensaje(cartasPosiblesBajar);
     }
 
-    public void mezclarMazo(Jugador jugadorActual) {
+    public void regresarTodasLasCartasAlMazo(Jugador jugadorActual) {
 
-        Collections.shuffle(jugadorActual.getCartas());
+        for (CartaInterface carta : jugadorActual.getCartasMano()) {
+            carta.setEnMazo(true);
+            carta.setEnMano(false);
+        }
+
+        for (CartaInterface carta : jugadorActual.getCartasTablero()) {
+
+            carta.setEnMazo(true);
+
+            carta.setEnTablero(false);
+            carta.setEnTableroCementerio(false);
+
+            if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                animal.setEnBatalla(false);
+                animal.setEnReposo(false);
+
+            } else if (carta instanceof Alimento) {
+                Alimento alimento = (Alimento) carta;
+                alimento.setEnAlimentoConsumidos(false);
+                alimento.setEnReservaDeAlimentos(false);
+
+            } else if (carta instanceof Habitat) {
+                Habitat habitat = (Habitat) carta;
+                habitat.setEnLineaApoyo(false);
+
+            }
+
+        }
+    }
+
+    public void pasarAnimalesEnBatallaAReposo(Jugador jugadorActual) {
+        animalService.pasarAnimalesEnBatallaAReposo(jugadorActual.getCartasTablero());
+    }
+
+    public void pasarAlimentosConsumidosAReserva(Jugador jugadorActual) {
+        alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual.getCartasTablero());
+    }
+
+    public List<Integer> filtrarCartasDisponiblesParaBajar(Jugador jugadorActual) {
+        int cantidadAlimentos = alimentoService.devolverCantidadAlimentosReserva(jugadorActual.getCartasTablero());
+
+        List<Integer> auxiliar = new ArrayList<Integer>();
+
+        for (CartaInterface carta : jugadorActual.getCartasMano()) {
+            if (carta instanceof Alimento) {
+                auxiliar.add(carta.getId());
+
+            } else if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                if (animal.getCoste() <= cantidadAlimentos) {
+                    auxiliar.add(animal.getId());
+                }
+
+            } else if (carta instanceof Habitat) {
+                Habitat habitat = (Habitat) carta;
+                if (habitat.getCoste() <= cantidadAlimentos) {
+                    auxiliar.add(habitat.getId());
+                }
+
+            } else if (carta instanceof Habilidad) {
+                Habilidad habilidad = (Habilidad) carta;
+                if (habilidad.getCoste() <= cantidadAlimentos) {
+                    auxiliar.add(habilidad.getId());
+                }
+            }
+        }
+
+        auxiliar.sort((a1, a2) -> (a1.compareTo(a2)));
+
+        return auxiliar;
 
     }
+
 }

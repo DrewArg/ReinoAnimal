@@ -1,5 +1,6 @@
 package utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domain.Alimento;
@@ -58,12 +59,12 @@ public class Inspector {
 
     }
 
-    public static Integer[] devolverIDsCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
+    public static List<Integer> devolverIDsCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
 
-        Integer[] idsZona = new Integer[zonaAInspeccionar.size()];
+        List<Integer> idsZona = new ArrayList<Integer>();
 
         for (int i = 0; i < zonaAInspeccionar.size(); i++) {
-            idsZona[i] = zonaAInspeccionar.get(i).getId();
+            idsZona.add(zonaAInspeccionar.get(i).getId());
         }
 
         return idsZona;

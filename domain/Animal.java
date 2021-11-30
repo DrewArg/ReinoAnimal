@@ -8,15 +8,15 @@ public class Animal implements CartaInterface {
     private String efecto;
     private int coste;
     private int dano;
-    private boolean sePuedeBajarTablero;
+    private String tipoMazo;
 
+    private boolean sePuedeBajarTablero;
     private boolean enReposo;
     private boolean enBatalla;
     private boolean enMazo;
     private boolean enTablero;
     private boolean enTableroCementerio;
     private boolean enMano;
-    private String tipoMazo;
 
     public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo) {
         this.id = id;

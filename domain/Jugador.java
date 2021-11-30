@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import inter.CartaInterface;
 
@@ -28,10 +29,6 @@ public class Jugador {
 
     public String getContrasena() {
         return contrasena;
-    }
-
-    public List<CartaInterface> getCartas() {
-        return cartas;
     }
 
     public List<CartaInterface> getCartasMazo() {
@@ -89,7 +86,7 @@ public class Jugador {
                     if (carta.isEnMazo()) {
 
                         if (cantidadCartas > 0) {
-                            System.out.println(cantidadCartas);
+
                             cantidadCartas--;
 
                             carta.setEnMano(true);
@@ -104,18 +101,6 @@ public class Jugador {
         }
     }
 
-    public void regresarTodasLasCartasAlMazoYBarajar() {
-        setTurno(1);
-
-        for (CartaInterface carta : cartas) {
-            carta.setEnMazo(true);
-
-            carta.setEnTablero(false);
-            carta.setEnTableroCementerio(false);
-            carta.setEnMano(false);
-        }
-    }
-
     public boolean tieneCartasElMazo() {
         if (getCartasMazo().size() == 0) {
             return false;
@@ -125,4 +110,12 @@ public class Jugador {
 
     }
 
+    public void mezclarMazo() {
+
+        Collections.shuffle(cartas);
+
+    }
+
+
+    
 }

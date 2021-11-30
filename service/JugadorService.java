@@ -77,24 +77,7 @@ public class JugadorService {
 
     }
 
-    public void pasarAnimalesEnBatallaAReposo(Jugador jugadorActual) {
-        animalService.pasarAnimalesEnBatallaAReposo(jugadorActual.getCartasTablero());
-    }
-
-    public void pasarAlimentosConsumidosAReserva(Jugador jugadorActual) {
-        alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual.getCartasTablero());
-    }
-
-    public void bajarCartaAlTablero(Jugador jugadorActual) {
-        cartaService.bajarCartaAlTablero(jugadorActual);
-    }
-
-    public void seleccionarCartaPorZona(Jugador jugadorAcual) {
-
-    }
-
-    public void mezclarMazo(Jugador jugadorActual) {
-        cartaService.mezclarMazo(jugadorActual);
-    }
+    // VER ESTO
+   
 
 }
