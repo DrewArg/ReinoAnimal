@@ -4,13 +4,17 @@ _"La Batalla del Reino Animal" es un juego de cartas por turnos para dos jugador
 
 ## Reglamento 🚀
 
-### El área de juego
+### Tablero de Juego
 
-_El área de juego es el lugar en donde se ubicarán las cartas para desarrollar la batalla. Cada carta que pongas o retires del juego deberá ser puesta en un lugar específico dentro de la misma, ya que cada lugar representa una función específica._
+_El área de juego es el lugar en donde se ubicarán las cartas para desarrollar la batalla. Cada carta que pongas o retires del juego será puesta en un lugar específico dentro del mismo, ya que cada lugar representa una función específica. Ten en cuenta que salvo las cartas ubicadas en tu Mazo o en tu Mano, el jugador enemigo podrá verlas en su turno._
 
 #### Mazo
 
 _Cada Jugador cuenta con un mazo de 25 cartas._
+
+#### Mano
+
+_Es el área dónde se ubican las cartas que robes del mazo antes de ponerlas en juego._
 
 #### Reserva De Alimentos
 
@@ -38,48 +42,22 @@ _Es la zona donde pones el Habitat que juegas y de dónde activarás los efectos
 
 ### Empezando el Juego 📦
 
-_Agrega notas adicionales sobre como hacer deploy_
+#### 1° Turno
 
-## Construido con 🛠️
+_Cada jugador robará de su mazo un total de 4 cartas para iniciar la partida._
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
+#### 2° Turno
 
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-- [Maven](https://maven.apache.org/) - Manejador de dependencias
-- [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
+_En caso de tener la posibilidad, el jugador podrá ya sea bajar una carta al tablero de juego desde su mano o bien activar un efecto._
 
-## Contribuyendo 🖇️
+#### 3° Turno en adelante
 
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
+\_\_
 
-## Wiki 📖
+### Obtención de la victoria 🛠️
 
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
+_El juego termina cuando un jugador logra que el mazo oponente no tenga cartas._
 
-## Versionado 📌
+## Autor ✒️
 
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
-
-## Autores ✒️
-
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
-
-- **Andrés Villanueva** - _Trabajo Inicial_ - [villanuevand](https://github.com/villanuevand)
-- **Fulanito Detal** - _Documentación_ - [fulanitodetal](#fulanito-de-tal)
-
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto.
-
-## Licencia 📄
-
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
-
-## Expresiones de Gratitud 🎁
-
-- Comenta a otros sobre este proyecto 📢
-- Invita una cerveza 🍺 o un café ☕ a alguien del equipo.
-- Da las gracias públicamente 🤓.
-- etc.
-
----
-
-⌨️ con ❤️ por [Villanuevand](https://github.com/Villanuevand) 😊
+- **Andrés Fabbiano** - [drewArg](https://github.com/DrewArg)
