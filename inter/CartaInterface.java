@@ -6,10 +6,8 @@ public interface CartaInterface {
     public String getTipoMazo();
     public boolean isEnMazo();
     public void setEnMazo(boolean enMazo);
-    public boolean isEnTablero();
-    public void setEnTablero(boolean enTablero);
     public boolean isEnCementerio();
-    public void setEnCementerio(boolean enTableroCementerio);
+    public void setEnCementerio(boolean enCementerio);
     public boolean isEnMano();
     public void setEnMano(boolean enMano);
     public boolean isSePuedeBajarTablero();

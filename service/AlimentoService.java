@@ -19,11 +19,18 @@ public class AlimentoService {
     }
 
     public void consumirAlimentosEnReserva(Jugador jugadorActual, int alimentosAConsumir) {
-        for (int i = 0; i < alimentosAConsumir; i++) {
-            Alimento alimento = (Alimento) jugadorActual.getAlimentosEnReserva().get(i);
-            alimento.setEnReservaDeAlimentos(false);
-            alimento.setEnAlimentoConsumidos(true);
+
+        int alimentosConsumidos = 0;
+        for (CartaInterface carta : jugadorActual.getAlimentosEnReserva()) {
+
+            if (alimentosConsumidos < alimentosAConsumir) {
+                Alimento alimentoOk = (Alimento) carta;
+                alimentoOk.setEnReservaDeAlimentos(false);
+                alimentoOk.setEnAlimentoConsumidos(true);
+                alimentosConsumidos++;
+            }
         }
+
     }
 
     public int devolverCantidadAlimentosReserva(Jugador jugadorActual) {

@@ -31,6 +31,14 @@ public class Jugador {
         return contrasena;
     }
 
+    public int getCantidadCartasMazo() {
+        return getCartasMazo().size();
+    }
+
+    public List<CartaInterface> getTodasLasCartas() {
+        return cartas;
+    }
+
     public List<CartaInterface> getCartasMazo() {
 
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
@@ -43,31 +51,16 @@ public class Jugador {
         return auxiliar;
     }
 
-    public List<CartaInterface> getCartasTablero() {
-
-        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                auxiliar.add(carta);
-            }
-        }
-
-        return auxiliar;
-    }
-
     public List<CartaInterface> getAlimentosEnReserva() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
         for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                if (carta instanceof Alimento) {
+            if (carta instanceof Alimento) {
 
-                    Alimento alimento = (Alimento) carta;
-                    if (alimento.isEnReservaDeAlimentos()) {
-                        auxiliar.add(alimento);
-                    }
+                Alimento alimento = (Alimento) carta;
+                if (alimento.isEnReservaDeAlimentos()) {
+                    auxiliar.add(alimento);
                 }
             }
-
         }
 
         return auxiliar;
@@ -76,16 +69,13 @@ public class Jugador {
     public List<CartaInterface> getAlimentosConsumidos() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
         for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                if (carta instanceof Alimento) {
+            if (carta instanceof Alimento) {
 
-                    Alimento alimento = (Alimento) carta;
-                    if (alimento.isEnAlimentoConsumidos()) {
-                        auxiliar.add(alimento);
-                    }
+                Alimento alimento = (Alimento) carta;
+                if (alimento.isEnAlimentoConsumidos()) {
+                    auxiliar.add(alimento);
                 }
             }
-
         }
 
         return auxiliar;
@@ -94,13 +84,10 @@ public class Jugador {
     public List<CartaInterface> getAnimalesEnReposo() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
         for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                if (carta instanceof Animal) {
-
-                    Animal animal = (Animal) carta;
-                    if (animal.isEnReposo()) {
-                        auxiliar.add(animal);
-                    }
+            if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                if (animal.isEnReposo()) {
+                    auxiliar.add(animal);
                 }
             }
 
@@ -112,13 +99,11 @@ public class Jugador {
     public List<CartaInterface> getAnimalesEnBatalla() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
         for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                if (carta instanceof Animal) {
+            if (carta instanceof Animal) {
 
-                    Animal animal = (Animal) carta;
-                    if (animal.isEnBatalla()) {
-                        auxiliar.add(animal);
-                    }
+                Animal animal = (Animal) carta;
+                if (animal.isEnBatalla()) {
+                    auxiliar.add(animal);
                 }
             }
 
@@ -130,16 +115,13 @@ public class Jugador {
     public List<CartaInterface> getHabitatsEnApoyo() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
         for (CartaInterface carta : cartas) {
-            if (carta.isEnTablero()) {
-                if (carta instanceof Habitat) {
+            if (carta instanceof Habitat) {
 
-                    Habitat habitat = (Habitat) carta;
-                    if (habitat.isEnLineaApoyo()) {
-                        auxiliar.add(habitat);
-                    }
+                Habitat habitat = (Habitat) carta;
+                if (habitat.isEnLineaApoyo()) {
+                    auxiliar.add(habitat);
                 }
             }
-
         }
 
         return auxiliar;
@@ -178,11 +160,8 @@ public class Jugador {
         this.turno = turno;
     }
 
-    //esto deberia ser cartaService
-  
-
     public boolean tieneCartasElMazo() {
-        if (getCartasMazo().size() == 0) {
+        if (getCantidadCartasMazo() == 0) {
             return false;
         } else {
             return true;
