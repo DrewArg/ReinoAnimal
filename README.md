@@ -2,9 +2,11 @@
 
 _"La Batalla del Reino Animal" es un juego de cartas por turnos para dos jugadores que está basado en "Mitos y Leyendas" - (https://myl.cl/)_
 
+## Notas Versión Actual
+
 ## Tablero de Juego
 
-_El área de juego es el lugar en donde se ubicarán las cartas para desarrollar la batalla. Cada carta que pongas o retires del juego será puesta en un lugar específico dentro del mismo, ya que cada lugar representa una función específica. Ten en cuenta que salvo las cartas ubicadas en tu Mazo o en tu Mano, el jugador enemigo podrá verlas en su turno._
+_El área de juego es el lugar en donde se ubicarán las cartas para desarrollar la batalla. Cada carta que pongas o retires del juego será puesta en un lugar específico dentro del mismo, ya que cada lugar representa una función específica. Ten en cuenta que salvo las cartas ubicadas en tu Mazo o en tu Mano, el jugador enemigo podrá ver sus especificaciones en su turno._
 
 ### Mazo
 
@@ -20,7 +22,7 @@ _La reserva de alimentos contiene a todos los alimentos que has puesto en juego.
 
 ### Alimentos Consumidos
 
-_La zona de Alimentos Consumidos es el lugar donde se ubican los alimentos que has consumido para bajar una carta. Mover los alimentos de la Reserva de Alimentos a la zona de Alimentos Consumidos es la forma de representar que estás "consumiendo" los alimentos requeridos para bajar cartas o activar efectos. Al consumir un alimento este permanece en la zona de Aliemntos Consumiedos hasta tu próximo turno._
+_La zona de Alimentos Consumidos es el lugar donde se ubican los alimentos que has consumido para bajar una carta. Mover los alimentos de la Reserva de Alimentos a la zona de Alimentos Consumidos es la forma de representar que estás "consumiendo" los alimentos requeridos para bajar cartas o activar efectos. Al consumir un alimento este permanece en la zona de Alimentos Consumiedos hasta tu próximo turno._
 
 ### Línea de Reposo
 
@@ -28,15 +30,27 @@ _Es el lugar a donde se bajan las cartas de Animal. Si una carta está en esta z
 
 ### Línea de Batalla
 
-_Es el lugar donde se ubican los Animales declarados atacantes o defensores y donde se efectúa el cálculo de daño correspondiente para ver si un jugador deberá mandar cartas de su mazo a su cementerio. Recuerda que si un animal está en esta Línea, no podrá ser utilizado para otra batalla hasta tu próximo turno._
+_Es el lugar donde se ubican los Animales declarados atacantes o defensores y donde se efectúa el cálculo de daño correspondiente para ver si algún jugador deberá mandar cartas de su mazo a su cementerio o no. Recuerda que si un animal está en esta Línea, no podrá ser utilizado para otra batalla hasta tu próximo turno._
 
 ### Cementerio
 
-_Es la zona donde van tus cartas cuando son destruidas, ya sea por efectos de cartas o por daño de combate._
+_Es la zona donde van las cartas cuando son destruidas, ya sea por efectos de cartas o por daño de combate._
 
 ### Línea de Apoyo
 
 _Es la zona donde pones el Habitat que juegas y de dónde activarás los efectos de cada uno de ellos en caso de así quererlo._
+
+## Tipos de Carta
+
+_Todas las cartas tienen_
+
+### Alimento
+
+### Animal
+
+### Habilidad
+
+### Habitat
 
 ## Turnos
 
@@ -50,7 +64,22 @@ _En caso de tener la posibilidad, el jugador podrá ya sea bajar una carta al ta
 
 ### 3° Turno en adelante
 
-\_\_
+_A partir del tercer turno, el jugador podrá:_
+
+- 1. Bajar una carta
+     _esto es una prueba_
+- 2. Atacar
+     _esto es otra pruba_
+     _bla bla bla_
+- 3. Activar un efecto
+- 4. Inspeccionar una zona de juego
+- 5. Pasar
+
+#### 1) Bajar una Carta
+
+### Fin de Turno
+
+_Al final de cada turno el jugador robará una carta de su mazo_
 
 ## Obtención de la victoria
 
