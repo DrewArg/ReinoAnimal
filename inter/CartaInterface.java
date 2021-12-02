@@ -4,6 +4,7 @@ public interface CartaInterface {
 
     public int getId();
     public String getTipoMazo();
+    public String getNombre();
     public boolean isEnMazo();
     public void setEnMazo(boolean enMazo);
     public boolean isEnCementerio();
@@ -11,5 +12,5 @@ public interface CartaInterface {
     public boolean isEnMano();
     public void setEnMano(boolean enMano);
     public boolean isSePuedeBajarTablero();
-    public void setSePuedeBajarTablero(boolean setSePuedebajarTablero);
+    public void setSePuedeBajarTablero(boolean sePuedeBajarTablero);
 }

@@ -14,8 +14,7 @@ public class Animal implements CartaInterface {
     private boolean enReposo;
     private boolean enBatalla;
     private boolean enMazo;
-    private boolean enTablero;
-    private boolean enTableroCementerio;
+    private boolean enCementerio;
     private boolean enMano;
 
     public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo) {
@@ -34,8 +33,7 @@ public class Animal implements CartaInterface {
         enMazo = true;
 
         sePuedeBajarTablero = false;
-        enTablero = false;
-        enTableroCementerio = false;
+        enCementerio = false;
         enReposo = false;
         enBatalla = false;
 
@@ -71,10 +69,6 @@ public class Animal implements CartaInterface {
         return dano;
     }
 
-    public void setDano(int dano) {
-        this.dano = dano;
-    }
-
     public boolean isSePuedeBajarTablero() {
         return sePuedeBajarTablero;
     }
@@ -100,11 +94,11 @@ public class Animal implements CartaInterface {
     }
 
     public boolean isEnCementerio() {
-        return enTableroCementerio;
+        return enCementerio;
     }
 
     public void setEnCementerio(boolean enCementerio) {
-        this.enTableroCementerio = enCementerio;
+        this.enCementerio = enCementerio;
     }
 
     public boolean isEnMazo() {
@@ -113,14 +107,6 @@ public class Animal implements CartaInterface {
 
     public void setEnMazo(boolean enMazo) {
         this.enMazo = enMazo;
-    }
-
-    public boolean isEnTablero() {
-        return enTablero;
-    }
-
-    public void setEnTablero(boolean enTablero) {
-        this.enTablero = enTablero;
     }
 
     public boolean isEnMano() {

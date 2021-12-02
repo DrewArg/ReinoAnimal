@@ -311,7 +311,6 @@ public class CartaService {
                     if (carta instanceof Alimento) {
                         Alimento alimento = (Alimento) carta;
                         alimento.setEnMano(false);
-                        alimento.setEnTablero(true);
                         alimento.setEnReservaDeAlimentos(true);
 
                     } else if (carta instanceof Animal) {
@@ -320,7 +319,6 @@ public class CartaService {
 
                         alimentoService.consumirAlimentosEnReserva(jugadorActual, costeAnimal);
                         animal.setEnMano(false);
-                        animal.setEnTablero(true);
                         animal.setEnReposo(true);
 
                     } else if (carta instanceof Habilidad) {
@@ -329,7 +327,7 @@ public class CartaService {
 
                         alimentoService.consumirAlimentosEnReserva(jugadorActual, costeHabilidad);
                         habilidad.setEnMano(false);
-                        habilidad.setEnTablero(true);
+                        habilidad.setEnCementerio(true);
 
                     } else if (carta instanceof Habitat) {
                         Habitat habitat = (Habitat) carta;
@@ -337,7 +335,6 @@ public class CartaService {
 
                         alimentoService.consumirAlimentosEnReserva(jugadorActual, costeHabitat);
                         habitat.setEnMano(false);
-                        habitat.setEnMano(true);
                         habitat.setEnLineaApoyo(true);
                     }
                 }

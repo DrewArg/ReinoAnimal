@@ -12,8 +12,7 @@ public class Alimento implements CartaInterface {
     private boolean enReservaDeAlimentos;
     private boolean enAlimentoConsumidos;
     private boolean enMazo;
-    private boolean enTablero;
-    private boolean enTableroCementerio;
+    private boolean enCementerio;
     private boolean enMano;
 
     public Alimento(int id, String nombre, String tipoMazo) {
@@ -28,8 +27,7 @@ public class Alimento implements CartaInterface {
         enMazo = true;
 
         sePuedeBajarTablero = false;
-        enTablero = false;
-        enTableroCementerio = false;
+        enCementerio = false;
         enReservaDeAlimentos = false;
         enAlimentoConsumidos = false;
 
@@ -47,10 +45,6 @@ public class Alimento implements CartaInterface {
 
     public String getTipoMazo() {
         return tipoMazo;
-    }
-
-    public void setTipoMazo(String tipoMazo) {
-        this.tipoMazo = tipoMazo;
     }
 
     public boolean isSePuedeBajarTablero() {
@@ -78,11 +72,11 @@ public class Alimento implements CartaInterface {
     }
 
     public boolean isEnCementerio() {
-        return enTableroCementerio;
+        return enCementerio;
     }
 
     public void setEnCementerio(boolean enCementerio) {
-        this.enTableroCementerio = enCementerio;
+        this.enCementerio = enCementerio;
     }
 
     public boolean isEnMazo() {
@@ -91,14 +85,6 @@ public class Alimento implements CartaInterface {
 
     public void setEnMazo(boolean enMazo) {
         this.enMazo = enMazo;
-    }
-
-    public boolean isEnTablero() {
-        return enTablero;
-    }
-
-    public void setEnTablero(boolean enTablero) {
-        this.enTablero = enTablero;
     }
 
     public boolean isEnMano() {
