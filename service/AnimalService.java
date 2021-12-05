@@ -136,4 +136,45 @@ public class AnimalService {
 
         return atacante.getDano() - defensor.getDano();
     }
+
+    public void activarEfectoAnimal(Jugador jugadorActual, CartaInterface animalConEfecto, CartaService cartaService) {
+        Animal animal = (Animal) animalConEfecto;
+
+        switch (animal.getNombre()) {
+            case "Lobo Gris":
+                int lobosBatalla = cartaService.devolverCantidadCopiasCartaPorZona(jugadorActual.getAnimalesEnBatalla(),
+                        animal);
+
+                int lobosReposo = cartaService.devolverCantidadCopiasCartaPorZona(jugadorActual.getAnimalesEnReposo(),
+                        animal);
+
+                int cantidadLobos = lobosBatalla + lobosReposo;
+
+                for (int i = 0; i < cantidadLobos; i++) {
+                    animal.setDano(animal.getDano() + 1);
+                }
+
+                break;
+
+            case "Iguana":
+
+                break;
+
+            case "Mantis Orquídea":
+
+                break;
+
+            case "Tortuga Marina":
+                break;
+
+            case "Pulpo":
+                break;
+
+            case "Tiburón Blanco":
+                break;
+
+            default:
+                break;
+        }
+    }
 }

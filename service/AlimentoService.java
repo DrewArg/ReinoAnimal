@@ -24,9 +24,9 @@ public class AlimentoService {
         for (CartaInterface carta : jugadorActual.getAlimentosEnReserva()) {
 
             if (alimentosConsumidos < alimentosAConsumir) {
-                Alimento alimentoOk = (Alimento) carta;
-                alimentoOk.setEnReservaDeAlimentos(false);
-                alimentoOk.setEnAlimentoConsumidos(true);
+                Alimento alimento = (Alimento) carta;
+                alimento.setEnReservaDeAlimentos(false);
+                alimento.setEnAlimentoConsumidos(true);
                 alimentosConsumidos++;
             }
         }

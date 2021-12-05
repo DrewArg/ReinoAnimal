@@ -51,6 +51,8 @@ public class JugadorRepository {
         return jugadores;
     }
 
+
+    //este metodo hay que repensarlo
     public int getCantidadJugadores() {
         return jugadores.size();
     }

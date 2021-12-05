@@ -64,7 +64,7 @@ public class CartaService {
                 int dano;
 
                 nombre = "Lobo Gris";
-                efecto = "Gana +1 de daño por cada Lobo Gris en Juego";
+                efecto = "Gana +1 de daño por cada Lobo Gris en tu tablero.";
                 coste = 3;
                 dano = 2;
 
@@ -148,7 +148,7 @@ public class CartaService {
 
             } else if (camuflaje > 0) {
                 nombre = "Camuflaje";
-                String efecto = "Si tienes una Iguana en juego, esta se vuelve indestructible.";
+                String efecto = "Si tienes una Iguana en juego, esta se vuelve indestructible por este turno.";
                 int coste = 3;
 
                 camuflaje--;
@@ -558,6 +558,16 @@ public class CartaService {
             return cartasInspeccionadas;
         }
 
+    }
+
+    public int devolverCantidadCopiasCartaPorZona(List<CartaInterface> zonaAInspeccionar, CartaInterface cartaAContar) {
+        int copiasCarta = 0;
+        for (CartaInterface cartaActual : zonaAInspeccionar) {
+            if (cartaActual.getNombre().equalsIgnoreCase(cartaAContar.getNombre())) {
+                copiasCarta++;
+            }
+        }
+        return copiasCarta;
     }
 
 }

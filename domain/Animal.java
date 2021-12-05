@@ -69,6 +69,10 @@ public class Animal implements CartaInterface {
         return dano;
     }
 
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+
     public boolean isSePuedeBajarTablero() {
         return sePuedeBajarTablero;
     }

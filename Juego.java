@@ -226,6 +226,9 @@ public class Juego {
                                 "Ambos jugadores arracan con 25 cartas en su mazo, el jugador/a que se quede sin cartas en su mazo, perderá.",
                                 "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
 
+                JOptionPane.showMessageDialog(null, "Ambos jugadores roban su mano inicial.", "Primer Turno",
+                                JOptionPane.INFORMATION_MESSAGE);
+
                 while (jugador1.tieneCartasElMazo() && jugador2.tieneCartasElMazo()) {
                         iniciarTurno(jugador1, jugador2);
 
@@ -259,6 +262,7 @@ public class Juego {
         private void iniciarTurno(Jugador jugadorActual, Jugador jugadorEnemigo) {
 
                 if (jugadorActual.getTurno() == 1) {
+
                         iniciarPrimerTurno(jugadorActual);
 
                 } else if (jugadorActual.getTurno() == 2) {
@@ -273,11 +277,6 @@ public class Juego {
         }
 
         private void iniciarPrimerTurno(Jugador jugadorActual) {
-                JOptionPane.showMessageDialog(null, "Primer turno de " + jugadorActual.getNombre(),
-                                "Comienzo de partida", JOptionPane.INFORMATION_MESSAGE);
-
-                JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " has robado tu mano inicial.",
-                                "Mano Inicial", 1);
 
                 int manoInicial = 4;
 
@@ -311,12 +310,8 @@ public class Juego {
 
                 cartaService.robarCartasDelMazo(jugadorActual, 1);
 
-                JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " haz robado 1 carta.");
+                JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " haz robado 1 carta. \nFin de turno.");
 
-                JOptionPane.showMessageDialog(null, jugadorActual.getNombre() + " te quedan: "
-                                + jugadorActual.getCantidadCartasMazo() + " cartas en tu mazo.");
-                JOptionPane.showMessageDialog(null, "Fin de turno " + jugadorActual.getTurno(), "Fin Turno",
-                                JOptionPane.INFORMATION_MESSAGE, null);
         }
 
         private void iniciarTercerTurnoEnAdelante(Jugador jugadorActual, Jugador jugadorEnemigo) {
@@ -427,8 +422,6 @@ public class Juego {
                                                         jugadorActual, idAnimalEnReposo);
                                 }
                         }
-
-                        // hasta aca lo pase a ataque pero aun no atacó
 
                         JOptionPane.showMessageDialog(null,
                                         jugadorEnemigo.getNombre() + ", el jugador "
