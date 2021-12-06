@@ -12,6 +12,8 @@ public class Jugador {
 
     private List<CartaInterface> cartas;
 
+    // idCartas
+
     public Jugador(String nombre, String contrasena, List<CartaInterface> cartas) {
         this.nombre = nombre;
         this.contrasena = contrasena;

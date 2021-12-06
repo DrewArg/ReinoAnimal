@@ -9,10 +9,15 @@ import inter.CartaInterface;
 
 public class AnimalService {
 
-    public Animal crearAnimal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo) {
+    public Animal crearAnimalConEfecto(int id, String nombre, String efecto, int coste, int dano, String tipoMazo,
+            boolean efectoManual, boolean efectoPasivo) {
 
-        return new Animal(id, nombre, efecto, coste, dano, tipoMazo);
+        return new Animal(id, nombre, efecto, coste, dano, tipoMazo, efectoManual, efectoPasivo);
 
+    }
+
+    public Animal crearAnimalSinEfecto(int id, String nombre, int coste, int dano, String tipoMazo) {
+        return new Animal(id, nombre, coste, dano, tipoMazo);
     }
 
     public void pasarAnimalesEnBatallaAReposo(Jugador jugadorActual) {
@@ -65,6 +70,29 @@ public class AnimalService {
         }
 
         return auxiliar;
+    }
+
+    public List<Integer> devolverIdsAnimalesEnReposoConEfectoManual(Jugador jugadorActual) {
+        List<Integer> auxiliar = new ArrayList<Integer>();
+
+        for (CartaInterface cartaInterface : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) cartaInterface;
+            if (animal.isEfectoManual()) {
+                auxiliar.add(animal.getId());
+            }
+        }
+        return auxiliar;
+    }
+
+    public CartaInterface devolverAnimalSeleccionadoPorId(List<CartaInterface> zonaAInspeccionar, Integer id) {
+
+        for (CartaInterface carta : zonaAInspeccionar) {
+            if (carta.getId() == id) {
+                return carta;
+            }
+        }
+
+        return null;
     }
 
     public String devolverDescripcionesAnimalesEnReposo(Jugador jugadorActual, CartaService cartaService) {
@@ -137,24 +165,47 @@ public class AnimalService {
         return atacante.getDano() - defensor.getDano();
     }
 
-    public void activarEfectoAnimal(Jugador jugadorActual, CartaInterface animalConEfecto, CartaService cartaService) {
-        Animal animal = (Animal) animalConEfecto;
+    public void activarPasivamenteEfectoAnimal(Jugador jugadorActual,
+            CartaService cartaService) {
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+            if (animal.isEfectoPasivo()) {
+                switch (animal.getNombre()) {
+                    case "Lobo Gris":
+
+                        int lobosBatalla = cartaService.devolverCantidadCopiasCartaPorZona(
+                                jugadorActual.getAnimalesEnBatalla(),
+                                animal);
+
+                        int lobosReposo = cartaService.devolverCantidadCopiasCartaPorZona(
+                                jugadorActual.getAnimalesEnReposo(),
+                                animal);
+
+                        int cantidadLobos = lobosBatalla + lobosReposo;
+
+                        animal.setDano(animal.getDanoOriginal());
+
+                        for (int i = 0; i < cantidadLobos; i++) {
+                            animal.setDano(animal.getDano() + i);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+    }
+
+    public void activarManualmenteEfectoAnimal(Jugador jugadorActual, CartaInterface animalConEfectoManual,
+            CartaService cartaService) {
+        Animal animal = (Animal) animalConEfectoManual;
 
         switch (animal.getNombre()) {
-            case "Lobo Gris":
-                int lobosBatalla = cartaService.devolverCantidadCopiasCartaPorZona(jugadorActual.getAnimalesEnBatalla(),
-                        animal);
-
-                int lobosReposo = cartaService.devolverCantidadCopiasCartaPorZona(jugadorActual.getAnimalesEnReposo(),
-                        animal);
-
-                int cantidadLobos = lobosBatalla + lobosReposo;
-
-                for (int i = 0; i < cantidadLobos; i++) {
-                    animal.setDano(animal.getDano() + 1);
-                }
-
-                break;
 
             case "Iguana":
 

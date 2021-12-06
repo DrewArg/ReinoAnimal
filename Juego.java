@@ -319,6 +319,8 @@ public class Juego {
                 animalService.pasarAnimalesEnBatallaAReposo(jugadorActual);
                 alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual);
 
+                animalService.activarPasivamenteEfectoAnimal(jugadorActual, cartaService);
+
                 String[] opcionesTurno = { "Bajar una carta", "Atacar", "Activar un efecto",
                                 "Inspeccionar Zona de Juego", "Pasar" };
 
@@ -331,13 +333,73 @@ public class Juego {
                 while (opcionElegida != 4) {
                         if (opcionElegida == 0) {
                                 bajarUnaCartaAlTablero(jugadorActual);
+                                animalService.activarPasivamenteEfectoAnimal(jugadorActual, cartaService);
 
                         } else if (opcionElegida == 1) {
                                 atacar(jugadorActual, jugadorEnemigo);
 
                         } else if (opcionElegida == 2) {
-                                // activarUnEfecto(jugadorActual);
-                                // preguntar donde está la carta para activar el efecto
+
+                                String[] opcionesEfecto = { "Animal en Reposo", "Habilidad en Mano", "Habitat en Apoyo",
+                                                "Volver" };
+
+                                int opcionEfectoElegida = JOptionPane.showOptionDialog(null,
+                                                "¿Dónde se encuentra el efecto que quieres activar?",
+                                                "Activar Efecto", JOptionPane.DEFAULT_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE, null, opcionesEfecto, 0);
+
+                                switch (opcionEfectoElegida) {
+                                        case 0:
+                                                String descripcionAnimalesReposoConEfectoManual = cartaService
+                                                                .devolverDescripcionAnimalesEnReposoConEfectoManual(
+                                                                                jugadorActual.getAnimalesEnReposo());
+
+                                                List<Integer> idsAnimalesReposoConEfectoManual = animalService
+                                                                .devolverIdsAnimalesEnReposoConEfectoManual(
+                                                                                jugadorActual);
+
+                                                Object[] arrayAnimalesEnReposoConEfectoManual = idsAnimalesReposoConEfectoManual
+                                                                .toArray();
+
+                                                Integer cartaElegida = JOptionPane.showOptionDialog(null,
+                                                                "¿De qué animal deseas activar el efecto? \n"
+                                                                                + descripcionAnimalesReposoConEfectoManual,
+                                                                "Activar Efecto Animal Manualmente",
+                                                                JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.INFORMATION_MESSAGE,
+                                                                null, arrayAnimalesEnReposoConEfectoManual, 0);
+
+                                                CartaInterface animalConEfectoManual = null;
+
+                                                for (Integer id : idsAnimalesReposoConEfectoManual) {
+
+                                                        if (arrayAnimalesEnReposoConEfectoManual[cartaElegida] == id) {
+                                                                animalConEfectoManual = animalService
+                                                                                .devolverAnimalSeleccionadoPorId(
+                                                                                                jugadorActual.getAnimalesEnReposo(),
+                                                                                                id);
+                                                        }
+                                                }
+
+                                                animalService.activarManualmenteEfectoAnimal(jugadorActual,
+                                                                animalConEfectoManual, cartaService);
+
+                                                break;
+
+                                        case 1:
+                                                // habilidad
+                                                break;
+
+                                        case 2:
+                                                // habitat
+                                                break;
+
+                                        case 3:
+                                                break;
+
+                                        default:
+                                                break;
+                                }
 
                         } else if (opcionElegida == 3) {
                                 inspeccionarZonaJuego(jugadorActual, jugadorEnemigo);

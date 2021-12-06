@@ -6,8 +6,11 @@ public class Animal implements CartaInterface {
     private int id;
     private String nombre;
     private String efecto;
+    private boolean efectoManual;
+    private boolean efectoPasivo;
     private int coste;
     private int dano;
+    private int danoOrginal;
     private String tipoMazo;
 
     private boolean sePuedeBajarTablero;
@@ -17,13 +20,34 @@ public class Animal implements CartaInterface {
     private boolean enCementerio;
     private boolean enMano;
 
-    public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo) {
+    private boolean efectoActivo;
+
+    public Animal(int id, String nombre, int coste, int dano, String tipoMazo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.coste = coste;
+        this.dano = dano;
+        this.tipoMazo = tipoMazo;
+
+        efecto = "";
+        efectoManual = false;
+        efectoPasivo = false;
+        danoOrginal = dano;
+
+        inicializarFlags();
+    }
+
+    public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo, boolean efectoManual,
+            boolean efectoPasivo) {
         this.id = id;
         this.nombre = nombre;
         this.efecto = efecto;
         this.coste = coste;
         this.dano = dano;
         this.tipoMazo = tipoMazo;
+        this.efectoManual = efectoManual;
+        this.efectoPasivo = efectoPasivo;
+        danoOrginal = dano;
 
         inicializarFlags();
 
@@ -38,6 +62,8 @@ public class Animal implements CartaInterface {
         enBatalla = false;
 
         enMano = false;
+
+        efectoActivo = false;
 
     }
 
@@ -71,6 +97,10 @@ public class Animal implements CartaInterface {
 
     public void setDano(int dano) {
         this.dano = dano;
+    }
+
+    public int getDanoOriginal() {
+        return danoOrginal;
     }
 
     public boolean isSePuedeBajarTablero() {
@@ -119,6 +149,22 @@ public class Animal implements CartaInterface {
 
     public void setEnMano(boolean enMano) {
         this.enMano = enMano;
+    }
+
+    public boolean isEfectoActivo() {
+        return efectoActivo;
+    }
+
+    public void setEfectoActivo(boolean efectoActivo) {
+        this.efectoActivo = efectoActivo;
+    }
+
+    public boolean isEfectoManual() {
+        return efectoManual;
+    }
+
+    public boolean isEfectoPasivo() {
+        return efectoPasivo;
     }
 
 }

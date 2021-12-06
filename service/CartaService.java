@@ -59,54 +59,62 @@ public class CartaService {
 
             if (lobos > 0) {
 
-                String efecto;
-                int coste;
-                int dano;
+                String efecto = "Este efecto es pasivo. \nGana +1 de daño por cada Lobo Gris en tu tablero además de este.";
+                int coste = 3;
+                int dano = 2;
+                boolean efectoManual = false;
+                boolean efectoPasivo = true;
 
                 nombre = "Lobo Gris";
-                efecto = "Gana +1 de daño por cada Lobo Gris en tu tablero.";
-                coste = 3;
-                dano = 2;
 
                 lobos--;
 
                 cartaRepository
-                        .agregarCartaMazoTerrestre(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoTerrestre(
+                                animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano, tipoMazo,
+                                        efectoManual, efectoPasivo));
 
             } else if (ratas > 0) {
                 nombre = "Rata";
-                String efecto = "Sin efecto.";
+
                 int coste = 1;
                 int dano = 1;
 
                 ratas--;
 
                 cartaRepository
-                        .agregarCartaMazoTerrestre(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoTerrestre(
+                                animalService.crearAnimalSinEfecto(i, nombre, coste, dano, tipoMazo));
 
             } else if (iguanas > 0) {
                 nombre = "Iguana";
-                String efecto = "Puede copiar el ataque de un enemigo y sumarlo al suyo hasta el final del turno.";
-                ;
+                String efecto = "Puede tomar el ataque de un enemigo y sumarlo al suyo hasta el final del turno.";
+
                 int coste = 3;
                 int dano = 1;
+                boolean efectoManual = true;
+                boolean efectoPasivo = false;
 
                 iguanas--;
 
                 cartaRepository
-                        .agregarCartaMazoTerrestre(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoTerrestre(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
+                                tipoMazo, efectoManual, efectoPasivo));
 
             } else if (mantisOrquideas > 0) {
                 nombre = "Mantis Orquídea";
                 String efecto = "Puedes pagar 1 alimento para tomar una carta de tu cementerio y ponerla en tu mano.";
-                ;
+
                 int coste = 5;
                 int dano = 4;
+                boolean efectoManual = true;
+                boolean efectoPasivo = false;
 
                 mantisOrquideas--;
 
                 cartaRepository
-                        .agregarCartaMazoTerrestre(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoTerrestre(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
+                                tipoMazo, efectoManual, efectoPasivo));
 
             } else if (alimentos > 0) {
                 nombre = "Alimento";
@@ -138,7 +146,7 @@ public class CartaService {
 
             } else if (aullido > 0) {
                 nombre = "Aullido";
-                String efecto = "Si tienes un Lobo Gris en juego, puedes jugar a otro desde tu mazo o mano sin pagar su coste.";
+                String efecto = "Si tienes un Lobo Gris en juego, puedes jugar a otro desde tu mazo o cementerio sin pagar su coste.";
                 int coste = 2;
 
                 aullido--;
@@ -191,54 +199,59 @@ public class CartaService {
             tipoMazo = "Acuático";
 
             if (tortugas > 0) {
-                String efecto;
-                int coste;
-                int dano;
+                String efecto = "Puede sacrificarse para evitar que el enemigo siga atcando este turno.";
+                int coste = 3;
+                int dano = 2;
+                boolean efectoManual = true;
+                boolean efectoPasivo = false;
 
                 nombre = "Tortuga Marina";
-                efecto = "Puede sacrificarse para evitar que el enemigo siga atacando este turno.";
-                coste = 3;
-                dano = 2;
 
                 tortugas--;
 
                 cartaRepository
-                        .agregarCartaMazoAcuatico(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoAcuatico(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
+                                tipoMazo, efectoManual, efectoPasivo));
 
             } else if (pecesPayaso > 0) {
                 nombre = "Pez Payaso";
-                String efecto = "Sin efecto.";
+
                 int coste = 1;
                 int dano = 1;
 
                 pecesPayaso--;
 
                 cartaRepository
-                        .agregarCartaMazoAcuatico(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoAcuatico(animalService.crearAnimalSinEfecto(i, nombre, coste, dano, tipoMazo));
 
             } else if (pulpos > 0) {
                 nombre = "Pulpo";
                 String efecto = "Puede perder X puntos de daño permanentemente para devolver X cartas del cementerio al mazo.";
-                ;
+
                 int coste = 4;
                 int dano = 3;
-
+                boolean efectoManual = true;
+                boolean efectoPasivo = false;
                 pulpos--;
 
                 cartaRepository
-                        .agregarCartaMazoAcuatico(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoAcuatico(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
+                                tipoMazo, efectoManual, efectoPasivo));
 
             } else if (tiburonesBlancos > 0) {
                 nombre = "Tiburón Blanco";
                 String efecto = "Puede devorar a un aliado para devorar a un enemigo de coste 3 o menos y adicionar su fuerza a la suya hasta el final del turno.";
-                ;
+
                 int coste = 5;
                 int dano = 4;
+                boolean efectoManual = true;
+                boolean efectoPasivo = false;
 
                 tiburonesBlancos--;
 
                 cartaRepository
-                        .agregarCartaMazoAcuatico(animalService.crearAnimal(i, nombre, efecto, coste, dano, tipoMazo));
+                        .agregarCartaMazoAcuatico(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
+                                tipoMazo, efectoManual, efectoPasivo));
 
             } else if (alimentos > 0) {
                 nombre = "Alimento";
@@ -261,7 +274,7 @@ public class CartaService {
             } else if (anemona > 0) {
                 nombre = "Anemona";
 
-                String efecto = "Puedes duplicar un Pez Payaso en juego pagando su coste hasta el final del turno.";
+                String efecto = "Duplica un Pez Payaso en juego.";
                 int coste = 3;
 
                 anemona--;
@@ -281,7 +294,7 @@ public class CartaService {
 
             } else if (captura > 0) {
                 nombre = "Captura";
-                String efecto = "Evita que un enemigo pueda atacar o defender por 2 turnos.";
+                String efecto = "Evita que un enemigo pueda pasar a la linea de batalla por 2 turnos.";
                 int coste = 3;
 
                 captura--;
@@ -291,7 +304,7 @@ public class CartaService {
 
             } else if (fortalecimiento > 0) {
 
-                nombre = "Fortalecimiento";
+                nombre = "Olor a Sangre";
                 String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. Si tienes un Tiburón Blanco en tu cementerio, puedes revivirlo sin pagar su coste.";
                 int coste = 6;
 
@@ -316,6 +329,10 @@ public class CartaService {
                     } else if (carta instanceof Animal) {
                         Animal animal = (Animal) carta;
                         int costeAnimal = animal.getCoste();
+
+                        if (animal.isEfectoPasivo()) {
+                            animal.setEfectoActivo(true);
+                        }
 
                         alimentoService.consumirAlimentosEnReserva(jugadorActual, costeAnimal);
                         animal.setEnMano(false);
@@ -510,6 +527,30 @@ public class CartaService {
         auxiliar.sort((a1, a2) -> (a1.compareTo(a2)));
 
         return auxiliar;
+    }
+
+    public String devolverDescripcionAnimalesEnReposoConEfectoManual(List<CartaInterface> lineaReposo) {
+        if (lineaReposo.size() == 0) {
+            return "Sin cartas";
+        } else {
+            String cartasInspeccionadas = "";
+
+            for (int i = 1; i <= lineaReposo.size(); i++) {
+
+                CartaInterface carta = lineaReposo.get(lineaReposo.size() - i);
+
+                Animal animal = (Animal) carta;
+
+                if (animal.isEfectoManual()) {
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n"
+                            + animal.getNombre()
+                            + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                            + animal.getEfecto() + "\n-----------------------------------------------------";
+                }
+
+            }
+            return cartasInspeccionadas;
+        }
     }
 
     public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
