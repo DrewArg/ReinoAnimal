@@ -1,4 +1,4 @@
-package inter;
+package src.inter;
 
 public interface CartaInterface {
 

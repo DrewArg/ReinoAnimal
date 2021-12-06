@@ -1,11 +1,11 @@
-package service;
+package src.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.Animal;
-import domain.Jugador;
-import inter.CartaInterface;
+import src.domain.Animal;
+import src.domain.Jugador;
+import src.inter.CartaInterface;
 
 public class AnimalService {
 
@@ -199,6 +199,32 @@ public class AnimalService {
 
         }
 
+    }
+
+    public void activarEfectoIguanaManualmente(CartaInterface animalConEfectoManual,
+            CartaInterface animalEnemigoElegido,
+            CartaService cartaService) {
+        Animal iguana = (Animal) animalConEfectoManual;
+        Animal animalEnemigo = (Animal) animalEnemigoElegido;
+
+        iguana.setDano(iguana.getDanoOriginal() + animalEnemigo.getDano());
+        iguana.setEfectoActivo(true);
+    }
+
+    public void reiniciarEfectosAnimalesManuales(Jugador jugadorActual) {
+        reiniciarEfectoIguanaManualmente(jugadorActual);
+    }
+
+    private void reiniciarEfectoIguanaManualmente(Jugador jugadorActual) {
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+
+            if (animal.isEfectoManual()) {
+                animal.setDano(animal.getDanoOriginal());
+                animal.setEfectoActivo(false);
+            }
+
+        }
     }
 
     public void activarManualmenteEfectoAnimal(Jugador jugadorActual, CartaInterface animalConEfectoManual,

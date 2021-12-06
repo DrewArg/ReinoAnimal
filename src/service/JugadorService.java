@@ -1,11 +1,11 @@
-package service;
+package src.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.Jugador;
-import inter.CartaInterface;
-import repository.JugadorRepository;
+import src.domain.Jugador;
+import src.inter.CartaInterface;
+import src.repository.JugadorRepository;
 
 public class JugadorService {
 

@@ -1,9 +1,9 @@
-package repository;
+package src.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.Jugador;
+import src.domain.Jugador;
 
 public class JugadorRepository {
 

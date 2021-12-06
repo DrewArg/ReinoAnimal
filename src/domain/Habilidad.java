@@ -1,8 +1,8 @@
-package domain;
+package src.domain;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
-public class Habitat implements CartaInterface {
+public class Habilidad implements CartaInterface {
     private int id;
     private String nombre;
     private String efecto;
@@ -10,12 +10,11 @@ public class Habitat implements CartaInterface {
     private String tipoMazo;
 
     private boolean sePuedeBajarTablero;
-    private boolean enLineaApoyo;
     private boolean enMazo;
     private boolean enCementerio;
     private boolean enMano;
 
-    public Habitat(int id, String nombre, String efecto, int coste, String tipoMazo) {
+    public Habilidad(int id, String nombre, String efecto, int coste, String tipoMazo) {
         this.id = id;
         this.nombre = nombre;
         this.efecto = efecto;
@@ -30,7 +29,6 @@ public class Habitat implements CartaInterface {
 
         sePuedeBajarTablero = false;
         enCementerio = false;
-        enLineaApoyo = false;
 
         enMano = false;
 
@@ -40,20 +38,16 @@ public class Habitat implements CartaInterface {
         return id;
     }
 
-    public int getCoste() {
-        return coste;
-    }
-
-    public void setCoste(int coste) {
-        this.coste = coste;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
     public String getEfecto() {
         return efecto;
+    }
+
+    public int getCoste() {
+        return coste;
     }
 
     public String getTipoMazo() {
@@ -66,14 +60,6 @@ public class Habitat implements CartaInterface {
 
     public void setSePuedeBajarTablero(boolean sePuedeBajarTablero) {
         this.sePuedeBajarTablero = sePuedeBajarTablero;
-    }
-
-    public boolean isEnLineaApoyo() {
-        return enLineaApoyo;
-    }
-
-    public void setEnLineaApoyo(boolean enLineaApoyo) {
-        this.enLineaApoyo = enLineaApoyo;
     }
 
     public boolean isEnMazo() {

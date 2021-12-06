@@ -1,6 +1,6 @@
-package service;
+package src.service;
 
-import domain.Habilidad;
+import src.domain.Habilidad;
 
 public class HabilidadService {
     public Habilidad crearHabilidad(int id, String nombre, String efecto, int coste, String tipoMazo) {

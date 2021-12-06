@@ -1,18 +1,19 @@
+package src;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import domain.Jugador;
+import src.domain.Jugador;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
-import service.AlimentoService;
-import service.AnimalService;
-import service.CartaService;
-import service.HabilidadService;
-import service.HabitatService;
-import service.JugadorService;
+import src.service.AlimentoService;
+import src.service.AnimalService;
+import src.service.CartaService;
+import src.service.HabilidadService;
+import src.service.HabitatService;
+import src.service.JugadorService;
 
 public class Juego {
 
@@ -319,6 +320,7 @@ public class Juego {
                 animalService.pasarAnimalesEnBatallaAReposo(jugadorActual);
                 alimentoService.pasarAlimentosConsumidosAReserva(jugadorActual);
 
+                animalService.reiniciarEfectosAnimalesManuales(jugadorActual);
                 animalService.activarPasivamenteEfectoAnimal(jugadorActual, cartaService);
 
                 String[] opcionesTurno = { "Bajar una carta", "Atacar", "Activar un efecto",
@@ -381,8 +383,49 @@ public class Juego {
                                                         }
                                                 }
 
-                                                animalService.activarManualmenteEfectoAnimal(jugadorActual,
-                                                                animalConEfectoManual, cartaService);
+                                                switch (animalConEfectoManual.getNombre()) {
+
+                                                        case "Iguana":
+                                                            // String efecto = "Puede tomar el ataque de un enemigo y sumarlo al suyo hasta
+                                                            // el final del turno.";
+
+                                                            String descripcionAnimalesEnemigosEnReposo = cartaService.devolverCartasEnZonaComoMensaje(jugadorEnemigo.getAnimalesEnReposo());
+
+                                                            List<Integer> idsAnimalesEnemigosEnReposo = animalService.devolverIdsAnimalesEnReposo(jugadorEnemigo);
+
+                                                            Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo.toArray();
+
+                                                            Integer animalSeleccionado = JOptionPane.showOptionDialog(null, "¿De qué animal quieres tomar el ataque? \n" + descripcionAnimalesEnemigosEnReposo, "Activar efecto Iguana", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, arrayAnimalesEnemigosEnReposo, 0);
+
+                                                            CartaInterface animalEnemigoElegido = null;
+
+                                                            for(Integer id: idsAnimalesEnemigosEnReposo){
+                                                                    if(arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id){
+                                                                       animalService.activarEfectoIguanaManualmente(animalConEfectoManual, animalEnemigoElegido, cartaService);
+                                                                    }
+                                                            }
+                                            
+                                                            
+                                                            break;
+                                            
+                                                        case "Mantis Orquídea":
+                                            
+                                                            break;
+                                            
+                                                        case "Tortuga Marina":
+                                                            break;
+                                            
+                                                        case "Pulpo":
+                                                            break;
+                                            
+                                                        case "Tiburón Blanco":
+                                                            break;
+                                            
+                                                        default:
+                                                            break;
+                                                    }
+
+                                               
 
                                                 break;
 

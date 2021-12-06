@@ -1,17 +1,17 @@
-package service;
+package src.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.Alimento;
-import domain.Animal;
-import domain.Habilidad;
-import domain.Habitat;
-import domain.Jugador;
+import src.domain.Alimento;
+import src.domain.Animal;
+import src.domain.Habilidad;
+import src.domain.Habitat;
+import src.domain.Jugador;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
-import repository.CartaRepository;
+import src.repository.CartaRepository;
 
 public class CartaService {
 
@@ -59,7 +59,7 @@ public class CartaService {
 
             if (lobos > 0) {
 
-                String efecto = "Este efecto es pasivo. \nGana +1 de daño por cada Lobo Gris en tu tablero además de este.";
+                String efecto = "Este efecto es pasivo por lo que no tienes que activarlo manualmente. \nGana +1 de daño por cada Lobo Gris además de este en tu tablero.";
                 int coste = 3;
                 int dano = 2;
                 boolean efectoManual = false;
@@ -88,7 +88,7 @@ public class CartaService {
 
             } else if (iguanas > 0) {
                 nombre = "Iguana";
-                String efecto = "Puede tomar el ataque de un enemigo y sumarlo al suyo hasta el final del turno.";
+                String efecto = "Puede tomar el ataque de un enemigo en reposo y sumarlo al suyo hasta el final del turno.";
 
                 int coste = 3;
                 int dano = 1;
@@ -103,7 +103,7 @@ public class CartaService {
 
             } else if (mantisOrquideas > 0) {
                 nombre = "Mantis Orquídea";
-                String efecto = "Puedes pagar 1 alimento para tomar una carta de tu cementerio y ponerla en tu mano.";
+                String efecto = "Puedes pagar 1 alimento para tomar una carta de tu cementerio y ponerla en tu mano.\n Solo puedes activar este efecto una vez por turno.";
 
                 int coste = 5;
                 int dano = 4;
@@ -125,7 +125,7 @@ public class CartaService {
             } else if (orquidea > 0) {
                 nombre = "Orquidea";
 
-                String efecto = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. Si Mantis Orquídea está en tu cementerio, puedes revivirla pagando su coste.";
+                String efecto = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego.";
                 int coste = 6;
 
                 orquidea--;
@@ -136,7 +136,7 @@ public class CartaService {
             } else if (alcantarilla > 0) {
                 nombre = "Alcantarilla";
 
-                String efecto = "Puedes revivir una Rata por turno pagando su coste.";
+                String efecto = "Puedes revivir una Rata por turno pagando su coste y ponerla en tu línea de reposo.";
                 int coste = 3;
 
                 alcantarilla--;
@@ -156,7 +156,7 @@ public class CartaService {
 
             } else if (camuflaje > 0) {
                 nombre = "Camuflaje";
-                String efecto = "Si tienes una Iguana en juego, esta se vuelve indestructible por este turno.";
+                String efecto = "En respuesta a que una Iguana tuya sea destruida, puedes activar esta habilidad y evitarlo.";
                 int coste = 3;
 
                 camuflaje--;

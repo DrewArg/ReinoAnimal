@@ -1,9 +1,9 @@
-package repository;
+package src.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
 public class CartaRepository {
     private List<CartaInterface> mazoTerrestre = new ArrayList<CartaInterface>();

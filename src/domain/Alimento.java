@@ -1,24 +1,23 @@
-package domain;
+package src.domain;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
-public class Habilidad implements CartaInterface {
+public class Alimento implements CartaInterface {
+
     private int id;
     private String nombre;
-    private String efecto;
-    private int coste;
     private String tipoMazo;
 
     private boolean sePuedeBajarTablero;
+    private boolean enReservaDeAlimentos;
+    private boolean enAlimentoConsumidos;
     private boolean enMazo;
     private boolean enCementerio;
     private boolean enMano;
 
-    public Habilidad(int id, String nombre, String efecto, int coste, String tipoMazo) {
+    public Alimento(int id, String nombre, String tipoMazo) {
         this.id = id;
         this.nombre = nombre;
-        this.efecto = efecto;
-        this.coste = coste;
         this.tipoMazo = tipoMazo;
 
         inicializarFlags();
@@ -29,6 +28,8 @@ public class Habilidad implements CartaInterface {
 
         sePuedeBajarTablero = false;
         enCementerio = false;
+        enReservaDeAlimentos = false;
+        enAlimentoConsumidos = false;
 
         enMano = false;
 
@@ -40,14 +41,6 @@ public class Habilidad implements CartaInterface {
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getEfecto() {
-        return efecto;
-    }
-
-    public int getCoste() {
-        return coste;
     }
 
     public String getTipoMazo() {
@@ -62,20 +55,36 @@ public class Habilidad implements CartaInterface {
         this.sePuedeBajarTablero = sePuedeBajarTablero;
     }
 
-    public boolean isEnMazo() {
-        return enMazo;
+    public boolean isEnReservaDeAlimentos() {
+        return enReservaDeAlimentos;
     }
 
-    public void setEnMazo(boolean enMazo) {
-        this.enMazo = enMazo;
+    public void setEnReservaDeAlimentos(boolean enReservaDeAlimentos) {
+        this.enReservaDeAlimentos = enReservaDeAlimentos;
+    }
+
+    public boolean isEnAlimentoConsumidos() {
+        return enAlimentoConsumidos;
+    }
+
+    public void setEnAlimentoConsumidos(boolean enAlimentoConsumidos) {
+        this.enAlimentoConsumidos = enAlimentoConsumidos;
     }
 
     public boolean isEnCementerio() {
         return enCementerio;
     }
 
-    public void setEnCementerio(boolean enTableroCementerio) {
-        this.enCementerio = enTableroCementerio;
+    public void setEnCementerio(boolean enCementerio) {
+        this.enCementerio = enCementerio;
+    }
+
+    public boolean isEnMazo() {
+        return enMazo;
+    }
+
+    public void setEnMazo(boolean enMazo) {
+        this.enMazo = enMazo;
     }
 
     public boolean isEnMano() {

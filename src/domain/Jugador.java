@@ -1,9 +1,9 @@
-package domain;
+package src.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
 public class Jugador {
     private String nombre;

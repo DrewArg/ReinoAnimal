@@ -1,23 +1,25 @@
-package domain;
+package src.domain;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
-public class Alimento implements CartaInterface {
-
+public class Habitat implements CartaInterface {
     private int id;
     private String nombre;
+    private String efecto;
+    private int coste;
     private String tipoMazo;
 
     private boolean sePuedeBajarTablero;
-    private boolean enReservaDeAlimentos;
-    private boolean enAlimentoConsumidos;
+    private boolean enLineaApoyo;
     private boolean enMazo;
     private boolean enCementerio;
     private boolean enMano;
 
-    public Alimento(int id, String nombre, String tipoMazo) {
+    public Habitat(int id, String nombre, String efecto, int coste, String tipoMazo) {
         this.id = id;
         this.nombre = nombre;
+        this.efecto = efecto;
+        this.coste = coste;
         this.tipoMazo = tipoMazo;
 
         inicializarFlags();
@@ -28,8 +30,7 @@ public class Alimento implements CartaInterface {
 
         sePuedeBajarTablero = false;
         enCementerio = false;
-        enReservaDeAlimentos = false;
-        enAlimentoConsumidos = false;
+        enLineaApoyo = false;
 
         enMano = false;
 
@@ -39,8 +40,20 @@ public class Alimento implements CartaInterface {
         return id;
     }
 
+    public int getCoste() {
+        return coste;
+    }
+
+    public void setCoste(int coste) {
+        this.coste = coste;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public String getEfecto() {
+        return efecto;
     }
 
     public String getTipoMazo() {
@@ -55,28 +68,12 @@ public class Alimento implements CartaInterface {
         this.sePuedeBajarTablero = sePuedeBajarTablero;
     }
 
-    public boolean isEnReservaDeAlimentos() {
-        return enReservaDeAlimentos;
+    public boolean isEnLineaApoyo() {
+        return enLineaApoyo;
     }
 
-    public void setEnReservaDeAlimentos(boolean enReservaDeAlimentos) {
-        this.enReservaDeAlimentos = enReservaDeAlimentos;
-    }
-
-    public boolean isEnAlimentoConsumidos() {
-        return enAlimentoConsumidos;
-    }
-
-    public void setEnAlimentoConsumidos(boolean enAlimentoConsumidos) {
-        this.enAlimentoConsumidos = enAlimentoConsumidos;
-    }
-
-    public boolean isEnCementerio() {
-        return enCementerio;
-    }
-
-    public void setEnCementerio(boolean enCementerio) {
-        this.enCementerio = enCementerio;
+    public void setEnLineaApoyo(boolean enLineaApoyo) {
+        this.enLineaApoyo = enLineaApoyo;
     }
 
     public boolean isEnMazo() {
@@ -85,6 +82,14 @@ public class Alimento implements CartaInterface {
 
     public void setEnMazo(boolean enMazo) {
         this.enMazo = enMazo;
+    }
+
+    public boolean isEnCementerio() {
+        return enCementerio;
+    }
+
+    public void setEnCementerio(boolean enTableroCementerio) {
+        this.enCementerio = enTableroCementerio;
     }
 
     public boolean isEnMano() {

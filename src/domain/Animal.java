@@ -1,6 +1,6 @@
-package domain;
+package src.domain;
 
-import inter.CartaInterface;
+import src.inter.CartaInterface;
 
 public class Animal implements CartaInterface {
     private int id;

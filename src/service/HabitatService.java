@@ -1,6 +1,6 @@
-package service;
+package src.service;
 
-import domain.Habitat;
+import src.domain.Habitat;
 
 public class HabitatService {
     public Habitat crearHabitat(int id, String nombre, String efecto, int coste, String tipoMazo) {

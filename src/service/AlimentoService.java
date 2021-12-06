@@ -1,8 +1,8 @@
-package service;
+package src.service;
 
-import domain.Alimento;
-import domain.Jugador;
-import inter.CartaInterface;
+import src.domain.Alimento;
+import src.domain.Jugador;
+import src.inter.CartaInterface;
 
 public class AlimentoService {
     public Alimento crearAlimento(int id, String nombre, String tipoMazo) {
