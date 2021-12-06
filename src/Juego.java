@@ -1,8 +1,11 @@
 package src;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import src.domain.Jugador;
 
@@ -13,6 +16,7 @@ import src.service.AnimalService;
 import src.service.CartaService;
 import src.service.HabilidadService;
 import src.service.HabitatService;
+import src.service.JScrollPaneService;
 import src.service.JugadorService;
 
 public class Juego {
@@ -24,6 +28,8 @@ public class Juego {
         private AlimentoService alimentoService = new AlimentoService();
         private HabilidadService habilidadService = new HabilidadService();
         private HabitatService habitatService = new HabitatService();
+
+        private JScrollPaneService jScrollPaneService = new JScrollPaneService();
 
         public void iniciar() {
 
@@ -356,6 +362,11 @@ public class Juego {
                                                                 .devolverDescripcionAnimalesEnReposoConEfectoManual(
                                                                                 jugadorActual.getAnimalesEnReposo());
 
+                                                JScrollPane descripcionConScrollPane = jScrollPaneService
+                                                                .inicializarJScrollPaneParaExpandirMensaje(
+                                                                                new JTextArea(),
+                                                                                descripcionAnimalesReposoConEfectoManual);
+
                                                 List<Integer> idsAnimalesReposoConEfectoManual = animalService
                                                                 .devolverIdsAnimalesEnReposoConEfectoManual(
                                                                                 jugadorActual);
@@ -364,8 +375,7 @@ public class Juego {
                                                                 .toArray();
 
                                                 Integer cartaElegida = JOptionPane.showOptionDialog(null,
-                                                                "¿De qué animal deseas activar el efecto? \n"
-                                                                                + descripcionAnimalesReposoConEfectoManual,
+                                                                descripcionConScrollPane,
                                                                 "Activar Efecto Animal Manualmente",
                                                                 JOptionPane.DEFAULT_OPTION,
                                                                 JOptionPane.INFORMATION_MESSAGE,
@@ -386,46 +396,61 @@ public class Juego {
                                                 switch (animalConEfectoManual.getNombre()) {
 
                                                         case "Iguana":
-                                                            // String efecto = "Puede tomar el ataque de un enemigo y sumarlo al suyo hasta
-                                                            // el final del turno.";
+                                                                // String efecto = "Puede tomar el ataque de un enemigo
+                                                                // y sumarlo al suyo hasta
+                                                                // el final del turno.";
 
-                                                            String descripcionAnimalesEnemigosEnReposo = cartaService.devolverCartasEnZonaComoMensaje(jugadorEnemigo.getAnimalesEnReposo());
+                                                                String descripcionAnimalesEnemigosEnReposo = cartaService
+                                                                                .devolverCartasEnZonaComoMensaje(
+                                                                                                jugadorEnemigo.getAnimalesEnReposo());
 
-                                                            List<Integer> idsAnimalesEnemigosEnReposo = animalService.devolverIdsAnimalesEnReposo(jugadorEnemigo);
+                                                                List<Integer> idsAnimalesEnemigosEnReposo = animalService
+                                                                                .devolverIdsAnimalesEnReposo(
+                                                                                                jugadorEnemigo);
 
-                                                            Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo.toArray();
+                                                                Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
+                                                                                .toArray();
 
-                                                            Integer animalSeleccionado = JOptionPane.showOptionDialog(null, "¿De qué animal quieres tomar el ataque? \n" + descripcionAnimalesEnemigosEnReposo, "Activar efecto Iguana", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, arrayAnimalesEnemigosEnReposo, 0);
+                                                                Integer animalSeleccionado = JOptionPane
+                                                                                .showOptionDialog(null,
+                                                                                                "¿De qué animal quieres tomar el ataque? \n"
+                                                                                                                + descripcionAnimalesEnemigosEnReposo,
+                                                                                                "Activar efecto Iguana",
+                                                                                                JOptionPane.DEFAULT_OPTION,
+                                                                                                JOptionPane.QUESTION_MESSAGE,
+                                                                                                null,
+                                                                                                arrayAnimalesEnemigosEnReposo,
+                                                                                                0);
 
-                                                            CartaInterface animalEnemigoElegido = null;
+                                                                CartaInterface animalEnemigoElegido = null;
 
-                                                            for(Integer id: idsAnimalesEnemigosEnReposo){
-                                                                    if(arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id){
-                                                                       animalService.activarEfectoIguanaManualmente(animalConEfectoManual, animalEnemigoElegido, cartaService);
-                                                                    }
-                                                            }
-                                            
-                                                            
-                                                            break;
-                                            
+                                                                for (Integer id : idsAnimalesEnemigosEnReposo) {
+                                                                        if (arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id) {
+                                                                                animalService.activarEfectoIguanaManualmente(
+                                                                                                animalConEfectoManual,
+                                                                                                animalEnemigoElegido,
+                                                                                                cartaService);
+                                                                        }
+                                                                }
+
+                                                                break;
+
                                                         case "Mantis Orquídea":
-                                            
-                                                            break;
-                                            
-                                                        case "Tortuga Marina":
-                                                            break;
-                                            
-                                                        case "Pulpo":
-                                                            break;
-                                            
-                                                        case "Tiburón Blanco":
-                                                            break;
-                                            
-                                                        default:
-                                                            break;
-                                                    }
 
-                                               
+                                                                break;
+
+                                                        case "Tortuga Marina":
+                                                                break;
+
+                                                        case "Pulpo":
+                                                                break;
+
+                                                        case "Tiburón Blanco":
+                                                                break;
+
+                                                        default:
+                                                                break;
+                                                }
 
                                                 break;
 
@@ -471,6 +496,9 @@ public class Juego {
                 String descripcionCartasMano = cartaService
                                 .devolverDescripcionCartasDisponiblesParaBajar(jugadorActual, alimentosDisponibles);
 
+                JScrollPane descripcionCartasManoConScroll = jScrollPaneService
+                                .inicializarJScrollPaneParaExpandirMensaje(new JTextArea(), descripcionCartasMano);
+
                 if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
                         JOptionPane.showMessageDialog(null,
                                         "Actualmente no tienes cartas disponibles para bajar al tablero.",
@@ -482,7 +510,7 @@ public class Juego {
 
                         Object[] arrayCartasMano = idsCartasMano.toArray();
 
-                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionCartasMano,
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionCartasManoConScroll,
                                         "Cartas disponibles para bajar al tablero",
                                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                         null, arrayCartasMano, 0);
@@ -510,11 +538,15 @@ public class Juego {
                         String descripcionAnimalesReposo = animalService
                                         .devolverDescripcionesAnimalesEnReposo(jugadorActual, cartaService);
 
+                        JScrollPane descripcionAnimalesReposoConScroll = jScrollPaneService
+                                        .inicializarJScrollPaneParaExpandirMensaje(new JTextArea(),
+                                                        descripcionAnimalesReposo);
+
                         List<Integer> idsAnimalesReposo = animalService.devolverIdsAnimalesEnReposo(jugadorActual);
 
                         Object[] arrayIdsAnimalesEnReposo = idsAnimalesReposo.toArray();
 
-                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionAnimalesReposo,
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionAnimalesReposoConScroll,
                                         "Cartas disponibles para bajar al tablero",
                                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                         null, arrayIdsAnimalesEnReposo, 0);
@@ -764,7 +796,12 @@ public class Juego {
                                         "Zona vacia", JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                        JOptionPane.showMessageDialog(null, descripcionCartasZona, "Cartas en esta zona",
+                        JScrollPane descripcionCartasZonaConScroll = jScrollPaneService
+                                        .inicializarJScrollPaneParaExpandirMensaje(
+                                                        new JTextArea(),
+                                                        descripcionCartasZona);
+
+                        JOptionPane.showMessageDialog(null, descripcionCartasZonaConScroll, "Cartas en esta zona",
                                         JOptionPane.INFORMATION_MESSAGE);
 
                 }
