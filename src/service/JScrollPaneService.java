@@ -6,8 +6,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class JScrollPaneService {
-    public JScrollPane inicializarJScrollPaneParaExpandirMensaje(JTextArea newJTextArea, String mensaje) {
+    public JScrollPane instanciarJScrollPaneParaExpandirMensaje(JTextArea newJTextArea, String mensaje) {
 
+        newJTextArea.setText(mensaje);
         JScrollPane scrollPane = new JScrollPane(newJTextArea);
 
         newJTextArea.setLineWrap(true);

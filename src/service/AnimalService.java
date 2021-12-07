@@ -201,21 +201,39 @@ public class AnimalService {
 
     }
 
-    public void activarEfectoIguanaManualmente(CartaInterface animalConEfectoManual,
+    public void activarEfectoCamaleonManualmente(CartaInterface camaleonElegido,
             CartaInterface animalEnemigoElegido,
             CartaService cartaService) {
-        Animal iguana = (Animal) animalConEfectoManual;
+        Animal camaleon = (Animal) camaleonElegido;
         Animal animalEnemigo = (Animal) animalEnemigoElegido;
 
-        iguana.setDano(iguana.getDanoOriginal() + animalEnemigo.getDano());
-        iguana.setEfectoActivo(true);
+        camaleon.setDano(camaleon.getDanoOriginal() + animalEnemigo.getDano());
+        camaleon.setEfectoActivo(true);
     }
 
-    public void reiniciarEfectosAnimalesManuales(Jugador jugadorActual) {
-        reiniciarEfectoIguanaManualmente(jugadorActual);
+    public void activarEfectoMantisOrquideaManualmente(Jugador jugadorActual,
+            int alimentosAConsumir, AlimentoService alimentoService, List<CartaInterface> cartasARevivir) {
+
+        alimentoService.consumirAlimentosEnReserva(jugadorActual, alimentosAConsumir);
+
+        for (int i = 1; i <= jugadorActual.getCartasCementerio().size(); i++) {
+
+            for (int j = 1; j <= cartasARevivir.size(); j++) {
+                if (jugadorActual.getCartasCementerio().get(i).getId() == cartasARevivir.get(j).getId()) {
+                    jugadorActual.getCartasCementerio().get(i).setEnCementerio(false);
+                    jugadorActual.getCartasCementerio().get(i).setEnMano(true);
+                }
+            }
+
+        }
+
     }
 
-    private void reiniciarEfectoIguanaManualmente(Jugador jugadorActual) {
+    public void reiniciarEfectosManualesDeAnimales(Jugador jugadorActual) {
+        reiniciarEfectoCamaleon(jugadorActual);
+    }
+
+    private void reiniciarEfectoCamaleon(Jugador jugadorActual) {
         for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
             Animal animal = (Animal) carta;
 

@@ -8,7 +8,6 @@ import src.domain.Animal;
 import src.domain.Habilidad;
 import src.domain.Habitat;
 import src.domain.Jugador;
-
 import src.inter.CartaInterface;
 
 import src.repository.CartaRepository;
@@ -44,7 +43,7 @@ public class CartaService {
         int cartasMazo = 25;
         int lobos = 3;
         int ratas = 3;
-        int iguanas = 2;
+        int camaleon = 2;
         int mantisOrquideas = 1;
         int alimentos = 9;
         int orquidea = 1;
@@ -86,8 +85,8 @@ public class CartaService {
                         .agregarCartaMazoTerrestre(
                                 animalService.crearAnimalSinEfecto(i, nombre, coste, dano, tipoMazo));
 
-            } else if (iguanas > 0) {
-                nombre = "Iguana";
+            } else if (camaleon > 0) {
+                nombre = "Camaleón";
                 String efecto = "Puede tomar el ataque de un enemigo en reposo y sumarlo al suyo hasta el final del turno.";
 
                 int coste = 3;
@@ -95,7 +94,7 @@ public class CartaService {
                 boolean efectoManual = true;
                 boolean efectoPasivo = false;
 
-                iguanas--;
+                camaleon--;
 
                 cartaRepository
                         .agregarCartaMazoTerrestre(animalService.crearAnimalConEfecto(i, nombre, efecto, coste, dano,
@@ -103,7 +102,7 @@ public class CartaService {
 
             } else if (mantisOrquideas > 0) {
                 nombre = "Mantis Orquídea";
-                String efecto = "Puedes pagar 1 alimento para tomar una carta de tu cementerio y ponerla en tu mano.\n Solo puedes activar este efecto una vez por turno.";
+                String efecto = "Puedes pagar X alimentos para tomar X/2 cartas de tu cementerio y ponerlas en tu mano.\n El número X/2 se redondea al entero más cercano.\n Solo puedes activar este efecto una vez por turno.";
 
                 int coste = 5;
                 int dano = 4;
@@ -193,7 +192,7 @@ public class CartaService {
         int anemona = 2;
         int coraza = 3;
         int captura = 1;
-        int fortalecimiento = 1;
+        int olorASangre = 1;
 
         for (int i = 200; i < cartasMazo + 200; i++) {
             tipoMazo = "Acuático";
@@ -302,13 +301,13 @@ public class CartaService {
                 cartaRepository
                         .agregarCartaMazoAcuatico(habilidadService.crearHabilidad(i, nombre, efecto, coste, tipoMazo));
 
-            } else if (fortalecimiento > 0) {
+            } else if (olorASangre > 0) {
 
                 nombre = "Olor a Sangre";
                 String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. Si tienes un Tiburón Blanco en tu cementerio, puedes revivirlo sin pagar su coste.";
                 int coste = 6;
 
-                fortalecimiento--;
+                olorASangre--;
                 cartaRepository
                         .agregarCartaMazoAcuatico(habilidadService.crearHabilidad(i, nombre, efecto, coste, tipoMazo));
             }
@@ -609,6 +608,21 @@ public class CartaService {
             }
         }
         return copiasCarta;
+    }
+
+    public int devolverCantidadCartasARevivirPorCantidadAlimentos(int alimentosAConsumir) {
+        return Math.round(alimentosAConsumir / 2);
+    }
+
+    public CartaInterface devolverCartaSeleccionadoPorId(List<CartaInterface> zonaAInspeccionar, Integer id) {
+
+        for (CartaInterface carta : zonaAInspeccionar) {
+            if (carta.getId() == id) {
+                return carta;
+            }
+        }
+
+        return null;
     }
 
 }
