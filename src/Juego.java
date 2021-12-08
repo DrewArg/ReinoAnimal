@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import src.domain.Animal;
 import src.domain.Jugador;
 
 import src.inter.CartaInterface;
@@ -796,8 +797,7 @@ public class Juego {
                                                                                         id);
                                                         animalService.activarEfectoCamaleonManualmente(
                                                                         animalConEfectoManual,
-                                                                        animalEnemigoElegido,
-                                                                        cartaService);
+                                                                        animalEnemigoElegido);
                                                 }
                                         }
 
@@ -893,6 +893,71 @@ public class Juego {
                                         break;
 
                                 case "Pulpo":
+                                        Animal pulpo = (Animal) animalConEfectoManual;
+
+                                        // hacer que el input sea por opciones
+
+                                        int danoAPerder = Integer.parseInt(JOptionPane.showInputDialog(null,
+                                                        "Tu pulpo tiene: " + pulpo.getDano()
+                                                                        + " puntos de daño actualmente."
+                                                                        + ". \n¿Cuántos puntos de daños deseas que pierda?"));
+
+                                        List<CartaInterface> cartasParaMazo = new ArrayList<CartaInterface>();
+                                        List<Integer> idsCartasParaMazo = new ArrayList<Integer>();
+
+                                        for (int i = 0; i < danoAPerder; i++) {
+
+                                                if (cartasParaMazo.size() > 0) {
+                                                        for (CartaInterface carta : cartasParaMazo) {
+                                                                idsCartasParaMazo.add(carta.getId());
+                                                        }
+                                                }
+                                                String descripcionCartasEnCementerio = cartaService
+                                                                .devolverCartasEnZonaComoMensaje(
+                                                                                jugadorActual.getCartasCementerio());
+
+                                                JScrollPane descripcionCartasEnCementerioConScroll = jScrollPaneService
+                                                                .instanciarJScrollPaneParaExpandirMensaje(
+                                                                                new JTextArea(),
+                                                                                descripcionCartasEnCementerio);
+
+                                                List<Integer> listIdsCartasCementerio = cartaService
+                                                                .devolverIDsCartasEnZona(
+                                                                                jugadorActual.getCartasCementerio());
+
+                                                listIdsCartasCementerio.removeAll(idsCartasParaMazo);
+
+                                                Object[] arrayIdsCartasCementerio = listIdsCartasCementerio
+                                                                .toArray();
+
+                                                Integer cartaSeleccionada = JOptionPane
+                                                                .showOptionDialog(null,
+                                                                                descripcionCartasEnCementerioConScroll,
+                                                                                "Cartas en tu cementerio",
+                                                                                JOptionPane.DEFAULT_OPTION,
+                                                                                JOptionPane.QUESTION_MESSAGE,
+                                                                                null,
+                                                                                arrayIdsCartasCementerio,
+                                                                                0);
+
+                                                for (Integer id : listIdsCartasCementerio) {
+                                                        if (arrayIdsCartasCementerio[cartaSeleccionada] == id) {
+                                                                CartaInterface cartaActual = cartaService
+                                                                                .devolverCartaSeleccionadoPorId(
+                                                                                                jugadorActual.getCartasCementerio(),
+                                                                                                id);
+                                                                cartasParaMazo.add(cartaActual);
+
+                                                        }
+                                                }
+
+                                        }
+
+                                        animalService.activarEfectoPulpoManualmente(animalConEfectoManual, danoAPerder,
+                                                        jugadorActual, cartasParaMazo);
+
+                                        jugadorActual.mezclarMazo();
+
                                         break;
 
                                 case "Tiburón Blanco":

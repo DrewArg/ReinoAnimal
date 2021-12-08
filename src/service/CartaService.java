@@ -225,7 +225,7 @@ public class CartaService {
 
             } else if (pulpos > 0) {
                 nombre = "Pulpo";
-                String efecto = "Puede perder X puntos de daño hasta tu próximo turno para devolver X cartas del cementerio al mazo.";
+                String efecto = "Pulpo puede perder X puntos de daño hasta tu próximo turno para devolver X cartas del cementerio al mazo.";
 
                 int coste = 4;
                 int dano = 3;

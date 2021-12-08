@@ -201,20 +201,39 @@ public class AnimalService {
 
     }
 
-    public void activarEfectoCamaleonManualmente(CartaInterface camaleonElegido,
-            CartaInterface animalEnemigoElegido,
-            CartaService cartaService) {
-        Animal camaleon = (Animal) camaleonElegido;
+    public void activarEfectoPulpoManualmente(CartaInterface animalConEfectoManual, int danoAPerder,
+            Jugador jugadorActual,
+            List<CartaInterface> cartasParaMazo) {
+
+        Animal pulpo = (Animal) animalConEfectoManual;
+
+        pulpo.setDano(pulpo.getDano() - danoAPerder);
+
+        for (int i = 0; i < jugadorActual.getCartasCementerio().size(); i++) {
+            for (int j = 0; j < cartasParaMazo.size(); j++) {
+                if (jugadorActual.getCartasCementerio().get(i).getId() == cartasParaMazo.get(j).getId()) {
+                    jugadorActual.getCartasCementerio().get(i).setEnMazo(true);
+                    jugadorActual.getCartasCementerio().get(i).setEnCementerio(false);
+                }
+            }
+        }
+
+        pulpo.setEfectoActivo(true);
+    }
+
+    public void activarEfectoCamaleonManualmente(CartaInterface animalConEfectoManual,
+            CartaInterface animalEnemigoElegido) {
+        Animal camaleon = (Animal) animalConEfectoManual;
         Animal animalEnemigo = (Animal) animalEnemigoElegido;
 
         camaleon.setDano(camaleon.getDanoOriginal() + animalEnemigo.getDano());
         camaleon.setEfectoActivo(true);
     }
 
-    public void activarEfectoMantisOrquideaManualmente(CartaInterface mantisElegida, Jugador jugadorActual,
+    public void activarEfectoMantisOrquideaManualmente(CartaInterface animalConEfectoManual, Jugador jugadorActual,
             int alimentosAConsumir, AlimentoService alimentoService, List<CartaInterface> cartasARevivir) {
 
-        Animal mantis = (Animal) mantisElegida;
+        Animal mantis = (Animal) animalConEfectoManual;
 
         alimentoService.consumirAlimentosEnReserva(jugadorActual, alimentosAConsumir);
 
