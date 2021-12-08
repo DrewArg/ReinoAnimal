@@ -870,13 +870,14 @@ public class Juego {
                                                                                                         jugadorActual.getCartasCementerio(),
                                                                                                         id);
                                                                         cartasARevivir.add(cartaActual);
-                                                                        
+
                                                                 }
                                                         }
 
                                                 }
 
                                                 animalService.activarEfectoMantisOrquideaManualmente(
+                                                                animalConEfectoManual,
                                                                 jugadorActual,
                                                                 alimentosAConsumir, alimentoService,
                                                                 cartasARevivir);
