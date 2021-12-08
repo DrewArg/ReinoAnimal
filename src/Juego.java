@@ -718,175 +718,189 @@ public class Juego {
         }
 
         private void activarEfectoAnimalEnReposo(Jugador jugadorActual, Jugador jugadorEnemigo) {
-                String descripcionAnimalesReposoConEfectoManual = cartaService
-                                .devolverDescripcionAnimalesEnReposoConEfectoManual(
-                                                jugadorActual.getAnimalesEnReposo());
 
-                JScrollPane descripcionConScrollPane = jScrollPaneService
-                                .instanciarJScrollPaneParaExpandirMensaje(
-                                                new JTextArea(),
-                                                descripcionAnimalesReposoConEfectoManual);
+                if (jugadorActual.getAnimalesEnReposo().size() == 0) {
+                        JOptionPane.showMessageDialog(null,
+                                        "Actualmente no hay cartas en esta zona de juego.",
+                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
+                } else {
 
-                List<Integer> idsAnimalesReposoConEfectoManual = animalService
-                                .devolverIdsAnimalesEnReposoConEfectoManual(
-                                                jugadorActual);
+                        String descripcionAnimalesReposoConEfectoManual = cartaService
+                                        .devolverDescripcionAnimalesEnReposoConEfectoManual(
+                                                        jugadorActual.getAnimalesEnReposo());
 
-                Object[] arrayAnimalesEnReposoConEfectoManual = idsAnimalesReposoConEfectoManual
-                                .toArray();
+                        JScrollPane descripcionConScrollPane = jScrollPaneService
+                                        .instanciarJScrollPaneParaExpandirMensaje(
+                                                        new JTextArea(),
+                                                        descripcionAnimalesReposoConEfectoManual);
 
-                Integer cartaElegida = JOptionPane.showOptionDialog(null,
-                                descripcionConScrollPane,
-                                "Activar Efecto Animal Manualmente",
-                                JOptionPane.DEFAULT_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE,
-                                null, arrayAnimalesEnReposoConEfectoManual, 0);
+                        List<Integer> idsAnimalesReposoConEfectoManual = animalService
+                                        .devolverIdsAnimalesEnReposoConEfectoManual(
+                                                        jugadorActual);
 
-                CartaInterface animalConEfectoManual = null;
+                        Object[] arrayAnimalesEnReposoConEfectoManual = idsAnimalesReposoConEfectoManual
+                                        .toArray();
 
-                for (Integer id : idsAnimalesReposoConEfectoManual) {
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null,
+                                        descripcionConScrollPane,
+                                        "Activar Efecto Animal Manualmente",
+                                        JOptionPane.DEFAULT_OPTION,
+                                        JOptionPane.INFORMATION_MESSAGE,
+                                        null, arrayAnimalesEnReposoConEfectoManual, 0);
 
-                        if (arrayAnimalesEnReposoConEfectoManual[cartaElegida] == id) {
-                                animalConEfectoManual = animalService
-                                                .devolverAnimalSeleccionadoPorId(
-                                                                jugadorActual.getAnimalesEnReposo(),
-                                                                id);
+                        CartaInterface animalConEfectoManual = null;
+
+                        for (Integer id : idsAnimalesReposoConEfectoManual) {
+
+                                if (arrayAnimalesEnReposoConEfectoManual[cartaElegida] == id) {
+                                        animalConEfectoManual = animalService
+                                                        .devolverAnimalSeleccionadoPorId(
+                                                                        jugadorActual.getAnimalesEnReposo(),
+                                                                        id);
+                                }
                         }
-                }
 
-                switch (animalConEfectoManual.getNombre()) {
+                        switch (animalConEfectoManual.getNombre()) {
 
-                        case "Camaleón":
+                                case "Camaleón":
 
-                                String descripcionAnimalesEnemigosEnReposo = cartaService
-                                                .devolverCartasEnZonaComoMensaje(
-                                                                jugadorEnemigo.getAnimalesEnReposo());
+                                        String descripcionAnimalesEnemigosEnReposo = cartaService
+                                                        .devolverCartasEnZonaComoMensaje(
+                                                                        jugadorEnemigo.getAnimalesEnReposo());
 
-                                List<Integer> idsAnimalesEnemigosEnReposo = animalService
-                                                .devolverIdsAnimalesEnReposo(
-                                                                jugadorEnemigo);
+                                        List<Integer> idsAnimalesEnemigosEnReposo = animalService
+                                                        .devolverIdsAnimalesEnReposo(
+                                                                        jugadorEnemigo);
 
-                                Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
-                                                .toArray();
+                                        Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
+                                                        .toArray();
 
-                                Integer animalSeleccionado = JOptionPane
-                                                .showOptionDialog(null,
-                                                                "¿De qué animal enemigo en reposo quieres tomar el ataque? \n"
-                                                                                + descripcionAnimalesEnemigosEnReposo,
-                                                                "Activar efecto Iguana",
-                                                                JOptionPane.DEFAULT_OPTION,
-                                                                JOptionPane.QUESTION_MESSAGE,
-                                                                null,
-                                                                arrayAnimalesEnemigosEnReposo,
-                                                                0);
+                                        Integer animalSeleccionado = JOptionPane
+                                                        .showOptionDialog(null,
+                                                                        "¿De qué animal enemigo en reposo quieres tomar el ataque? \n"
+                                                                                        + descripcionAnimalesEnemigosEnReposo,
+                                                                        "Activar efecto Iguana",
+                                                                        JOptionPane.DEFAULT_OPTION,
+                                                                        JOptionPane.QUESTION_MESSAGE,
+                                                                        null,
+                                                                        arrayAnimalesEnemigosEnReposo,
+                                                                        0);
 
-                                CartaInterface animalEnemigoElegido = null;
+                                        CartaInterface animalEnemigoElegido = null;
 
-                                for (Integer id : idsAnimalesEnemigosEnReposo) {
-                                        if (arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id) {
-                                                animalEnemigoElegido = animalService
-                                                                .devolverAnimalSeleccionadoPorId(
-                                                                                jugadorEnemigo.getAnimalesEnReposo(),
-                                                                                id);
-                                                animalService.activarEfectoCamaleonManualmente(
-                                                                animalConEfectoManual,
-                                                                animalEnemigoElegido,
-                                                                cartaService);
-                                        }
-                                }
-
-                                break;
-
-                        case "Mantis Orquídea":
-                                int cantidadAlimentosActuales = alimentoService
-                                                .devolverCantidadAlimentosReserva(
-                                                                jugadorActual);
-
-                                // que el ingreso sea basado en opciones
-                                int alimentosAConsumir = Integer.parseInt(
-                                                JOptionPane.showInputDialog(null,
-                                                                "Actualmente tienes "
-                                                                                + cantidadAlimentosActuales
-                                                                                + " alimentos en tu reserva. ¿Qué cantidad deseas consumir?"));
-
-                                if (alimentosAConsumir <= cantidadAlimentosActuales) {
-                                        int cantidadCartasARevivir = cartaService
-                                                        .devolverCantidadCartasARevivirPorCantidadAlimentos(
-                                                                        alimentosAConsumir);
-
-                                        JOptionPane.showMessageDialog(null,
-                                                        "Con esta cantidad de alimentos, vas a poder revivir "
-                                                                        + cantidadCartasARevivir
-                                                                        + " cartas de tu cementerio.");
-
-                                        List<CartaInterface> cartasARevivir = new ArrayList<CartaInterface>();
-                                        List<Integer> idsCartasARevivir = new ArrayList<Integer>();
-
-                                        for (int i = 0; i < cantidadCartasARevivir; i++) {
-
-                                                if (cartasARevivir.size() > 0) {
-
-                                                        for (CartaInterface carta : cartasARevivir) {
-                                                                idsCartasARevivir.add(carta.getId());
-                                                        }
+                                        for (Integer id : idsAnimalesEnemigosEnReposo) {
+                                                if (arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id) {
+                                                        animalEnemigoElegido = animalService
+                                                                        .devolverAnimalSeleccionadoPorId(
+                                                                                        jugadorEnemigo.getAnimalesEnReposo(),
+                                                                                        id);
+                                                        animalService.activarEfectoCamaleonManualmente(
+                                                                        animalConEfectoManual,
+                                                                        animalEnemigoElegido,
+                                                                        cartaService);
                                                 }
-                                                String descripcionCartasEnCementerio = cartaService
-                                                                .devolverCartasEnZonaComoMensaje(
-                                                                                jugadorActual.getCartasCementerio());
-
-                                                JScrollPane descripcionCartasEnCementerioConScroll = jScrollPaneService
-                                                                .instanciarJScrollPaneParaExpandirMensaje(
-                                                                                new JTextArea(),
-                                                                                descripcionCartasEnCementerio);
-
-                                                List<Integer> listIdsCartasCementerio = cartaService
-                                                                .devolverIDsCartasEnZona(
-                                                                                jugadorActual.getCartasCementerio());
-
-                                                listIdsCartasCementerio.removeAll(idsCartasARevivir);
-
-                                                Object[] arrayIdsCartasCementerio = listIdsCartasCementerio.toArray();
-
-                                                Integer cartaSeleccionada = JOptionPane.showOptionDialog(null,
-                                                                descripcionCartasEnCementerioConScroll,
-                                                                "Cartas en tu cementerio", JOptionPane.DEFAULT_OPTION,
-                                                                JOptionPane.QUESTION_MESSAGE, null,
-                                                                arrayIdsCartasCementerio,
-                                                                0);
-
-                                                for (Integer id : listIdsCartasCementerio) {
-                                                        if (arrayIdsCartasCementerio[cartaSeleccionada] == id) {
-                                                                CartaInterface cartaActual = cartaService
-                                                                                .devolverCartaSeleccionadoPorId(
-                                                                                                jugadorActual.getCartasCementerio(),
-                                                                                                id);
-                                                                cartasARevivir.add(cartaActual);
-                                                                break;
-                                                        }
-                                                }
-
                                         }
 
-                                        animalService.activarEfectoMantisOrquideaManualmente(jugadorActual,
-                                                        alimentosAConsumir, alimentoService, cartasARevivir);
+                                        break;
 
-                                } else {
-                                        JOptionPane.showMessageDialog(null,
-                                                        "Actualmente no tienes esa cantidad de alimentos para consumir. ");
-                                }
+                                case "Mantis Orquídea":
+                                        int cantidadAlimentosActuales = alimentoService
+                                                        .devolverCantidadAlimentosReserva(
+                                                                        jugadorActual);
 
-                                break;
+                                        // que el ingreso sea basado en opciones
+                                        int alimentosAConsumir = Integer.parseInt(
+                                                        JOptionPane.showInputDialog(null,
+                                                                        "Actualmente tienes "
+                                                                                        + cantidadAlimentosActuales
+                                                                                        + " alimentos en tu reserva. ¿Qué cantidad deseas consumir?"));
 
-                        case "Tortuga Marina":
-                                break;
+                                        if (alimentosAConsumir <= cantidadAlimentosActuales) {
+                                                int cantidadCartasARevivir = cartaService
+                                                                .devolverCantidadCartasARevivirPorCantidadAlimentos(
+                                                                                alimentosAConsumir);
 
-                        case "Pulpo":
-                                break;
+                                                JOptionPane.showMessageDialog(null,
+                                                                "Con esta cantidad de alimentos, vas a poder revivir "
+                                                                                + cantidadCartasARevivir
+                                                                                + " cartas de tu cementerio.");
 
-                        case "Tiburón Blanco":
-                                break;
+                                                List<CartaInterface> cartasARevivir = new ArrayList<CartaInterface>();
+                                                List<Integer> idsCartasARevivir = new ArrayList<Integer>();
 
-                        default:
-                                break;
+                                                for (int i = 0; i < cantidadCartasARevivir; i++) {
+
+                                                        if (cartasARevivir.size() > 0) {
+                                                                for (CartaInterface carta : cartasARevivir) {
+                                                                        idsCartasARevivir.add(carta.getId());
+                                                                }
+                                                        }
+                                                        String descripcionCartasEnCementerio = cartaService
+                                                                        .devolverCartasEnZonaComoMensaje(
+                                                                                        jugadorActual.getCartasCementerio());
+
+                                                        JScrollPane descripcionCartasEnCementerioConScroll = jScrollPaneService
+                                                                        .instanciarJScrollPaneParaExpandirMensaje(
+                                                                                        new JTextArea(),
+                                                                                        descripcionCartasEnCementerio);
+
+                                                        List<Integer> listIdsCartasCementerio = cartaService
+                                                                        .devolverIDsCartasEnZona(
+                                                                                        jugadorActual.getCartasCementerio());
+
+                                                        listIdsCartasCementerio.removeAll(idsCartasARevivir);
+
+                                                        Object[] arrayIdsCartasCementerio = listIdsCartasCementerio
+                                                                        .toArray();
+
+                                                        Integer cartaSeleccionada = JOptionPane
+                                                                        .showOptionDialog(null,
+                                                                                        descripcionCartasEnCementerioConScroll,
+                                                                                        "Cartas en tu cementerio",
+                                                                                        JOptionPane.DEFAULT_OPTION,
+                                                                                        JOptionPane.QUESTION_MESSAGE,
+                                                                                        null,
+                                                                                        arrayIdsCartasCementerio,
+                                                                                        0);
+
+                                                        for (Integer id : listIdsCartasCementerio) {
+                                                                if (arrayIdsCartasCementerio[cartaSeleccionada] == id) {
+                                                                        CartaInterface cartaActual = cartaService
+                                                                                        .devolverCartaSeleccionadoPorId(
+                                                                                                        jugadorActual.getCartasCementerio(),
+                                                                                                        id);
+                                                                        cartasARevivir.add(cartaActual);
+                                                                        
+                                                                }
+                                                        }
+
+                                                }
+
+                                                animalService.activarEfectoMantisOrquideaManualmente(
+                                                                jugadorActual,
+                                                                alimentosAConsumir, alimentoService,
+                                                                cartasARevivir);
+
+                                        } else {
+                                                JOptionPane.showMessageDialog(null,
+                                                                "Actualmente no tienes esa cantidad de alimentos para consumir. ");
+                                        }
+
+                                        break;
+
+                                case "Tortuga Marina":
+                                        break;
+
+                                case "Pulpo":
+                                        break;
+
+                                case "Tiburón Blanco":
+                                        break;
+
+                                default:
+                                        break;
+                        }
+
                 }
 
         }

@@ -215,13 +215,23 @@ public class AnimalService {
             int alimentosAConsumir, AlimentoService alimentoService, List<CartaInterface> cartasARevivir) {
 
         alimentoService.consumirAlimentosEnReserva(jugadorActual, alimentosAConsumir);
+        System.out.println("");
+        System.out.println("cartas cementerio: " + jugadorActual.getCartasCementerio().size());
+        System.out.println("cartas a revivir: " + cartasARevivir.size());
 
-        for (int i = 1; i <= jugadorActual.getCartasCementerio().size(); i++) {
-
-            for (int j = 1; j <= cartasARevivir.size(); j++) {
+        for (int i = 0; i < jugadorActual.getCartasCementerio().size(); i++) {
+            for (int j = 0; j < cartasARevivir.size(); j++) {
                 if (jugadorActual.getCartasCementerio().get(i).getId() == cartasARevivir.get(j).getId()) {
-                    jugadorActual.getCartasCementerio().get(i).setEnCementerio(false);
+
+                    System.out.println("");
+                    System.out.println("i: " + i);
+                    System.out.println("j: " + j);
+                    System.out.println("ID Cartas a cementerio: " + jugadorActual.getCartasCementerio().get(i).getId());
+                    System.out.println("ID Cartas a revivir: " + cartasARevivir.get(j).getId());
+
                     jugadorActual.getCartasCementerio().get(i).setEnMano(true);
+                    jugadorActual.getCartasCementerio().get(i).setEnCementerio(false);
+
                 }
             }
 
