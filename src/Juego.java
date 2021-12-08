@@ -596,7 +596,7 @@ public class Juego {
         }
 
         private void inspeccionarZonaJuego(Jugador jugadorActual, Jugador jugadorEnemigo) {
-                String[] zonasJuego = { "Mi mano", "Mi Tablero", "Tablero enemigo" };
+                String[] zonasJuego = { "Mi mano", "Mi Tablero", "Tablero enemigo","Volver" };
 
                 int zonaElegida = JOptionPane.showOptionDialog(null, "¿Qué zona de juego quieres inspeccionar?",
                                 "Zonas de Juego", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -613,7 +613,7 @@ public class Juego {
 
                         case 1:
                                 String[] zonasTableroAliado = { "Linea de Reposo", "Linea de Batalla", "Linea de Apoyo",
-                                                "Cementerio", "Alimentos en Reserva", "Alimentos Consumidos" };
+                                                "Cementerio", "Alimentos en Reserva", "Alimentos Consumidos", "Volver" };
                                 int zonaTableroAliadoElegida = JOptionPane.showOptionDialog(null,
                                                 "¿Qué parte de tu tablero quieres inspeccionar?", "Tablero",
                                                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -657,7 +657,7 @@ public class Juego {
                         case 2:
                                 String[] zonasTableroEnemigo = { "Linea de Reposo", "Linea de Batalla",
                                                 "Linea de Apoyo", "Cementerio", "Alimentos en Reserva",
-                                                "Alimentos Consumidos" };
+                                                "Alimentos Consumidos","Volver" };
                                 int zonaTableroEnemigoElegida = JOptionPane.showOptionDialog(null,
                                                 "¿Qué parte del tablero enemigo quieres inspeccionar?", "Tablero",
                                                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -808,99 +808,125 @@ public class Juego {
                                                         .devolverCantidadAlimentosReserva(
                                                                         jugadorActual);
 
-                                        // que el ingreso sea basado en opciones
-                                        int alimentosAConsumir = Integer.parseInt(
-                                                        JOptionPane.showInputDialog(null,
-                                                                        "Actualmente tienes "
-                                                                                        + cantidadAlimentosActuales
-                                                                                        + " alimentos en tu reserva. ¿Qué cantidad deseas consumir?"));
-
-                                        if (alimentosAConsumir <= cantidadAlimentosActuales) {
-                                                int cantidadCartasARevivir = cartaService
-                                                                .devolverCantidadCartasARevivirPorCantidadAlimentos(
-                                                                                alimentosAConsumir);
-
+                                        if (cantidadAlimentosActuales < 2) {
                                                 JOptionPane.showMessageDialog(null,
-                                                                "Con esta cantidad de alimentos, vas a poder revivir "
-                                                                                + cantidadCartasARevivir
-                                                                                + " cartas de tu cementerio.");
+                                                                "Actualmente no tienes la cantidad de alimentos disponibles para activar esta habilidad");
+                                        } else {
 
-                                                List<CartaInterface> cartasARevivir = new ArrayList<CartaInterface>();
-                                                List<Integer> idsCartasARevivir = new ArrayList<Integer>();
+                                                List<Integer> listaAlimentosAConsumir = new ArrayList<Integer>();
 
-                                                for (int i = 0; i < cantidadCartasARevivir; i++) {
-
-                                                        if (cartasARevivir.size() > 0) {
-                                                                for (CartaInterface carta : cartasARevivir) {
-                                                                        idsCartasARevivir.add(carta.getId());
-                                                                }
-                                                        }
-                                                        String descripcionCartasEnCementerio = cartaService
-                                                                        .devolverCartasEnZonaComoMensaje(
-                                                                                        jugadorActual.getCartasCementerio());
-
-                                                        JScrollPane descripcionCartasEnCementerioConScroll = jScrollPaneService
-                                                                        .instanciarJScrollPaneParaExpandirMensaje(
-                                                                                        new JTextArea(),
-                                                                                        descripcionCartasEnCementerio);
-
-                                                        List<Integer> listIdsCartasCementerio = cartaService
-                                                                        .devolverIDsCartasEnZona(
-                                                                                        jugadorActual.getCartasCementerio());
-
-                                                        listIdsCartasCementerio.removeAll(idsCartasARevivir);
-
-                                                        Object[] arrayIdsCartasCementerio = listIdsCartasCementerio
-                                                                        .toArray();
-
-                                                        Integer cartaSeleccionada = JOptionPane
-                                                                        .showOptionDialog(null,
-                                                                                        descripcionCartasEnCementerioConScroll,
-                                                                                        "Cartas en tu cementerio",
-                                                                                        JOptionPane.DEFAULT_OPTION,
-                                                                                        JOptionPane.QUESTION_MESSAGE,
-                                                                                        null,
-                                                                                        arrayIdsCartasCementerio,
-                                                                                        0);
-
-                                                        for (Integer id : listIdsCartasCementerio) {
-                                                                if (arrayIdsCartasCementerio[cartaSeleccionada] == id) {
-                                                                        CartaInterface cartaActual = cartaService
-                                                                                        .devolverCartaSeleccionadoPorId(
-                                                                                                        jugadorActual.getCartasCementerio(),
-                                                                                                        id);
-                                                                        cartasARevivir.add(cartaActual);
-
-                                                                }
-                                                        }
-
+                                                for (int i = 2; i <= cantidadAlimentosActuales; i++) {
+                                                        listaAlimentosAConsumir.add(i);
                                                 }
 
-                                                animalService.activarEfectoMantisOrquideaManualmente(
-                                                                animalConEfectoManual,
-                                                                jugadorActual,
-                                                                alimentosAConsumir, alimentoService,
-                                                                cartasARevivir);
+                                                Object[] arrayAlimentosAConsumir = listaAlimentosAConsumir.toArray();
 
-                                        } else {
-                                                JOptionPane.showMessageDialog(null,
-                                                                "Actualmente no tienes esa cantidad de alimentos para consumir. ");
+                                                int alimentosAConsumir = JOptionPane.showOptionDialog(null,
+                                                                "Actualmente tienes "
+                                                                                + cantidadAlimentosActuales
+                                                                                + " alimentos en tu reserva. ¿Qué cantidad deseas consumir?",
+                                                                "Alimentos a Consumir", JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.QUESTION_MESSAGE, null,
+                                                                arrayAlimentosAConsumir, 0);
+
+                                                alimentosAConsumir += 2;
+
+                                                if (alimentosAConsumir <= cantidadAlimentosActuales) {
+                                                        int cantidadCartasARevivir = cartaService
+                                                                        .devolverCantidadCartasARevivirPorCantidadAlimentos(
+                                                                                        alimentosAConsumir);
+
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "Con esta cantidad de alimentos, vas a poder revivir "
+                                                                                        + cantidadCartasARevivir
+                                                                                        + " cartas de tu cementerio.");
+
+                                                        List<CartaInterface> cartasARevivir = new ArrayList<CartaInterface>();
+                                                        List<Integer> idsCartasARevivir = new ArrayList<Integer>();
+
+                                                        for (int i = 0; i < cantidadCartasARevivir; i++) {
+
+                                                                if (cartasARevivir.size() > 0) {
+                                                                        for (CartaInterface carta : cartasARevivir) {
+                                                                                idsCartasARevivir.add(carta.getId());
+                                                                        }
+                                                                }
+                                                                String descripcionCartasEnCementerio = cartaService
+                                                                                .devolverCartasEnZonaComoMensaje(
+                                                                                                jugadorActual.getCartasCementerio());
+
+                                                                JScrollPane descripcionCartasEnCementerioConScroll = jScrollPaneService
+                                                                                .instanciarJScrollPaneParaExpandirMensaje(
+                                                                                                new JTextArea(),
+                                                                                                descripcionCartasEnCementerio);
+
+                                                                List<Integer> listIdsCartasCementerio = cartaService
+                                                                                .devolverIDsCartasEnZona(
+                                                                                                jugadorActual.getCartasCementerio());
+
+                                                                listIdsCartasCementerio.removeAll(idsCartasARevivir);
+
+                                                                Object[] arrayIdsCartasCementerio = listIdsCartasCementerio
+                                                                                .toArray();
+
+                                                                Integer cartaSeleccionada = JOptionPane
+                                                                                .showOptionDialog(null,
+                                                                                                descripcionCartasEnCementerioConScroll,
+                                                                                                "Cartas en tu cementerio",
+                                                                                                JOptionPane.DEFAULT_OPTION,
+                                                                                                JOptionPane.QUESTION_MESSAGE,
+                                                                                                null,
+                                                                                                arrayIdsCartasCementerio,
+                                                                                                0);
+
+                                                                for (Integer id : listIdsCartasCementerio) {
+                                                                        if (arrayIdsCartasCementerio[cartaSeleccionada] == id) {
+                                                                                CartaInterface cartaActual = cartaService
+                                                                                                .devolverCartaSeleccionadoPorId(
+                                                                                                                jugadorActual.getCartasCementerio(),
+                                                                                                                id);
+                                                                                cartasARevivir.add(cartaActual);
+
+                                                                        }
+                                                                }
+
+                                                        }
+
+                                                        animalService.activarEfectoMantisOrquideaManualmente(
+                                                                        animalConEfectoManual,
+                                                                        jugadorActual,
+                                                                        alimentosAConsumir, alimentoService,
+                                                                        cartasARevivir);
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "Actualmente no tienes esa cantidad de alimentos para consumir. ");
+                                                }
                                         }
-
                                         break;
 
                                 case "Tortuga Marina":
                                         break;
 
                                 case "Pulpo":
+
                                         Animal pulpo = (Animal) animalConEfectoManual;
 
-                                        // hacer que el input sea por opciones
+                                        List<Integer> opcionesDanoPulpo = new ArrayList<Integer>();
+                                        for (int i = 1; i <= pulpo.getDano(); i++) {
+                                                opcionesDanoPulpo.add(i);
+                                        }
 
-                                        int danoAPerder = Integer.parseInt(JOptionPane.showInputDialog(null,
-                                                        "Tu pulpo tiene: " + pulpo.getDano()
-                                                                        + " puntos de daño actualmente."
-                                                                        + ". \n¿Cuántos puntos de daños deseas que pierda?"));
+                                        Object[] arrayOpcionesPulpo = opcionesDanoPulpo.toArray();
+
+                                        int danoAPerder = JOptionPane.showOptionDialog(null, "Tu Pulpo tiene: "
+                                                        + pulpo.getDano()
+                                                        + " puntos de daño actualmente."
+                                                        + ". \n¿Cuántos puntos de daños deseas que pierda?",
+                                                        "Daño Pulpo", JOptionPane.DEFAULT_OPTION,
+                                                        JOptionPane.QUESTION_MESSAGE, null, arrayOpcionesPulpo, 0);
+
+                                        danoAPerder += 1;
 
                                         List<CartaInterface> cartasParaMazo = new ArrayList<CartaInterface>();
                                         List<Integer> idsCartasParaMazo = new ArrayList<Integer>();
