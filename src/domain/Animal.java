@@ -21,6 +21,7 @@ public class Animal implements CartaInterface {
     private boolean enMano;
 
     private boolean efectoActivo;
+    private boolean efectoDefensivo;
 
     public Animal(int id, String nombre, int coste, int dano, String tipoMazo) {
         this.id = id;
@@ -38,7 +39,7 @@ public class Animal implements CartaInterface {
     }
 
     public Animal(int id, String nombre, String efecto, int coste, int dano, String tipoMazo, boolean efectoManual,
-            boolean efectoPasivo) {
+            boolean efectoPasivo, boolean efectoDefensivo) {
         this.id = id;
         this.nombre = nombre;
         this.efecto = efecto;
@@ -47,6 +48,7 @@ public class Animal implements CartaInterface {
         this.tipoMazo = tipoMazo;
         this.efectoManual = efectoManual;
         this.efectoPasivo = efectoPasivo;
+        this.efectoDefensivo = efectoDefensivo;
         danoOrginal = dano;
 
         inicializarFlags();
@@ -165,6 +167,10 @@ public class Animal implements CartaInterface {
 
     public boolean isEfectoPasivo() {
         return efectoPasivo;
+    }
+
+    public boolean isTieneEfectoDefensivo() {
+        return efectoDefensivo;
     }
 
 }

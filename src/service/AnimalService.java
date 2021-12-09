@@ -10,9 +10,9 @@ import src.inter.CartaInterface;
 public class AnimalService {
 
     public Animal crearAnimalConEfecto(int id, String nombre, String efecto, int coste, int dano, String tipoMazo,
-            boolean efectoManual, boolean efectoPasivo) {
+            boolean efectoManual, boolean efectoPasivo, boolean efectoDefensivo) {
 
-        return new Animal(id, nombre, efecto, coste, dano, tipoMazo, efectoManual, efectoPasivo);
+        return new Animal(id, nombre, efecto, coste, dano, tipoMazo, efectoManual, efectoPasivo, efectoDefensivo);
 
     }
 
@@ -72,13 +72,31 @@ public class AnimalService {
         return auxiliar;
     }
 
-    public List<Integer> devolverIdsAnimalesEnReposoConEfectoManual(Jugador jugadorActual) {
+    public List<Integer> devolverIdsAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
         List<Integer> auxiliar = new ArrayList<Integer>();
 
-        for (CartaInterface cartaInterface : jugadorActual.getAnimalesEnReposo()) {
+        for (CartaInterface cartaInterface : zonaAnimal) {
             Animal animal = (Animal) cartaInterface;
             if (animal.isEfectoManual()) {
-                auxiliar.add(animal.getId());
+                if (!animal.isTieneEfectoDefensivo()) {
+                    auxiliar.add(animal.getId());
+                }
+
+            }
+        }
+        return auxiliar;
+    }
+
+    public List<Integer> devolverIdsAnimalesConEfectoManualDefensivo(List<CartaInterface> zonaAnimal) {
+        List<Integer> auxiliar = new ArrayList<Integer>();
+
+        for (CartaInterface cartaInterface : zonaAnimal) {
+            Animal animal = (Animal) cartaInterface;
+            if (animal.isEfectoManual()) {
+                if (animal.isTieneEfectoDefensivo()) {
+                    auxiliar.add(animal.getId());
+                }
+
             }
         }
         return auxiliar;
@@ -95,8 +113,52 @@ public class AnimalService {
         return null;
     }
 
-    public String devolverDescripcionesAnimalesEnReposo(Jugador jugadorActual, CartaService cartaService) {
-        return cartaService.devolverCartasEnZonaComoMensaje(jugadorActual.getAnimalesEnReposo());
+    public String devolverAnimalesEnZonaComoMensajePorCosteMaximo(List<CartaInterface> zonaAInspeccionar,
+            int costeMaximo) {
+
+        if (zonaAInspeccionar.size() == 0) {
+            return "Sin cartas";
+        } else {
+
+            String cartasInspeccionadas = "";
+
+            for (int i = 1; i <= zonaAInspeccionar.size(); i++) {
+
+                CartaInterface carta = zonaAInspeccionar.get(zonaAInspeccionar.size() - i);
+
+                Animal animal = (Animal) carta;
+
+                if (animal.getCoste() <= costeMaximo) {
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                            + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                            + animal.getEfecto() + "\n-----------------------------------------------------";
+                }
+            }
+
+            return cartasInspeccionadas;
+        }
+
+    }
+
+    public List<Integer> devolverIDsAnimalesEnZonaPorCosteMaximo(List<CartaInterface> zonaAInspeccionar,
+            int costeMaximo) {
+
+        List<Integer> auxiliar = new ArrayList<Integer>();
+
+        for (int i = 0; i < zonaAInspeccionar.size(); i++) {
+            CartaInterface carta = zonaAInspeccionar.get(i);
+
+            Animal animalActual = (Animal) carta;
+
+            if (animalActual.getCoste() <= costeMaximo) {
+                auxiliar.add(animalActual.getId());
+            }
+
+        }
+
+        auxiliar.sort((a1, a2) -> (a1.compareTo(a2)));
+
+        return auxiliar;
     }
 
     public int mandarCartasAlCementerioPorAnimalAtacante(Jugador jugador, CartaInterface animalAtacante) {
@@ -201,6 +263,23 @@ public class AnimalService {
 
     }
 
+    public void activarEfectoTortugaMarinaManualmente(CartaInterface animalConEfectoManual, Jugador jugadorActual) {
+
+        Animal tortugaMarina = (Animal) animalConEfectoManual;
+
+        if (tortugaMarina.isEnReposo()) {
+            tortugaMarina.setEnCementerio(true);
+            tortugaMarina.setEnReposo(false);
+
+        } else if (tortugaMarina.isEnBatalla()) {
+            tortugaMarina.setEnCementerio(true);
+            tortugaMarina.setEnBatalla(false);
+        }
+
+        jugadorActual.setPuedeAtacar(false);
+
+    }
+
     public void activarEfectoPulpoManualmente(CartaInterface animalConEfectoManual, int danoAPerder,
             Jugador jugadorActual,
             List<CartaInterface> cartasParaMazo) {
@@ -253,6 +332,31 @@ public class AnimalService {
 
     }
 
+    public void activarEfectoTiburonBlancoManualmente(CartaInterface tiburonSeleccionado,
+            CartaInterface animalAliadoADevorar,
+            CartaInterface animalEnemigoADevorar, Jugador jugadorActual, Jugador jugadorEnemigo) {
+
+        Animal tiburon = (Animal) tiburonSeleccionado;
+        Animal aliado = (Animal) animalAliadoADevorar;
+        Animal enemigo = (Animal) animalEnemigoADevorar;
+
+        aliado.setEnCementerio(true);
+        aliado.setEnReposo(false);
+
+        if (enemigo.isEnReposo()) {
+            enemigo.setEnCementerio(true);
+            enemigo.setEnReposo(false);
+
+        } else if (enemigo.isEnBatalla()) {
+            enemigo.setEnCementerio(true);
+            enemigo.setEnBatalla(false);
+        }
+
+        tiburon.setDano(tiburon.getDanoOriginal() + enemigo.getDano());
+        tiburon.setEfectoActivo(true);
+
+    }
+
     public void reiniciarEfectosManualesDeAnimales(Jugador jugadorActual) {
 
         for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
@@ -260,11 +364,11 @@ public class AnimalService {
             animal.setEfectoActivo(false);
         }
 
-        reiniciarEfectoCamaleon(jugadorActual);
+        reiniciarEfectoSobreDanoAnimal(jugadorActual);
 
     }
 
-    private void reiniciarEfectoCamaleon(Jugador jugadorActual) {
+    private void reiniciarEfectoSobreDanoAnimal(Jugador jugadorActual) {
         for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
             Animal animal = (Animal) carta;
 
@@ -276,31 +380,4 @@ public class AnimalService {
         }
     }
 
-    public void activarManualmenteEfectoAnimal(Jugador jugadorActual, CartaInterface animalConEfectoManual,
-            CartaService cartaService) {
-        Animal animal = (Animal) animalConEfectoManual;
-
-        switch (animal.getNombre()) {
-
-            case "Iguana":
-
-                break;
-
-            case "Mantis Orquídea":
-
-                break;
-
-            case "Tortuga Marina":
-                break;
-
-            case "Pulpo":
-                break;
-
-            case "Tiburón Blanco":
-                break;
-
-            default:
-                break;
-        }
-    }
 }

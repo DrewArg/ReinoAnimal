@@ -10,6 +10,8 @@ public class Jugador {
     private String contrasena;
     private int turno;
 
+    private boolean puedeAtacar;
+
     private List<CartaInterface> cartas;
 
     // idCartas
@@ -18,6 +20,8 @@ public class Jugador {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.cartas = cartas;
+
+        puedeAtacar = true;
     }
 
     public Jugador(String nombre, String contrasena) {
@@ -175,6 +179,14 @@ public class Jugador {
 
         Collections.shuffle(cartas);
 
+    }
+
+    public void setPuedeAtacar(boolean puedeAtacar) {
+        this.puedeAtacar = puedeAtacar;
+    }
+
+    public boolean isPuedeAtacar() {
+        return puedeAtacar;
     }
 
 }
