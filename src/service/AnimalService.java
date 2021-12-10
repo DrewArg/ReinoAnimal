@@ -60,17 +60,16 @@ public class AnimalService {
 
     public boolean existeAnimalEnZonaPorNombre(List<CartaInterface> zonaABuscar, String nombreAnimal) {
         for (CartaInterface carta : zonaABuscar) {
-            Animal animal = (Animal) carta;
-            if (animal.getNombre().equalsIgnoreCase(nombreAnimal)) {
-                return true;
+            if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                if (animal.getNombre().equalsIgnoreCase(nombreAnimal)) {
+                    return true;
+                }
             }
+
         }
 
         return false;
-    }
-
-    public int devolverCantidadAnimalesEnReposo(Jugador jugadorActual) {
-        return jugadorActual.getAnimalesEnReposo().size();
     }
 
     public CartaInterface devolverPrimerAnimalEncontradoPorNombreEnZona(String nombreAnimal,

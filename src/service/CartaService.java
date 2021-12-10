@@ -50,9 +50,9 @@ public class CartaService {
         int alcantarilla = 2;
         int aullido = 3;
         int camuflaje = 1;
-        int enamoramiento = 1;
+        int hechizo = 1;
 
-        for (int i = 100; i < cartasMazo + 100; i++) {
+        for (int i = 100; i <= cartasMazo + 100; i++) {
 
             tipoMazo = "Terrestre";
 
@@ -158,7 +158,7 @@ public class CartaService {
 
             } else if (camuflaje > 0) {
                 nombre = "Camuflaje";
-                String efecto = "En respuesta a que un Camaleón tuyo sea destruido, puedes activar esta habilidad y ponerlo en tu mano.";
+                String efecto = "Si un Camaleón tuyo está en el cementerio, puedes activar esta habilidad y ponerlo en tu mano.";
                 int coste = 3;
 
                 camuflaje--;
@@ -166,13 +166,13 @@ public class CartaService {
                 cartaRepository
                         .agregarCartaMazoTerrestre(habilidadService.crearHabilidad(i, nombre, efecto, coste, tipoMazo));
 
-            } else if (enamoramiento > 0) {
+            } else if (hechizo > 0) {
 
-                nombre = "Enamoramiento";
-                String efecto = "Toma el control de un animal enemigo hasta el fin de este turno.";
+                nombre = "Hechizo";
+                String efecto = "Toma el control de un animal enemigo.";
                 int coste = 6;
 
-                enamoramiento--;
+                hechizo--;
                 cartaRepository
                         .agregarCartaMazoTerrestre(habilidadService.crearHabilidad(i, nombre, efecto, coste, tipoMazo));
             }
@@ -197,7 +197,7 @@ public class CartaService {
         int captura = 1;
         int olorASangre = 1;
 
-        for (int i = 200; i < cartasMazo + 200; i++) {
+        for (int i = 200; i <= cartasMazo + 200; i++) {
             tipoMazo = "Acuático";
 
             if (tortugas > 0) {
@@ -311,7 +311,7 @@ public class CartaService {
             } else if (olorASangre > 0) {
 
                 nombre = "Olor a Sangre";
-                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. Si tienes un Tiburón Blanco en tu cementerio, puedes revivirlo sin pagar su coste.";
+                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. \nSi tienes un Tiburón Blanco en tu cementerio, puedes revivirlo sin pagar su coste.";
                 int coste = 6;
 
                 olorASangre--;
@@ -343,14 +343,6 @@ public class CartaService {
                         alimentoService.consumirAlimentosEnReserva(jugadorActual, costeAnimal);
                         animal.setEnMano(false);
                         animal.setEnReposo(true);
-
-                    } else if (carta instanceof Habilidad) {
-                        Habilidad habilidad = (Habilidad) carta;
-                        int costeHabilidad = habilidad.getCoste();
-
-                        alimentoService.consumirAlimentosEnReserva(jugadorActual, costeHabilidad);
-                        habilidad.setEnMano(false);
-                        habilidad.setEnCementerio(true);
 
                     } else if (carta instanceof Habitat) {
                         Habitat habitat = (Habitat) carta;
@@ -428,12 +420,6 @@ public class CartaService {
                     animal.setSePuedeBajarTablero(true);
                 }
 
-            } else if (carta instanceof Habilidad) {
-                Habilidad habilidad = (Habilidad) carta;
-                if (habilidad.getCoste() <= alimentosDisponibles) {
-                    habilidad.setSePuedeBajarTablero(true);
-                }
-
             } else if (carta instanceof Habitat) {
                 Habitat habitat = (Habitat) carta;
                 if (habitat.getCoste() <= alimentosDisponibles) {
@@ -508,11 +494,6 @@ public class CartaService {
                     auxiliar.add(habitat.getId());
                 }
 
-            } else if (carta instanceof Habilidad) {
-                Habilidad habilidad = (Habilidad) carta;
-                if (habilidad.getCoste() <= alimentosDisponibles) {
-                    auxiliar.add(habilidad.getId());
-                }
             }
         }
 
@@ -606,6 +587,10 @@ public class CartaService {
             return cartasInspeccionadas;
         }
 
+    }
+
+    public int devovlerCantidadCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
+        return zonaAInspeccionar.size();
     }
 
     public int devolverCantidadCopiasCartaPorZona(List<CartaInterface> zonaAInspeccionar, CartaInterface cartaAContar) {
