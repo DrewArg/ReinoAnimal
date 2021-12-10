@@ -228,21 +228,38 @@ public class AnimalService {
 
         if (atacante.getDano() == defensor.getDano()) {
 
-            atacante.setEnBatalla(false);
-            atacante.setEnCementerio(true);
+            if (atacante.isIndestructible() && !defensor.isIndestructible()) {
+                defensor.setEnBatalla(false);
+                defensor.setEnCementerio(true);
 
-            defensor.setEnBatalla(false);
-            defensor.setEnCementerio(true);
+            } else if (defensor.isIndestructible() && !atacante.isIndestructible()) {
+                atacante.setEnBatalla(false);
+                atacante.setEnCementerio(true);
+
+            } else if (!atacante.isIndestructible() && !defensor.isIndestructible()) {
+                atacante.setEnBatalla(false);
+                atacante.setEnCementerio(true);
+                defensor.setEnBatalla(false);
+                defensor.setEnCementerio(true);
+
+            } else if (atacante.isIndestructible() && defensor.isIndestructible()) {
+
+            }
 
         } else if (atacante.getDano() < defensor.getDano()) {
 
-            atacante.setEnBatalla(false);
-            atacante.setEnCementerio(true);
+            if (!atacante.isIndestructible()) {
+                atacante.setEnBatalla(false);
+                atacante.setEnCementerio(true);
+            }
 
         } else if (atacante.getDano() > defensor.getDano()) {
 
-            defensor.setEnBatalla(false);
-            defensor.setEnCementerio(true);
+            if (!defensor.isIndestructible()) {
+                defensor.setEnBatalla(false);
+                defensor.setEnCementerio(true);
+            }
+
         }
 
         return atacante.getDano() - defensor.getDano();
@@ -401,4 +418,74 @@ public class AnimalService {
         }
     }
 
+    public void prohibirAtaqueAnimalPorCantidadTurnos(CartaInterface animalSeleccionado, int cantidadTurnos) {
+        Animal animalActual = (Animal) animalSeleccionado;
+
+        animalActual.setContador(animalActual.getContador() + cantidadTurnos);
+        animalActual.setPuedeBatallar(false);
+    }
+
+    public void permitirAtaqueAnimal(Jugador jugadorActual) {
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animalActual = (Animal) carta;
+            if (!animalActual.isPuedeBatallar()) {
+                if (animalActual.getContador() == 0) {
+                    animalActual.setPuedeBatallar(true);
+                }
+            }
+
+        }
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
+            Animal animalActual = (Animal) carta;
+            if (!animalActual.isPuedeBatallar()) {
+                if (animalActual.getContador() == 0) {
+                    animalActual.setPuedeBatallar(true);
+                }
+            }
+
+        }
+    }
+
+    public void descontarContadorTurnoDeHabilidades(Jugador jugadorActual) {
+
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+            if (animal.getContador() > 0) {
+                if (!auxiliar.contains(animal)) {
+                    auxiliar.add(animal);
+                }
+
+            }
+        }
+
+        for (CartaInterface carta : auxiliar) {
+            Animal animal = (Animal) carta;
+            animal.setContador(animal.getContador() - 1);
+        }
+    }
+
+    public void hacerAnimalIndestructible(CartaInterface animalDestructible) {
+        Animal animal = (Animal) animalDestructible;
+
+        animal.setIndestructible(true);
+    }
+
+    public void removerIndestructibleAnimal(Jugador jugadorActual) {
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+            if (animal.isIndestructible()) {
+                animal.setIndestructible(false);
+            }
+        }
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
+            Animal animal = (Animal) carta;
+            if (animal.isIndestructible()) {
+                animal.setIndestructible(false);
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@ public class Animal implements CartaInterface {
     private int dano;
     private int danoOrginal;
     private String tipoMazo;
+    private int contador;
 
     private boolean sePuedeBajarTablero;
     private boolean enReposo;
@@ -22,6 +23,8 @@ public class Animal implements CartaInterface {
 
     private boolean efectoActivo;
     private boolean efectoDefensivo;
+    private boolean puedeBatallar;
+    private boolean indesctrutible;
 
     public Animal(int id, String nombre, int coste, int dano, String tipoMazo) {
         this.id = id;
@@ -34,6 +37,8 @@ public class Animal implements CartaInterface {
         efectoManual = false;
         efectoPasivo = false;
         danoOrginal = dano;
+        contador = 0;
+        indesctrutible = false;
 
         inicializarFlags();
     }
@@ -50,6 +55,8 @@ public class Animal implements CartaInterface {
         this.efectoPasivo = efectoPasivo;
         this.efectoDefensivo = efectoDefensivo;
         danoOrginal = dano;
+        contador = 0;
+        indesctrutible = false;
 
         inicializarFlags();
 
@@ -66,6 +73,7 @@ public class Animal implements CartaInterface {
         enMano = false;
 
         efectoActivo = false;
+        puedeBatallar = true;
 
     }
 
@@ -171,6 +179,30 @@ public class Animal implements CartaInterface {
 
     public boolean isTieneEfectoDefensivo() {
         return efectoDefensivo;
+    }
+
+    public boolean isPuedeBatallar() {
+        return puedeBatallar;
+    }
+
+    public void setPuedeBatallar(boolean puedeBatallar) {
+        this.puedeBatallar = puedeBatallar;
+    }
+
+    public int getContador() {
+        return contador;
+    }
+
+    public void setContador(int contador) {
+        this.contador = contador;
+    }
+
+    public boolean isIndestructible() {
+        return indesctrutible;
+    }
+
+    public void setIndestructible(boolean indestructible) {
+        this.indesctrutible = indestructible;
     }
 
 }

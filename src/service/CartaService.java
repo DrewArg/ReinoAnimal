@@ -290,7 +290,7 @@ public class CartaService {
 
             } else if (coraza > 0) {
                 nombre = "Coraza";
-                String efecto = "Evita que un animal aliado muera este turno.";
+                String efecto = "Un animal pasa a ser indestructible por este turno.";
                 int coste = 2;
 
                 coraza--;
@@ -311,7 +311,7 @@ public class CartaService {
             } else if (olorASangre > 0) {
 
                 nombre = "Olor a Sangre";
-                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. \nSi tienes un Tiburón Blanco en tu cementerio, puedes revivirlo sin pagar su coste.";
+                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +3 de daño. \nSi tienes un Tiburón Blanco en tu cementerio, puedes ponerlo en reposo sin pagar su coste.";
                 int coste = 6;
 
                 olorASangre--;
@@ -405,6 +405,16 @@ public class CartaService {
 
             }
         }
+    }
+
+    public CartaInterface devolverPrimerCartaEncontradaEnZonaPorNombre(List<CartaInterface> zonaABuscar,
+            String nombreCarta) {
+        for (CartaInterface carta : zonaABuscar) {
+            if (carta.getNombre().equalsIgnoreCase(nombreCarta)) {
+                return carta;
+            }
+        }
+        return null;
     }
 
     public String devolverDescripcionCartasDisponiblesParaBajar(Jugador jugadorActual,
