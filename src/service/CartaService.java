@@ -158,7 +158,7 @@ public class CartaService {
 
             } else if (camuflaje > 0) {
                 nombre = "Camuflaje";
-                String efecto = "En respuesta a que una Iguana tuya sea destruida, puedes activar esta habilidad y evitarlo.";
+                String efecto = "En respuesta a que un Camaleón tuyo sea destruido, puedes activar esta habilidad y ponerlo en tu mano.";
                 int coste = 3;
 
                 camuflaje--;

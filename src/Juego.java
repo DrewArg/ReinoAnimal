@@ -374,6 +374,7 @@ public class Juego {
 
                                         case 1:
                                                 // habilidad
+                                                activarEfectoHabilidad(jugadorActual, jugadorEnemigo);
 
                                                 break;
 
@@ -1267,4 +1268,183 @@ public class Juego {
 
         }
 
+        private void activarEfectoHabilidad(Jugador jugadorActual, Jugador jugadorEnemigo) {
+                int habilidadesEnMano = habilidadService
+                                .devolverCantidadHabilidadesPorZona(jugadorActual.getCartasMano());
+
+                if (habilidadesEnMano == 0) {
+                        JOptionPane.showMessageDialog(null, "Actualmente no tienes ninguna habilidad en tu mano.",
+                                        "Sin habilidades", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                        String descripcionHabilidadesEnMano = cartaService
+                                        .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
+
+                        JScrollPane descripcionHabilidadesEnManoConScroll = jScrollPaneService
+                                        .instanciarJScrollPaneParaExpandirMensaje(new JTextArea(),
+                                                        descripcionHabilidadesEnMano);
+
+                        List<Integer> idsHabilidadesEnMano = habilidadService
+                                        .devolverIdsHabilidadesEnZona(jugadorActual.getCartasMano());
+
+                        Object[] arrayHabilidadesEnMano = habilidadService
+                                        .devolverIdsHabilidadesEnZona(jugadorActual.getCartasMano()).toArray();
+
+                        JOptionPane.showMessageDialog(null, "¿Qué habilidad deseas activar?", "Selección de habilidad",
+                                        JOptionPane.QUESTION_MESSAGE);
+
+                        Integer habilidadSeleccionada = JOptionPane
+                                        .showOptionDialog(null, descripcionHabilidadesEnManoConScroll,
+                                                        "Cartas en tu mano",
+                                                        JOptionPane.DEFAULT_OPTION,
+                                                        JOptionPane.QUESTION_MESSAGE,
+                                                        null,
+                                                        arrayHabilidadesEnMano,
+                                                        0);
+
+                        CartaInterface habilidadElegida = null;
+
+                        for (Integer id : idsHabilidadesEnMano) {
+                                if (arrayHabilidadesEnMano[habilidadSeleccionada] == id) {
+                                        habilidadElegida = habilidadService.devolverHabilidadSeleccionadaoPorId(
+                                                        jugadorActual.getCartasMano(), id);
+                                }
+                        }
+
+                        switch (habilidadElegida.getNombre()) {
+                                case "Aullido":
+                                        String nombreAnimal = "Lobo Gris";
+                                        boolean existeLoboReposo = animalService.existeAnimalEnZonaPorNombre(
+                                                        jugadorActual.getAnimalesEnReposo(), nombreAnimal);
+                                        boolean existeLoboBatalla = animalService.existeAnimalEnZonaPorNombre(
+                                                        jugadorActual.getAnimalesEnBatalla(), nombreAnimal);
+
+                                        if (existeLoboBatalla || existeLoboReposo) {
+
+                                                CartaInterface cartaAContar = null;
+                                                if (existeLoboReposo) {
+                                                        cartaAContar = animalService
+                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                        nombreAnimal,
+                                                                                        jugadorActual.getAnimalesEnReposo());
+                                                } else {
+                                                        cartaAContar = animalService
+                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                        nombreAnimal,
+                                                                                        jugadorActual.getAnimalesEnBatalla());
+                                                }
+
+                                                int lobosMazo = cartaService.devolverCantidadCopiasCartaPorZona(
+                                                                jugadorActual.getCartasMazo(),
+                                                                cartaAContar);
+
+                                                int lobosCementerio = cartaService.devolverCantidadCopiasCartaPorZona(
+                                                                jugadorActual.getCartasCementerio(), cartaAContar);
+
+                                                JOptionPane.showMessageDialog(null,
+                                                                "Lobos Grises disponibles: \nEn mazo: " + lobosMazo
+                                                                                + ".\nEn cementerio: " + lobosCementerio
+                                                                                + ".",
+                                                                nombreAnimal + " disponible",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+
+                                                CartaInterface cartaSeleccionada = null;
+
+                                                if (lobosMazo > 0) {
+                                                        if (lobosCementerio > 0) {
+
+                                                                List<String> seleccionZona = new ArrayList<String>();
+
+                                                                seleccionZona.add("En mazo");
+                                                                seleccionZona.add("En cementerio");
+
+                                                                Object[] arraySeleccionZona = seleccionZona.toArray();
+
+                                                                int zonaSeleccionada = JOptionPane.showOptionDialog(
+                                                                                null,
+                                                                                "¿De qué zona quieres llamar al Lobo Gris?",
+                                                                                "Selección de Zona",
+                                                                                JOptionPane.DEFAULT_OPTION,
+                                                                                JOptionPane.QUESTION_MESSAGE, null,
+                                                                                arraySeleccionZona, 0);
+                                                                if (zonaSeleccionada == 0) {
+
+                                                                        cartaSeleccionada = animalService
+                                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                        nombreAnimal,
+                                                                                                        jugadorActual.getCartasMazo());
+
+                                                                        Animal loboSeleccionado = (Animal) cartaSeleccionada;
+                                                                        loboSeleccionado.setEnMazo(false);
+                                                                        loboSeleccionado.setEnReposo(true);
+
+                                                                } else {
+
+                                                                        cartaSeleccionada = animalService
+                                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                        nombreAnimal,
+                                                                                                        jugadorActual.getCartasCementerio());
+
+                                                                        Animal loboSeleccionado = (Animal) cartaSeleccionada;
+                                                                        loboSeleccionado.setEnCementerio(false);
+                                                                        loboSeleccionado.setEnReposo(true);
+                                                                }
+
+                                                        } else {
+                                                                cartaSeleccionada = animalService
+                                                                                .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                nombreAnimal,
+                                                                                                jugadorActual.getCartasMazo());
+
+                                                                Animal loboSeleccionado = (Animal) cartaSeleccionada;
+                                                                loboSeleccionado.setEnMazo(false);
+                                                                loboSeleccionado.setEnReposo(true);
+
+                                                        }
+                                                } else {
+                                                        cartaSeleccionada = animalService
+                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                        nombreAnimal,
+                                                                                        jugadorActual.getCartasCementerio());
+
+                                                        Animal loboSeleccionado = (Animal) cartaSeleccionada;
+                                                        loboSeleccionado.setEnCementerio(false);
+                                                        loboSeleccionado.setEnReposo(true);
+                                                }
+
+                                        } else {
+                                                JOptionPane.showMessageDialog(null,
+                                                                "Actualmente no tienes ningún Lobo Gris en juego.",
+                                                                "Ausencia de Lobos", JOptionPane.WARNING_MESSAGE);
+                                        }
+
+                                        habilidadElegida.setEnMano(false);
+                                        habilidadElegida.setEnCementerio(true);
+
+                                        break;
+
+                                case "Camuflaje":
+
+                                        break;
+
+                                case "Enamoramiento":
+
+                                        break;
+
+                                case "Olor a Sangre":
+
+                                        break;
+
+                                case "Captura":
+
+                                        break;
+
+                                case "Coraza":
+                                        break;
+                                default:
+                                        break;
+                        }
+
+                }
+        }
 }
