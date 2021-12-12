@@ -24,33 +24,38 @@ public class JugadorService {
         return new Jugador(nombre, contrasena);
     }
 
-    public boolean validarJugador(Jugador jugador) {
-        if (jugadorRepository.validarJugador(jugador)) {
+    public Jugador devolverJugadorValidado(String nombre, String contrasena) {
+        return jugadorRepository.devolverJugadorValidado(nombre, contrasena);
+    }
+
+    public boolean validarJugador(String nombreJugador, String contrasena) {
+        if (jugadorRepository.validarJugador(nombreJugador, contrasena)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public Jugador validarJugadorYDevolverlo(Jugador jugador) {
+    public Jugador validarJugadorYDevolverlo(String nombreJugador, String contrasena) {
 
-        if (jugadorRepository.validarJugador(jugador)) {
-            return jugadorRepository.devolverJugadorValidado(jugador);
+        if (jugadorRepository.validarJugador(nombreJugador, contrasena)) {
+            return jugadorRepository.devolverJugadorValidado(nombreJugador, contrasena);
         }
 
         return null;
     }
 
-    public List<Jugador> validarDosJugadores(Jugador jugador1, Jugador jugador2) {
+    public List<Jugador> validarDosJugadores(String nombreJugador1, String contrasenaJugador1, String nombreJugador2,
+            String contrasenaJugador2) {
 
         List<Jugador> jugadoresPartida = new ArrayList<Jugador>();
 
-        if (jugadorRepository.validarJugador(jugador1)) {
+        if (jugadorRepository.validarJugador(nombreJugador1, contrasenaJugador1)) {
 
-            if (jugadorRepository.validarJugador(jugador2)) {
+            if (jugadorRepository.validarJugador(nombreJugador2, contrasenaJugador2)) {
 
-                jugadoresPartida.add(jugadorRepository.devolverJugadorValidado(jugador1));
-                jugadoresPartida.add(jugadorRepository.devolverJugadorValidado(jugador2));
+                jugadoresPartida.add(jugadorRepository.devolverJugadorValidado(nombreJugador1, contrasenaJugador1));
+                jugadoresPartida.add(jugadorRepository.devolverJugadorValidado(nombreJugador1, contrasenaJugador2));
 
             }
         }

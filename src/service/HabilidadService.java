@@ -57,14 +57,4 @@ public class HabilidadService {
         return auxiliar;
     }
 
-    public CartaInterface devolverHabilidadSeleccionadaoPorId(List<CartaInterface> zona, Integer id) {
-
-        for (CartaInterface carta : zona) {
-            if (carta.getId() == id) {
-                return carta;
-            }
-        }
-
-        return null;
-    }
 }

@@ -74,11 +74,15 @@ public class AnimalService {
 
     public CartaInterface devolverPrimerAnimalEncontradoPorNombreEnZona(String nombreAnimal,
             List<CartaInterface> zona) {
+
         for (CartaInterface carta : zona) {
-            Animal animal = (Animal) carta;
-            if (animal.getNombre().equalsIgnoreCase(nombreAnimal)) {
-                return animal;
+            if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                if (animal.getNombre().equalsIgnoreCase(nombreAnimal)) {
+                    return animal;
+                }
             }
+
         }
         return null;
     }
@@ -91,6 +95,19 @@ public class AnimalService {
         }
 
         return auxiliar;
+    }
+
+    public int devolverCantidadAnimalesConEfectoManual(Jugador jugadorActual) {
+        int cantidadAnimales = 0;
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+            if (animal.isEfectoManual()) {
+                cantidadAnimales++;
+            }
+        }
+
+        return cantidadAnimales;
+
     }
 
     public List<Integer> devolverIdsAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
@@ -182,7 +199,7 @@ public class AnimalService {
         return auxiliar;
     }
 
-    public int mandarCartasAlCementerioPorAnimalAtacante(Jugador jugador, CartaInterface animalAtacante) {
+    public int mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(Jugador jugador, CartaInterface animalAtacante) {
         Animal animal = (Animal) animalAtacante;
 
         if (animal.getDano() >= jugador.getCantidadCartasMazo()) {
@@ -209,7 +226,11 @@ public class AnimalService {
 
         if (calculoDaño >= jugador.getCantidadCartasMazo()) {
             System.out.println("calculo de daño mayor o igual a cartas en mazo");
-            jugador.getCartasMazo().clear();
+
+            for (CartaInterface carta : jugador.getCartasMazo()) {
+                carta.setEnMazo(false);
+                carta.setEnCementerio(true);
+            }
 
         } else {
 

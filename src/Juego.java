@@ -68,19 +68,18 @@ public class Juego {
                                 String contrasenaJugador2 = JOptionPane.showInputDialog(null,
                                                 "Jugador 2, ingresa tu contraseña", "Ingresa tu contraseña.");
 
-                                Jugador jugador1 = jugadorService.crearJugadorYDevolverlo(nombreJugador1,
-                                                contrasenaJugador1);
-
-                                Jugador jugador2 = jugadorService.crearJugadorYDevolverlo(nombreJugador2,
-                                                contrasenaJugador2);
-
-                                List<Jugador> jugadoresPartida = jugadorService.validarDosJugadores(jugador1, jugador2);
+                                List<Jugador> jugadoresPartida = jugadorService.validarDosJugadores(nombreJugador1,
+                                                contrasenaJugador1, nombreJugador2, contrasenaJugador2);
 
                                 if (jugadoresPartida.size() < 2) {
                                         JOptionPane.showMessageDialog(null, "Uno o más datos ingresados son erróneos.",
                                                         "Error en el ingreso", JOptionPane.ERROR_MESSAGE);
 
                                 } else {
+                                        Jugador jugador1 = jugadorService.devolverJugadorValidado(nombreJugador1,
+                                                        contrasenaJugador1);
+                                        Jugador jugador2 = jugadorService.devolverJugadorValidado(nombreJugador2,
+                                                        contrasenaJugador2);
 
                                         iniciarPartida(jugador1, jugador2);
                                 }
@@ -164,9 +163,11 @@ public class Juego {
                                 Jugador jugadorRegistrado = jugadorService.crearJugadorYDevolverlo(
                                                 nombreJugadorRegistrado, contrasenaJugadorRegistrado);
 
-                                if (jugadorService.validarJugador(jugadorRegistrado)) {
+                                if (jugadorService.validarJugador(nombreJugadorRegistrado,
+                                                contrasenaJugadorRegistrado)) {
 
-                                        jugadorRegistrado = jugadorService.validarJugadorYDevolverlo(jugadorRegistrado);
+                                        jugadorRegistrado = jugadorService.validarJugadorYDevolverlo(
+                                                        nombreJugadorRegistrado, contrasenaJugadorRegistrado);
 
                                         String nombreJugadorNuevo = JOptionPane.showInputDialog(null,
                                                         "Jugador nuevo, ingresa tu nombre de usuario.",
@@ -519,7 +520,7 @@ public class Juego {
                                                                 "Sin animales reposando", JOptionPane.WARNING_MESSAGE);
 
                                                 int dañoAnimalAtacante = animalService
-                                                                .mandarCartasAlCementerioPorAnimalAtacante(
+                                                                .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
                                                                                 jugadorEnemigo, animalAtacante);
 
                                                 JOptionPane.showMessageDialog(null,
@@ -741,7 +742,7 @@ public class Juego {
                                                                         animalConEfectoManual, jugadorActual);
 
                                                         int dañoAnimalAtacante = animalService
-                                                                        .mandarCartasAlCementerioPorAnimalAtacante(
+                                                                        .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
                                                                                         jugadorEnemigo, animalAtacante);
 
                                                         JOptionPane.showMessageDialog(null, jugadorEnemigo.getNombre() +
@@ -766,7 +767,7 @@ public class Juego {
                                 } else if (decisionDefensa == 2) {
 
                                         int dañoAnimalAtacante = animalService
-                                                        .mandarCartasAlCementerioPorAnimalAtacante(
+                                                        .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
                                                                         jugadorEnemigo, animalAtacante);
                                         JOptionPane.showMessageDialog(null, jugadorEnemigo.getNombre() +
                                                         " ha botado "
@@ -916,6 +917,11 @@ public class Juego {
                 if (jugadorActual.getAnimalesEnReposo().size() == 0) {
                         JOptionPane.showMessageDialog(null,
                                         "Actualmente no hay cartas en esta zona de juego.",
+                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
+                } else if (animalService.devolverCantidadAnimalesConEfectoManual(jugadorActual) == 0) {
+
+                        JOptionPane.showMessageDialog(null,
+                                        "Actualmente no tienes animales con efecto manual en esta zona de juego.",
                                         "Zona vacia", JOptionPane.WARNING_MESSAGE);
                 } else {
 
@@ -1355,8 +1361,7 @@ public class Juego {
                         List<Integer> idsHabilidadesEnMano = habilidadService
                                         .devolverIdsHabilidadesEnZona(jugadorActual.getCartasMano());
 
-                        Object[] arrayHabilidadesEnMano = habilidadService
-                                        .devolverIdsHabilidadesEnZona(jugadorActual.getCartasMano()).toArray();
+                        Object[] arrayHabilidadesEnMano = idsHabilidadesEnMano.toArray();
 
                         JOptionPane.showMessageDialog(null, "¿Qué habilidad deseas activar?", "Selección de habilidad",
                                         JOptionPane.QUESTION_MESSAGE);
@@ -1374,7 +1379,7 @@ public class Juego {
 
                         for (Integer id : idsHabilidadesEnMano) {
                                 if (arrayHabilidadesEnMano[habilidadSeleccionada] == id) {
-                                        habilidadElegida = habilidadService.devolverHabilidadSeleccionadaoPorId(
+                                        habilidadElegida = cartaService.devolverCartaSeleccionadoPorId(
                                                         jugadorActual.getCartasMano(), id);
                                 }
                         }
@@ -1620,6 +1625,11 @@ public class Juego {
                                                                                         }
                                                                                 }
 
+                                                                                jugadorActual.getAnimalesEnReposo()
+                                                                                                .add(enemigoHechizado);
+                                                                                jugadorEnemigo.getAnimalesEnReposo()
+                                                                                                .remove(enemigoHechizado);
+
                                                                                 break;
 
                                                                         case 1:
@@ -1649,13 +1659,14 @@ public class Juego {
                                                                                         }
                                                                                 }
 
+                                                                                jugadorActual.getAnimalesEnReposo()
+                                                                                                .add(enemigoHechizado);
+                                                                                jugadorEnemigo.getAnimalesEnBatalla()
+                                                                                                .remove(enemigoHechizado);
+
                                                                                 break;
 
                                                                 }
-
-                                                                jugadorActual.getTodasLasCartas().add(enemigoHechizado);
-                                                                jugadorEnemigo.getTodasLasCartas()
-                                                                                .remove(enemigoHechizado);
 
                                                         } else {
 
@@ -1695,8 +1706,9 @@ public class Juego {
                                                                         }
                                                                 }
 
-                                                                jugadorActual.getTodasLasCartas().add(enemigoHechizado);
-                                                                jugadorEnemigo.getTodasLasCartas()
+                                                                jugadorActual.getAnimalesEnReposo()
+                                                                                .add(enemigoHechizado);
+                                                                jugadorEnemigo.getAnimalesEnReposo()
                                                                                 .remove(enemigoHechizado);
 
                                                         }
@@ -1733,17 +1745,20 @@ public class Juego {
                                                                 if (arrayAnimalesBatallaEnemigos[enemigoBatallaElegido] == id) {
                                                                         enemigoHechizado = animalService
                                                                                         .devolverAnimalSeleccionadoPorId(
-                                                                                                        jugadorEnemigo.getAnimalesEnReposo(),
+                                                                                                        jugadorEnemigo.getAnimalesEnBatalla(),
                                                                                                         id);
                                                                 }
                                                         }
 
-                                                        jugadorActual.getTodasLasCartas().add(enemigoHechizado);
-                                                        jugadorEnemigo.getTodasLasCartas().remove(enemigoHechizado);
+                                                        jugadorActual.getAnimalesEnReposo()
+                                                                        .add(enemigoHechizado);
+                                                        jugadorEnemigo.getAnimalesEnBatalla()
+                                                                        .remove(enemigoHechizado);
 
-                                                        habilidad.setEnCementerio(true);
-                                                        habilidad.setEnMano(false);
                                                 }
+
+                                                habilidad.setEnCementerio(true);
+                                                habilidad.setEnMano(false);
 
                                                 break;
 

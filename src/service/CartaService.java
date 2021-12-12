@@ -360,30 +360,53 @@ public class CartaService {
 
     public void regresarTodasLasCartasAlMazo(Jugador jugadorActual) {
 
-        for (CartaInterface carta : jugadorActual.getTodasLasCartas()) {
-
+        for (CartaInterface carta : jugadorActual.getCartasMano()) {
             carta.setEnMazo(true);
-
             carta.setEnMano(false);
-            carta.setEnCementerio(false);
-
-            if (carta instanceof Animal) {
-                Animal animal = (Animal) carta;
-                animal.setEnBatalla(false);
-                animal.setEnReposo(false);
-
-            } else if (carta instanceof Alimento) {
-                Alimento alimento = (Alimento) carta;
-                alimento.setEnAlimentoConsumidos(false);
-                alimento.setEnReservaDeAlimentos(false);
-
-            } else if (carta instanceof Habitat) {
-                Habitat habitat = (Habitat) carta;
-                habitat.setEnLineaApoyo(false);
-
-            }
-
+            
         }
+
+        for (CartaInterface carta : jugadorActual.getCartasCementerio()) {
+            carta.setEnMazo(true);
+            carta.setEnCementerio(false);
+           
+        }
+
+        for (CartaInterface carta : jugadorActual.getAlimentosConsumidos()) {
+            Alimento alimento = (Alimento) carta;
+            alimento.setEnMazo(true);
+            alimento.setEnAlimentoConsumidos(false);
+           
+        }
+
+        for (CartaInterface carta : jugadorActual.getAlimentosEnReserva()) {
+            Alimento alimento = (Alimento) carta;
+            alimento.setEnMazo(true);
+            alimento.setEnReservaDeAlimentos(false);
+           
+        }
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
+            Animal animal = (Animal) carta;
+            animal.setEnMazo(true);
+            animal.setEnBatalla(false);
+           
+        }
+
+        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
+            Animal animal = (Animal) carta;
+            animal.setEnMazo(true);
+            animal.setEnReposo(false);
+         
+        }
+
+        for (CartaInterface carta : jugadorActual.getHabitatsEnApoyo()) {
+            Habitat habitat = (Habitat) carta;
+            habitat.setEnMazo(true);
+            habitat.setEnLineaApoyo(false);
+       
+        }
+
     }
 
     public void robarCartasDelMazo(Jugador jugadorActual, int cantidadCartas) {

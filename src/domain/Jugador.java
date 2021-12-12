@@ -14,8 +14,6 @@ public class Jugador {
 
     private List<CartaInterface> cartas;
 
-    // idCartas
-
     public Jugador(String nombre, String contrasena, List<CartaInterface> cartas) {
         this.nombre = nombre;
         this.contrasena = contrasena;
@@ -39,10 +37,6 @@ public class Jugador {
 
     public int getCantidadCartasMazo() {
         return getCartasMazo().size();
-    }
-
-    public List<CartaInterface> getTodasLasCartas() {
-        return cartas;
     }
 
     public List<CartaInterface> getCartasMazo() {

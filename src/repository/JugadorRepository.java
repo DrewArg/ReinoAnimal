@@ -13,25 +13,21 @@ public class JugadorRepository {
         jugadores.add(jugador);
     }
 
-    public void eliminarJugador(Jugador jugador) {
-        jugadores.remove(jugador);
-    }
-
-    public boolean validarJugador(Jugador jugadorActual) {
+    public boolean validarJugador(String nombreJugador, String contrasena) {
 
         for (Jugador jugador : jugadores) {
-            if (jugador.getNombre().equalsIgnoreCase(jugadorActual.getNombre())
-                    && jugador.getContrasena().equalsIgnoreCase(jugadorActual.getContrasena())) {
+            if (jugador.getNombre().equalsIgnoreCase(nombreJugador)
+                    && jugador.getContrasena().equalsIgnoreCase(contrasena)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Jugador devolverJugadorValidado(Jugador jugadorActual) {
+    public Jugador devolverJugadorValidado(String nombreJugador, String contrasena) {
         for (Jugador jugador : jugadores) {
-            if (jugador.getNombre().equalsIgnoreCase(jugadorActual.getNombre())
-                    && jugador.getContrasena().equalsIgnoreCase(jugadorActual.getContrasena())) {
+            if (jugador.getNombre().equalsIgnoreCase(nombreJugador)
+                    && jugador.getContrasena().equalsIgnoreCase(contrasena)) {
                 return jugador;
             }
         }
@@ -51,8 +47,7 @@ public class JugadorRepository {
         return jugadores;
     }
 
-
-    //este metodo hay que repensarlo
+    // este metodo hay que repensarlo
     public int getCantidadJugadores() {
         return jugadores.size();
     }
