@@ -914,11 +914,8 @@ public class Juego {
 
         private void activarEfectoAnimalEnReposo(Jugador jugadorActual, Jugador jugadorEnemigo) {
 
-                if (jugadorActual.getAnimalesEnReposo().size() == 0) {
-                        JOptionPane.showMessageDialog(null,
-                                        "Actualmente no hay cartas en esta zona de juego.",
-                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
-                } else if (animalService.devolverCantidadAnimalesConEfectoManual(jugadorActual) == 0) {
+                if (animalService.devolverCantidadAnimalesConEfectoManualPorZona(
+                                jugadorActual.getAnimalesEnReposo()) == 0) {
 
                         JOptionPane.showMessageDialog(null,
                                         "Actualmente no tienes animales con efecto manual en esta zona de juego.",

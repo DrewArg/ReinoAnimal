@@ -97,13 +97,17 @@ public class AnimalService {
         return auxiliar;
     }
 
-    public int devolverCantidadAnimalesConEfectoManual(Jugador jugadorActual) {
+    public int devolverCantidadAnimalesConEfectoManualPorZona(List<CartaInterface> zona) {
         int cantidadAnimales = 0;
-        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
-            Animal animal = (Animal) carta;
-            if (animal.isEfectoManual()) {
-                cantidadAnimales++;
+        
+        for (CartaInterface carta : zona) {
+            if (carta instanceof Animal) {
+                Animal animal = (Animal) carta;
+                if (animal.isEfectoManual()) {
+                    cantidadAnimales++;
+                }
             }
+
         }
 
         return cantidadAnimales;
@@ -212,8 +216,12 @@ public class AnimalService {
         } else {
 
             for (int i = 1; i <= animal.getDano(); i++) {
-                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
-                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnCementerio(true);
+                if (jugador.getCantidadCartasMazo() == 0) {
+
+                } else {
+                    jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnCementerio(true);
+                    jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
+                }
 
             }
 
@@ -235,8 +243,8 @@ public class AnimalService {
         } else {
 
             for (int i = 1; i <= calculoDaño; i++) {
-                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
                 jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnCementerio(true);
+                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
 
             }
 

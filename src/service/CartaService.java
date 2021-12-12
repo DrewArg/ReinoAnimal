@@ -552,6 +552,7 @@ public class CartaService {
     public String devolverDescripcionAnimalesEnReposoConEfectoManualOfensivo(List<CartaInterface> lineaReposo) {
         if (lineaReposo.size() == 0) {
             return "Sin cartas";
+            
         } else {
             String cartasInspeccionadas = "";
 
