@@ -87,32 +87,6 @@ public class AnimalService {
         return null;
     }
 
-    public String devolverDescripcionAnimalesEnReposoConEfectoManualOfensivo(List<CartaInterface> lineaReposo) {
-        if (lineaReposo.size() == 0) {
-            return "Sin cartas";
-
-        } else {
-            String cartasInspeccionadas = "";
-
-            for (int i = 1; i <= lineaReposo.size(); i++) {
-
-                CartaInterface carta = lineaReposo.get(lineaReposo.size() - i);
-
-                Animal animal = (Animal) carta;
-                if (!animal.isTieneEfectoDefensivo()) {
-                    if (animal.isEfectoManual()) {
-                        cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n"
-                                + animal.getNombre()
-                                + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
-                                + animal.getEfecto() + "\n-----------------------------------------------------";
-                    }
-                }
-
-            }
-            return cartasInspeccionadas;
-        }
-    }
-
     public int devolverCantidadAnimalesConEfectoManualPorZona(List<CartaInterface> zona) {
         int cantidadAnimales = 0;
 
@@ -158,6 +132,22 @@ public class AnimalService {
             }
         }
         return auxiliar;
+    }
+
+    public String devolverDescripcionAnimalesConEfectoManualOfensivo(List<CartaInterface>zonaAnimal){
+        String cartasInspeccionadas = "";
+        for (CartaInterface cartaInterface : zonaAnimal) {
+            Animal animal = (Animal) cartaInterface;
+            if (animal.isEfectoManual()) {
+                if (!animal.isTieneEfectoDefensivo()) {
+                   cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                    + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                    + animal.getEfecto() + "\n-----------------------------------------------------";
+                }
+
+            }
+        }
+        return cartasInspeccionadas;
     }
 
     public CartaInterface devolverAnimalSeleccionadoPorId(List<CartaInterface> zonaAInspeccionar, Integer id) {

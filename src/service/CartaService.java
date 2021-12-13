@@ -440,6 +440,15 @@ public class CartaService {
         return null;
     }
 
+    public int devolverCantidadCartasPorZona(List<CartaInterface> zona) {
+        int contador = 0;
+        for (CartaInterface cartaInterface : zona) {
+            contador++;
+        }
+
+        return contador;
+    }
+
     public String devolverDescripcionCartasDisponiblesParaBajar(Jugador jugadorActual,
             int alimentosDisponibles) {
 
@@ -615,7 +624,7 @@ public class CartaService {
         return Math.round(alimentosAConsumir / 2);
     }
 
-    public CartaInterface devolverCartaSeleccionadoPorId(List<CartaInterface> zonaAInspeccionar, Integer id) {
+    public CartaInterface devolverCartaSeleccionadaPorId(List<CartaInterface> zonaAInspeccionar, Integer id) {
 
         for (CartaInterface carta : zonaAInspeccionar) {
             if (carta.getId() == id) {
