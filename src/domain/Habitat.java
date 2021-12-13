@@ -15,6 +15,8 @@ public class Habitat implements CartaInterface {
     private boolean enCementerio;
     private boolean enMano;
 
+    private boolean efectoActivo;
+
     public Habitat(int id, String nombre, String efecto, int coste, String tipoMazo) {
         this.id = id;
         this.nombre = nombre;
@@ -33,7 +35,7 @@ public class Habitat implements CartaInterface {
         enLineaApoyo = false;
 
         enMano = false;
-
+        efectoActivo = false;
     }
 
     public int getId() {
@@ -98,6 +100,14 @@ public class Habitat implements CartaInterface {
 
     public void setEnMano(boolean enMano) {
         this.enMano = enMano;
+    }
+
+    public boolean isEfectoActivo(){
+        return efectoActivo;
+    }
+
+    public void setEfectoActivo(boolean efectoActivo){
+        this.efectoActivo=efectoActivo;
     }
 
 }

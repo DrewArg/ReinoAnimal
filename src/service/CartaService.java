@@ -40,12 +40,12 @@ public class CartaService {
         String nombre;
         String tipoMazo;
 
-        int cartasMazo = 25;
+        int cartasMazo = 30;
         int lobos = 3;
         int ratas = 3;
         int camaleon = 2;
         int mantisOrquideas = 1;
-        int alimentos = 9;
+        int alimentos = 14;
         int orquidea = 1;
         int alcantarilla = 2;
         int aullido = 3;
@@ -185,12 +185,12 @@ public class CartaService {
         String nombre;
         String tipoMazo;
 
-        int cartasMazo = 25;
+        int cartasMazo = 30;
         int tortugas = 3;
         int pecesPayaso = 3;
         int pulpos = 2;
         int tiburonesBlancos = 1;
-        int alimentos = 9;
+        int alimentos = 14;
         int costa = 1;
         int anemona = 2;
         int coraza = 3;
@@ -269,7 +269,7 @@ public class CartaService {
             } else if (costa > 0) {
                 nombre = "Costa";
                 // reveeer efecto
-                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal que haya devorado hasta ser destruido.";
+                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal que haya devorado hasta ser destruido.Si tienes un Tiburón Blanco en juego, puedes consumir 5 alimentos para activar su efecto una segunda vez este turno";
                 int coste = 6;
 
                 costa--;
@@ -549,7 +549,7 @@ public class CartaService {
         return auxiliar;
     }
 
-            public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
+    public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
 
         if (zonaAInspeccionar.size() == 0) {
             return "Sin cartas";

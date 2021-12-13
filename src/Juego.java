@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 
 import src.domain.Animal;
 import src.domain.Habilidad;
+import src.domain.Habitat;
 import src.domain.Jugador;
 
 import src.inter.CartaInterface;
@@ -233,7 +234,7 @@ public class Juego {
                 jugador2.mezclarMazo();
 
                 JOptionPane.showMessageDialog(null,
-                                "Ambos jugadores arracan con 25 cartas en su mazo, el jugador/a que se quede sin cartas en su mazo, perderá.",
+                                "Ambos jugadores arracan con 30 cartas en su mazo, el jugador/a que se quede sin cartas en su mazo, perderá.",
                                 "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
 
                 JOptionPane.showMessageDialog(null, "Ambos jugadores roban su mano inicial.", "Primer Turno",
@@ -296,7 +297,7 @@ public class Juego {
         }
 
         private void iniciarSegundoTurno(Jugador jugadorActual) {
-                String[] opcionesTurno = { "Bajar una carta", "Activar un efecto", "Pasar" };
+                String[] opcionesTurno = { "Ver Mano", "Bajar una carta", "Activar un efecto", "Pasar" };
 
                 int opcionElegida = JOptionPane.showOptionDialog(null,
                                 "Turno" + jugadorActual.getTurno() + "- ¿" + jugadorActual.getNombre()
@@ -304,11 +305,30 @@ public class Juego {
                                 "Turno " + jugadorActual.getTurno(), JOptionPane.DEFAULT_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, opcionesTurno, 2);
 
-                while (opcionElegida != 2) {
+                while (opcionElegida != 3) {
                         if (opcionElegida == 0) {
+                                String descripcionCartasMano = cartaService
+                                                .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
+                                if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
+                                        JOptionPane.showMessageDialog(null,
+                                                        "Actualmente no hay cartas en esta zona de juego.",
+                                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
+                                } else {
+
+                                        JScrollPane descripcionCartasZonaConScroll = jScrollPaneService
+                                                        .instanciarJScrollPaneParaExpandirMensaje(
+                                                                        new JTextArea(),
+                                                                        descripcionCartasMano);
+
+                                        JOptionPane.showMessageDialog(null, descripcionCartasZonaConScroll,
+                                                        "Cartas en esta zona",
+                                                        JOptionPane.INFORMATION_MESSAGE);
+
+                                }
+                        } else if (opcionElegida == 1) {
                                 bajarUnaCartaAlTablero(jugadorActual);
 
-                        } else if (opcionElegida == 1) {
+                        } else if (opcionElegida == 2) {
                                 JOptionPane.showMessageDialog(null, "Aún no codeado", "Aun no codeado",
                                                 JOptionPane.ERROR_MESSAGE);
                         }
@@ -341,8 +361,8 @@ public class Juego {
 
                 jugadorActual.setPuedeAtacar(true);
 
-                String[] opcionesTurno = { "Bajar una carta", "Atacar", "Activar un efecto",
-                                "Inspeccionar Zona de Juego", "Pasar" };
+                String[] opcionesTurno = { "Ver Mano", "Bajar una carta", "Atacar", "Activar un efecto",
+                                "Ver Tablero", "Pasar" };
 
                 int opcionElegida = JOptionPane.showOptionDialog(null,
                                 "Turno " + jugadorActual.getTurno() + ". ¿" + jugadorActual.getNombre()
@@ -350,12 +370,32 @@ public class Juego {
                                 "Turno " + jugadorActual.getNombre(), JOptionPane.DEFAULT_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, opcionesTurno, 2);
 
-                while (opcionElegida != 4) {
+                while (opcionElegida != 5) {
                         if (opcionElegida == 0) {
+
+                                String descripcionCartasMano = cartaService
+                                                .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
+                                if (descripcionCartasMano.equalsIgnoreCase("Sin cartas")) {
+                                        JOptionPane.showMessageDialog(null,
+                                                        "Actualmente no hay cartas en esta zona de juego.",
+                                                        "Zona vacia", JOptionPane.WARNING_MESSAGE);
+                                } else {
+
+                                        JScrollPane descripcionCartasZonaConScroll = jScrollPaneService
+                                                        .instanciarJScrollPaneParaExpandirMensaje(
+                                                                        new JTextArea(),
+                                                                        descripcionCartasMano);
+
+                                        JOptionPane.showMessageDialog(null, descripcionCartasZonaConScroll,
+                                                        "Cartas en esta zona",
+                                                        JOptionPane.INFORMATION_MESSAGE);
+
+                                }
+                        } else if (opcionElegida == 1) {
                                 bajarUnaCartaAlTablero(jugadorActual);
                                 animalService.activarPasivamenteEfectoAnimal(jugadorActual, cartaService);
 
-                        } else if (opcionElegida == 1) {
+                        } else if (opcionElegida == 2) {
                                 if (jugadorActual.isPuedeAtacar()) {
                                         atacar(jugadorActual, jugadorEnemigo);
                                 } else {
@@ -364,7 +404,7 @@ public class Juego {
                                                         "Ataque prohibido", JOptionPane.WARNING_MESSAGE);
                                 }
 
-                        } else if (opcionElegida == 2) {
+                        } else if (opcionElegida == 3) {
 
                                 String[] opcionesEfecto = { "Animal en Reposo", "Habilidad en Mano", "Habitat en Apoyo",
                                                 "Volver" };
@@ -386,7 +426,7 @@ public class Juego {
                                                 break;
 
                                         case 2:
-                                                // habitat
+                                                activarEfectoHabitat(jugadorActual, jugadorEnemigo);
 
                                                 break;
 
@@ -394,8 +434,8 @@ public class Juego {
                                                 break;
                                 }
 
-                        } else if (opcionElegida == 3) {
-                                inspeccionarZonaJuego(jugadorActual, jugadorEnemigo);
+                        } else if (opcionElegida == 4) {
+                                inspeccionarTablero(jugadorActual, jugadorEnemigo);
                         }
 
                         opcionElegida = JOptionPane.showOptionDialog(null,
@@ -789,11 +829,11 @@ public class Juego {
 
         }
 
-        private void inspeccionarZonaJuego(Jugador jugadorActual, Jugador jugadorEnemigo) {
-                String[] zonasJuego = { "Mi mano", "Mi Tablero", "Tablero enemigo", "Volver" };
+        private void inspeccionarTablero(Jugador jugadorActual, Jugador jugadorEnemigo) {
+                String[] zonasJuego = { "Mi Tablero", "Tablero enemigo", "Volver" };
 
-                int zonaElegida = JOptionPane.showOptionDialog(null, "¿Qué zona de juego quieres inspeccionar?",
-                                "Zonas de Juego", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                int zonaElegida = JOptionPane.showOptionDialog(null, "¿Qué tablero quieres inspeccionar?",
+                                "Tableros", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                                 zonasJuego, 1);
 
                 String descripcionCartasZona = "";
@@ -801,11 +841,6 @@ public class Juego {
                 switch (zonaElegida) {
 
                         case 0:
-                                descripcionCartasZona = cartaService
-                                                .devolverCartasEnZonaComoMensaje(jugadorActual.getCartasMano());
-                                break;
-
-                        case 1:
                                 String[] zonasTableroAliado = { "Linea de Reposo", "Linea de Batalla", "Linea de Apoyo",
                                                 "Cementerio", "Alimentos en Reserva", "Alimentos Consumidos",
                                                 "Volver" };
@@ -850,7 +885,7 @@ public class Juego {
                                 }
                                 break;
 
-                        case 2:
+                        case 1:
                                 String[] zonasTableroEnemigo = { "Linea de Reposo", "Linea de Batalla",
                                                 "Linea de Apoyo", "Cementerio", "Alimentos en Reserva",
                                                 "Alimentos Consumidos", "Volver" };
@@ -2271,19 +2306,57 @@ public class Juego {
                                 }
                         }
 
-                        switch (habitatEnApoyo.getNombre()) {
+                        Habitat habitat = (Habitat) habitatEnApoyo;
+                        switch (habitat.getNombre()) {
                                 case "Orquidea":
                                         String efectoOrquidea = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego.";
                                         int costeOrquidea = 6;
                                         break;
+
                                 case "Alcantarilla":
-                                        String efectoAlcantarilla = "Puedes revivir una Rata por turno pagando su coste y ponerla en tu línea de reposo.";
-                                        int costeAlcantarilla = 3;
+
+                                        if (habitat.isEfectoActivo()) {
+                                                JOptionPane.showMessageDialog(null,
+                                                                "No puedes activar más de una vez por turno este efecto.",
+                                                                "Efecto ya activado", JOptionPane.WARNING_MESSAGE);
+                                        } else {
+                                                String nombreAnimal = "Rata";
+                                                int alimentosDisponibles = alimentoService
+                                                                .devolverCantidadAlimentosReserva(jugadorActual);
+                                                if (animalService.existeAnimalEnZonaPorNombre(
+                                                                jugadorActual.getCartasCementerio(), nombreAnimal)) {
+                                                        CartaInterface rataCementerio = animalService
+                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                        nombreAnimal,
+                                                                                        jugadorActual.getCartasCementerio());
+
+                                                        Animal rataRevivida = (Animal) rataCementerio;
+
+                                                        if (alimentosDisponibles >= rataRevivida.getCoste()) {
+                                                                alimentoService.consumirAlimentosEnReserva(
+                                                                                jugadorActual, rataRevivida.getCoste());
+                                                                rataRevivida.setEnReposo(true);
+                                                                rataRevivida.setEnCementerio(false);
+
+                                                                habitat.setEfectoActivo(true);
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(null,
+                                                                                "Actualmente no tienes alimentos suficientes para revivir a una Rata.",
+                                                                                "Alimentos insuficientes",
+                                                                                JOptionPane.WARNING_MESSAGE);
+                                                        }
+
+                                                }
+                                        }
+
                                         break;
 
                                 case "Costa":
-                                        String efectoCosta = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal que haya devorado hasta ser destruido.";
+                                        String efectoCosta = "Si tienes un Tiburón Blanco en juego, puedes consumir 5 alimentos para activar su efecto una segunda vez este turno.";
                                         int costeCosta = 6;
+                                        String tibunombre = "Tiburón Blanco";
+                                        String efecto = "Puede devorar a un aliado para devorar a un enemigo de coste 3 o menos y adicionar su fuerza a la suya hasta tu próximo turno.";
+
                                         break;
 
                                 case "Anemona":
