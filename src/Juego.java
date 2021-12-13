@@ -588,7 +588,7 @@ public class Juego {
 
                                                         while (opcionElegida != 3) {
                                                                 opcionElegida = JOptionPane.showOptionDialog(null,
-                                                                                "¿En qué zona se encentra el efecto que quieres activar?",
+                                                                                "¿En qué zona se encuentra el efecto que quieres activar?",
                                                                                 "Activar un efecto",
                                                                                 JOptionPane.DEFAULT_OPTION,
                                                                                 JOptionPane.QUESTION_MESSAGE, null,
@@ -603,10 +603,11 @@ public class Juego {
                                                                         case 1:
                                                                                 List<String> efectosAnimales = new ArrayList<String>();
                                                                                 int animalesReposo = animalService
-                                                                                                .devolverCantidadAnimalesConEfectoManualPorZona(
+                                                                                                .devolverCantidadAnimalesConEfectoDefensivoPorZona(
                                                                                                                 jugadorEnemigo.getAnimalesEnReposo());
+
                                                                                 int animalesBatalla = animalService
-                                                                                                .devolverCantidadAnimalesConEfectoManualPorZona(
+                                                                                                .devolverCantidadAnimalesConEfectoDefensivoPorZona(
                                                                                                                 jugadorEnemigo.getAnimalesEnBatalla());
 
                                                                                 if (animalesReposo == 0) {
@@ -615,15 +616,44 @@ public class Juego {
                                                                                                                 null,
                                                                                                                 "Actualmente no tienes ninguna habilidad animal disponible.");
                                                                                         } else {
-                                                                                                // solo animales batalla
+
+                                                                                                CartaInterface tortugaActual = animalService
+                                                                                                                .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                                                "Tortuga Marina",
+                                                                                                                                jugadorEnemigo.getAnimalesEnBatalla());
+
+                                                                                                animalService.activarEfectoTortugaMarinaManualmente(
+                                                                                                                tortugaActual,
+                                                                                                                jugadorActual);
+                                                                                                JOptionPane.showMessageDialog(
+                                                                                                                null,
+                                                                                                                "El jugador "
+                                                                                                                                + jugadorActual.getNombre()
+                                                                                                                                + " no puede atacar más por este turno.",
+                                                                                                                "Cese de ataque",
+                                                                                                                JOptionPane.WARNING_MESSAGE);
+
                                                                                         }
                                                                                 } else {
                                                                                         if (animalesBatalla == 0) {
-                                                                                                // solo animales reposo
+
+                                                                                                CartaInterface tortugaActual = animalService
+                                                                                                                .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                                                "Tortuga Marina",
+                                                                                                                                jugadorEnemigo.getAnimalesEnReposo());
+
+                                                                                                animalService.activarEfectoTortugaMarinaManualmente(
+                                                                                                                tortugaActual,
+                                                                                                                jugadorActual);
+                                                                                                JOptionPane.showMessageDialog(
+                                                                                                                null,
+                                                                                                                "El jugador "
+                                                                                                                                + jugadorActual.getNombre()
+                                                                                                                                + " no puede atacar más por este turno.",
+                                                                                                                "Cese de ataque",
+                                                                                                                JOptionPane.WARNING_MESSAGE);
                                                                                         } else {
-                                                                                                // tanto animales reposo
-                                                                                                // como
-                                                                                                // batalla
+
                                                                                                 efectosAnimales.add(
                                                                                                                 "Línea de Reposo");
                                                                                                 efectosAnimales.add(
@@ -643,97 +673,29 @@ public class Juego {
                                                                                                                                 locacionEfectoAnimal,
                                                                                                                                 0);
 
-                                                                                                String descripcionAnimalEnemigo = "";
-
-                                                                                                List<Integer> idsAnimalesConEfectoManualDefensivo = null;
+                                                                                                CartaInterface tortugaActual = null;
 
                                                                                                 switch (locacionAnimal) {
                                                                                                         case 0:
-                                                                                                                descripcionAnimalEnemigo = cartaService
-                                                                                                                                .devolverCartasEnZonaComoMensaje(
+                                                                                                                tortugaActual = animalService
+                                                                                                                                .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                                                                "Tortuga Marina",
                                                                                                                                                 jugadorEnemigo.getAnimalesEnReposo());
-
-                                                                                                                idsAnimalesConEfectoManualDefensivo = animalService
-                                                                                                                                .devolverIdsAnimalesConEfectoManualDefensivo(
-                                                                                                                                                jugadorEnemigo.getAnimalesEnReposo());
-                                                                                                                break;
 
                                                                                                         case 1:
-                                                                                                                descripcionAnimalEnemigo = cartaService
-                                                                                                                                .devolverCartasEnZonaComoMensaje(
-                                                                                                                                                jugadorEnemigo.getAnimalesEnBatalla());
 
-                                                                                                                idsAnimalesConEfectoManualDefensivo = animalService
-                                                                                                                                .devolverIdsAnimalesConEfectoManualDefensivo(
+                                                                                                                tortugaActual = animalService
+                                                                                                                                .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                                                                "Tortuga Marina",
                                                                                                                                                 jugadorEnemigo.getAnimalesEnBatalla());
-
                                                                                                                 break;
-
                                                                                                         default:
                                                                                                                 break;
                                                                                                 }
 
-                                                                                                JScrollPane descripcionAnimalEnemigoScroll = jScrollPaneService
-                                                                                                                .instanciarJScrollPaneParaExpandirMensaje(
-                                                                                                                                new JTextArea(),
-                                                                                                                                descripcionAnimalEnemigo);
-
-                                                                                                Object[] arrayAnimalesConEfectoManualDefensivo = idsAnimalesConEfectoManualDefensivo
-                                                                                                                .toArray();
-
-                                                                                                Integer animalDefensorElegido = JOptionPane
-                                                                                                                .showOptionDialog(
-                                                                                                                                null,
-                                                                                                                                descripcionAnimalEnemigoScroll,
-                                                                                                                                "Activar efecto animal defensivo manualmente",
-                                                                                                                                JOptionPane.DEFAULT_OPTION,
-                                                                                                                                JOptionPane.INFORMATION_MESSAGE,
-                                                                                                                                null,
-                                                                                                                                arrayAnimalesConEfectoManualDefensivo,
-                                                                                                                                0);
-
-                                                                                                CartaInterface animalConEfectoManual = null;
-
-                                                                                                for (Integer id : idsAnimalesConEfectoManualDefensivo) {
-
-                                                                                                        if (arrayAnimalesConEfectoManualDefensivo[animalDefensorElegido] == id) {
-
-                                                                                                                if (locacionAnimal == 0) {
-                                                                                                                        animalConEfectoManual = animalService
-                                                                                                                                        .devolverAnimalSeleccionadoPorId(
-                                                                                                                                                        jugadorEnemigo.getAnimalesEnReposo(),
-                                                                                                                                                        id);
-                                                                                                                } else if (locacionAnimal == 1) {
-                                                                                                                        animalConEfectoManual = animalService
-                                                                                                                                        .devolverAnimalSeleccionadoPorId(
-                                                                                                                                                        jugadorEnemigo.getAnimalesEnBatalla(),
-                                                                                                                                                        id);
-                                                                                                                }
-
-                                                                                                        }
-                                                                                                }
-
                                                                                                 animalService.activarEfectoTortugaMarinaManualmente(
-                                                                                                                animalConEfectoManual,
+                                                                                                                tortugaActual,
                                                                                                                 jugadorActual);
-
-                                                                                                int dañoAnimalAtacante = animalService
-                                                                                                                .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
-                                                                                                                                jugadorEnemigo,
-                                                                                                                                animalAtacante);
-
-                                                                                                JOptionPane.showMessageDialog(
-                                                                                                                null,
-                                                                                                                jugadorEnemigo
-                                                                                                                                .getNombre()
-                                                                                                                                +
-                                                                                                                                " ha botado "
-                                                                                                                                + dañoAnimalAtacante
-                                                                                                                                + " cartas de su mazo.\nLe quedan: "
-                                                                                                                                + jugadorEnemigo.getCantidadCartasMazo()
-                                                                                                                                + " cartas en su mazo.",
-                                                                                                                "Daño recibido",
-                                                                                                                JOptionPane.WARNING_MESSAGE);
 
                                                                                                 JOptionPane.showMessageDialog(
                                                                                                                 null,

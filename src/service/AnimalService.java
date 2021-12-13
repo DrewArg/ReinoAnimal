@@ -104,6 +104,21 @@ public class AnimalService {
 
     }
 
+    public int devolverCantidadAnimalesConEfectoDefensivoPorZona(List<CartaInterface> zona){
+        int contador = 0;
+        for (CartaInterface carta : zona) {
+            if(carta instanceof Animal){
+                Animal animal = (Animal) carta;
+
+                if(animal.isEfectoManual()){
+                    if (animal.isTieneEfectoDefensivo()){
+                        contador++;
+                    }
+                }
+            }
+        }
+        return contador;
+    }
     public List<Integer> devolverIdsAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
         List<Integer> auxiliar = new ArrayList<Integer>();
 

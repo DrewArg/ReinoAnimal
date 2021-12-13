@@ -442,7 +442,7 @@ public class CartaService {
 
     public int devolverCantidadCartasPorZona(List<CartaInterface> zona) {
         int contador = 0;
-        for (CartaInterface cartaInterface : zona) {
+        for (int i = 0; i < zona.size(); i++) {
             contador++;
         }
 
