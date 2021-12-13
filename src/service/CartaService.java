@@ -363,48 +363,48 @@ public class CartaService {
         for (CartaInterface carta : jugadorActual.getCartasMano()) {
             carta.setEnMazo(true);
             carta.setEnMano(false);
-            
+
         }
 
         for (CartaInterface carta : jugadorActual.getCartasCementerio()) {
             carta.setEnMazo(true);
             carta.setEnCementerio(false);
-           
+
         }
 
         for (CartaInterface carta : jugadorActual.getAlimentosConsumidos()) {
             Alimento alimento = (Alimento) carta;
             alimento.setEnMazo(true);
             alimento.setEnAlimentoConsumidos(false);
-           
+
         }
 
         for (CartaInterface carta : jugadorActual.getAlimentosEnReserva()) {
             Alimento alimento = (Alimento) carta;
             alimento.setEnMazo(true);
             alimento.setEnReservaDeAlimentos(false);
-           
+
         }
 
         for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
             Animal animal = (Animal) carta;
             animal.setEnMazo(true);
             animal.setEnBatalla(false);
-           
+
         }
 
         for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
             Animal animal = (Animal) carta;
             animal.setEnMazo(true);
             animal.setEnReposo(false);
-         
+
         }
 
         for (CartaInterface carta : jugadorActual.getHabitatsEnApoyo()) {
             Habitat habitat = (Habitat) carta;
             habitat.setEnMazo(true);
             habitat.setEnLineaApoyo(false);
-       
+
         }
 
     }
@@ -549,33 +549,7 @@ public class CartaService {
         return auxiliar;
     }
 
-    public String devolverDescripcionAnimalesEnReposoConEfectoManualOfensivo(List<CartaInterface> lineaReposo) {
-        if (lineaReposo.size() == 0) {
-            return "Sin cartas";
-            
-        } else {
-            String cartasInspeccionadas = "";
-
-            for (int i = 1; i <= lineaReposo.size(); i++) {
-
-                CartaInterface carta = lineaReposo.get(lineaReposo.size() - i);
-
-                Animal animal = (Animal) carta;
-                if (!animal.isTieneEfectoDefensivo()) {
-                    if (animal.isEfectoManual()) {
-                        cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n"
-                                + animal.getNombre()
-                                + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
-                                + animal.getEfecto() + "\n-----------------------------------------------------";
-                    }
-                }
-
-            }
-            return cartasInspeccionadas;
-        }
-    }
-
-    public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
+            public String devolverCartasEnZonaComoMensaje(List<CartaInterface> zonaAInspeccionar) {
 
         if (zonaAInspeccionar.size() == 0) {
             return "Sin cartas";
@@ -623,7 +597,7 @@ public class CartaService {
 
     }
 
-    public int devovlerCantidadCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
+    public int devolerCantidadCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
         return zonaAInspeccionar.size();
     }
 

@@ -87,19 +87,35 @@ public class AnimalService {
         return null;
     }
 
-    public List<Integer> devolverIdsAnimalesEnReposo(Jugador jugadorActual) {
-        List<Integer> auxiliar = new ArrayList<Integer>();
+    public String devolverDescripcionAnimalesEnReposoConEfectoManualOfensivo(List<CartaInterface> lineaReposo) {
+        if (lineaReposo.size() == 0) {
+            return "Sin cartas";
 
-        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
-            auxiliar.add(carta.getId());
+        } else {
+            String cartasInspeccionadas = "";
+
+            for (int i = 1; i <= lineaReposo.size(); i++) {
+
+                CartaInterface carta = lineaReposo.get(lineaReposo.size() - i);
+
+                Animal animal = (Animal) carta;
+                if (!animal.isTieneEfectoDefensivo()) {
+                    if (animal.isEfectoManual()) {
+                        cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n"
+                                + animal.getNombre()
+                                + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                                + animal.getEfecto() + "\n-----------------------------------------------------";
+                    }
+                }
+
+            }
+            return cartasInspeccionadas;
         }
-
-        return auxiliar;
     }
 
     public int devolverCantidadAnimalesConEfectoManualPorZona(List<CartaInterface> zona) {
         int cantidadAnimales = 0;
-        
+
         for (CartaInterface carta : zona) {
             if (carta instanceof Animal) {
                 Animal animal = (Animal) carta;
@@ -207,7 +223,7 @@ public class AnimalService {
         Animal animal = (Animal) animalAtacante;
 
         if (animal.getDano() >= jugador.getCantidadCartasMazo()) {
-           
+
             for (CartaInterface carta : jugador.getCartasMazo()) {
                 carta.setEnMazo(false);
                 carta.setEnCementerio(true);
@@ -233,7 +249,6 @@ public class AnimalService {
     public void mandarCartasAlCementerioPorCalculoDaño(Jugador jugador, int calculoDaño) {
 
         if (calculoDaño >= jugador.getCantidadCartasMazo()) {
-          
 
             for (CartaInterface carta : jugador.getCartasMazo()) {
                 carta.setEnMazo(false);

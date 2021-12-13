@@ -452,7 +452,7 @@ public class Juego {
 
         private void atacar(Jugador jugadorActual, Jugador jugadorEnemigo) {
                 int animalesReposoAtacante = cartaService
-                                .devovlerCantidadCartasEnZona(jugadorActual.getAnimalesEnReposo());
+                                .devolerCantidadCartasEnZona(jugadorActual.getAnimalesEnReposo());
 
                 if (animalesReposoAtacante == 0) {
                         JOptionPane.showMessageDialog(null,
@@ -468,7 +468,8 @@ public class Juego {
                                         .instanciarJScrollPaneParaExpandirMensaje(new JTextArea(),
                                                         descripcionAnimalesReposo);
 
-                        List<Integer> idsAnimalesReposo = animalService.devolverIdsAnimalesEnReposo(jugadorActual);
+                        List<Integer> idsAnimalesReposo = cartaService
+                                        .devolverIDsCartasEnZona(jugadorActual.getAnimalesEnReposo());
 
                         Object[] arrayIdsAnimalesEnReposo = idsAnimalesReposo.toArray();
 
@@ -511,7 +512,7 @@ public class Juego {
 
                                 if (decisionDefensa == 0) {
 
-                                        int cantidadAnimalesEnReposoDefensa = cartaService.devovlerCantidadCartasEnZona(
+                                        int cantidadAnimalesEnReposoDefensa = cartaService.devolerCantidadCartasEnZona(
                                                         jugadorEnemigo.getAnimalesEnReposo());
 
                                         if (cantidadAnimalesEnReposoDefensa == 0) {
@@ -537,8 +538,9 @@ public class Juego {
                                                                 .devolverCartasEnZonaComoMensaje(
                                                                                 jugadorEnemigo.getAnimalesEnReposo());
 
-                                                List<Integer> idsAnimalesDefensoresReposo = animalService
-                                                                .devolverIdsAnimalesEnReposo(jugadorEnemigo);
+                                                List<Integer> idsAnimalesDefensoresReposo = cartaService
+                                                                .devolverIDsCartasEnZona(
+                                                                                jugadorEnemigo.getAnimalesEnReposo());
 
                                                 Object[] arrayIdsAnimalesDefensoresEnReposo = idsAnimalesDefensoresReposo
                                                                 .toArray();
@@ -922,7 +924,7 @@ public class Juego {
                                         "Zona vacia", JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                        String descripcionAnimalesReposoConEfectoManualOfensivo = cartaService
+                        String descripcionAnimalesReposoConEfectoManualOfensivo = animalService
                                         .devolverDescripcionAnimalesEnReposoConEfectoManualOfensivo(
                                                         jugadorActual.getAnimalesEnReposo());
 
@@ -965,9 +967,8 @@ public class Juego {
                                                         .devolverCartasEnZonaComoMensaje(
                                                                         jugadorEnemigo.getAnimalesEnReposo());
 
-                                        List<Integer> idsAnimalesEnemigosEnReposo = animalService
-                                                        .devolverIdsAnimalesEnReposo(
-                                                                        jugadorEnemigo);
+                                        List<Integer> idsAnimalesEnemigosEnReposo = cartaService
+                                                        .devolverIDsCartasEnZona(jugadorEnemigo.getAnimalesEnReposo());
 
                                         Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
                                                         .toArray();
@@ -1546,10 +1547,10 @@ public class Juego {
 
                                         case "Hechizo":
 
-                                                int cantidadEnemigosReposo = cartaService.devovlerCantidadCartasEnZona(
+                                                int cantidadEnemigosReposo = cartaService.devolerCantidadCartasEnZona(
                                                                 jugadorEnemigo.getAnimalesEnReposo());
 
-                                                int cantidadEnemigosBatalla = cartaService.devovlerCantidadCartasEnZona(
+                                                int cantidadEnemigosBatalla = cartaService.devolerCantidadCartasEnZona(
                                                                 jugadorEnemigo.getAnimalesEnBatalla());
 
                                                 if (cantidadEnemigosReposo > 0) {
@@ -1808,11 +1809,11 @@ public class Juego {
                                         case "Captura":
 
                                                 int cantidadEnemigosEnReposo = cartaService
-                                                                .devovlerCantidadCartasEnZona(
+                                                                .devolerCantidadCartasEnZona(
                                                                                 jugadorEnemigo.getAnimalesEnReposo());
 
                                                 int cantidadEnemigosEnBatalla = cartaService
-                                                                .devovlerCantidadCartasEnZona(
+                                                                .devolerCantidadCartasEnZona(
                                                                                 jugadorEnemigo.getAnimalesEnBatalla());
 
                                                 if (cantidadEnemigosEnReposo > 0) {
@@ -2020,11 +2021,11 @@ public class Juego {
                                         case "Coraza":
 
                                                 int cantidadAnimalesReposo = cartaService
-                                                                .devovlerCantidadCartasEnZona(
+                                                                .devolerCantidadCartasEnZona(
                                                                                 jugadorActual.getAnimalesEnReposo());
 
                                                 int cantidadAnimalesEnBatalla = cartaService
-                                                                .devovlerCantidadCartasEnZona(
+                                                                .devolerCantidadCartasEnZona(
                                                                                 jugadorActual.getAnimalesEnBatalla());
 
                                                 if (cantidadAnimalesReposo > 0) {
@@ -2237,5 +2238,64 @@ public class Juego {
                         }
 
                 }
+        }
+
+        private void activarEfectoHabitat(Jugador jugadorActual, Jugador jugadorEnemigo) {
+
+                if (habitatService.devolverCantidadHabitatsPorZona(jugadorActual.getHabitatsEnApoyo()) == 0) {
+                        JOptionPane.showMessageDialog(null, "Actualmente no tienes habitats en tu línea de apoyo",
+                                        "Zona vacía", JOptionPane.WARNING_MESSAGE);
+                } else {
+                        String descripcionHabitatsEnApoyo = habitatService
+                                        .devolverDescripcionHabitats(jugadorActual.getHabitatsEnApoyo());
+
+                        JScrollPane descripcionConScrollPane = jScrollPaneService
+                                        .instanciarJScrollPaneParaExpandirMensaje(new JTextArea(),
+                                                        descripcionHabitatsEnApoyo);
+
+                        List<Integer> idsHabitatsEnApoyo = cartaService
+                                        .devolverIDsCartasEnZona(jugadorActual.getHabitatsEnApoyo());
+
+                        Object[] arrayHabitatsEnApoyo = idsHabitatsEnApoyo.toArray();
+
+                        Integer cartaElegida = JOptionPane.showOptionDialog(null, descripcionConScrollPane,
+                                        "Activar efecto habitat", JOptionPane.DEFAULT_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE, null, arrayHabitatsEnApoyo, 0);
+
+                        CartaInterface habitatEnApoyo = null;
+
+                        for (Integer id : idsHabitatsEnApoyo) {
+                                if (arrayHabitatsEnApoyo[cartaElegida] == id) {
+                                        habitatEnApoyo = cartaService.devolverCartaSeleccionadoPorId(
+                                                        jugadorActual.getHabitatsEnApoyo(), id);
+                                }
+                        }
+
+                        switch (habitatEnApoyo.getNombre()) {
+                                case "Orquidea":
+                                        String efectoOrquidea = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego.";
+                                        int costeOrquidea = 6;
+                                        break;
+                                case "Alcantarilla":
+                                        String efectoAlcantarilla = "Puedes revivir una Rata por turno pagando su coste y ponerla en tu línea de reposo.";
+                                        int costeAlcantarilla = 3;
+                                        break;
+
+                                case "Costa":
+                                        String efectoCosta = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal que haya devorado hasta ser destruido.";
+                                        int costeCosta = 6;
+                                        break;
+
+                                case "Anemona":
+                                        String efectoAnemona = "Duplica un Pez Payaso en juego.";
+                                        int costeAnemona = 3;
+                                        break;
+
+                                default:
+                                        break;
+                        }
+
+                }
+
         }
 }
