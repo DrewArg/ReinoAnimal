@@ -207,7 +207,7 @@ public class AnimalService {
         Animal animal = (Animal) animalAtacante;
 
         if (animal.getDano() >= jugador.getCantidadCartasMazo()) {
-            System.out.println("daño animal atacante mayor o igual a cartas en mazo");
+           
             for (CartaInterface carta : jugador.getCartasMazo()) {
                 carta.setEnMazo(false);
                 carta.setEnCementerio(true);
@@ -233,7 +233,7 @@ public class AnimalService {
     public void mandarCartasAlCementerioPorCalculoDaño(Jugador jugador, int calculoDaño) {
 
         if (calculoDaño >= jugador.getCantidadCartasMazo()) {
-            System.out.println("calculo de daño mayor o igual a cartas en mazo");
+          
 
             for (CartaInterface carta : jugador.getCartasMazo()) {
                 carta.setEnMazo(false);
