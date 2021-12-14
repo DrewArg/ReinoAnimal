@@ -22,21 +22,21 @@ public class CartaService {
 
     public List<CartaInterface> seleccionarMazoCartas(String tipoMazo, AnimalService animalService,
             AlimentoService alimentoService,
-            HabilidadService habilidadService, HabitatService habitatService) {
+            HabilidadService habilidadService, HabitatService habitatService, int idInicial) {
         if (tipoMazo.equalsIgnoreCase("Terrestre")) {
 
-            crearCartasMazoTerrestre(animalService, alimentoService, habilidadService, habitatService);
+            crearCartasMazoTerrestre(animalService, alimentoService, habilidadService, habitatService, idInicial);
             return cartaRepository.getMazoTerrestre();
         } else {
 
-            crearCartasMazoAcuatico(animalService, alimentoService, habilidadService, habitatService);
+            crearCartasMazoAcuatico(animalService, alimentoService, habilidadService, habitatService, idInicial);
             return cartaRepository.getMazoAcuatico();
         }
 
     }
 
     private void crearCartasMazoTerrestre(AnimalService animalService, AlimentoService alimentoService,
-            HabilidadService habilidadService, HabitatService habitatService) {
+            HabilidadService habilidadService, HabitatService habitatService, int idInicial) {
         String nombre;
         String tipoMazo;
 
@@ -52,7 +52,8 @@ public class CartaService {
         int camuflaje = 1;
         int hechizo = 1;
 
-        for (int i = 100; i <= cartasMazo + 100; i++) {
+        
+        for (int i = idInicial; i <= cartasMazo + idInicial; i++) {
 
             tipoMazo = "Terrestre";
 
@@ -181,7 +182,7 @@ public class CartaService {
     }
 
     private void crearCartasMazoAcuatico(AnimalService animalService, AlimentoService alimentoService,
-            HabilidadService habilidadService, HabitatService habitatService) {
+            HabilidadService habilidadService, HabitatService habitatService, int idInicial) {
         String nombre;
         String tipoMazo;
 
@@ -196,8 +197,8 @@ public class CartaService {
         int coraza = 3;
         int captura = 1;
         int olorASangre = 1;
-
-        for (int i = 200; i <= cartasMazo + 200; i++) {
+      
+        for (int i = idInicial; i <= cartasMazo + idInicial; i++) {
             tipoMazo = "Acuático";
 
             if (tortugas > 0) {
@@ -412,7 +413,7 @@ public class CartaService {
     public void robarCartasDelMazo(Jugador jugadorActual, int cantidadCartas) {
 
         if (cantidadCartas >= jugadorActual.getCantidadCartasMazo()) {
-            System.out.println("robar cartas mayor o igual a cartas en mazo");
+          
 
             for (CartaInterface carta : jugadorActual.getCartasMazo()) {
                 carta.setEnMazo(false);

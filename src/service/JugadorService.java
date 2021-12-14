@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.domain.Jugador;
-import src.inter.CartaInterface;
+
 import src.repository.JugadorRepository;
 
 public class JugadorService {
@@ -14,8 +14,9 @@ public class JugadorService {
     AnimalService animalService = new AnimalService();
     AlimentoService alimentoService = new AlimentoService();
 
-    public Jugador crearJugadorGuardarloYDevolverlo(String nombre, String contrasena, List<CartaInterface> mazo) {
-        Jugador jugador = new Jugador(nombre, contrasena, mazo);
+    public Jugador crearJugadorGuardarloYDevolverlo(String nombre, String contrasena,
+            int idInicial) {
+        Jugador jugador = new Jugador(nombre, contrasena, idInicial);
         jugadorRepository.agregarJugador(jugador);
         return jugador;
     }

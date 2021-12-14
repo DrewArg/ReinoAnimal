@@ -40,8 +40,7 @@ public class HabitatService {
         for (CartaInterface carta : zona) {
             if (carta instanceof Habitat) {
                 cantidadHabitats++;
-                System.out.println(cantidadHabitats);
-
+               
             }
 
         }

@@ -300,7 +300,7 @@ public class AnimalService {
         return animal.getDano();
     }
 
-    public void mandarCartasAlCementerioPorCalculoDaño(Jugador jugador, int calculoDaño) {
+    public void mandarCartasAlCementerioPorCalculoDano(Jugador jugador, int calculoDaño) {
 
         if (calculoDaño >= jugador.getCantidadCartasMazo()) {
 
@@ -312,8 +312,12 @@ public class AnimalService {
         } else {
 
             for (int i = 1; i <= calculoDaño; i++) {
-                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnCementerio(true);
-                jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
+                if (jugador.getCantidadCartasMazo() <= 0) {
+
+                } else {
+                    jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnCementerio(true);
+                    jugador.getCartasMazo().get(jugador.getCartasMazo().size() - i).setEnMazo(false);
+                }
 
             }
 

@@ -14,11 +14,12 @@ public class Jugador {
 
     private List<CartaInterface> cartas;
 
-    public Jugador(String nombre, String contrasena, List<CartaInterface> cartas) {
+    private int idInicial;
+
+    public Jugador(String nombre, String contrasena, int idInicial) {
         this.nombre = nombre;
         this.contrasena = contrasena;
-        this.cartas = cartas;
-
+        this.idInicial = idInicial;
         puedeAtacar = true;
     }
 
@@ -27,12 +28,20 @@ public class Jugador {
         this.contrasena = contrasena;
     }
 
+    public void setMazoSeleccionado(List<CartaInterface> mazoSeleccionado) {
+        this.cartas = mazoSeleccionado;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public String getContrasena() {
         return contrasena;
+    }
+
+    public int getIdInicial() {
+        return idInicial;
     }
 
     public int getCantidadCartasMazo() {

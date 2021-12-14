@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import src.domain.Animal;
 import src.domain.Habilidad;
 import src.domain.Habitat;
+import src.domain.Id;
 import src.domain.Jugador;
 
 import src.inter.CartaInterface;
@@ -19,6 +20,7 @@ import src.service.AnimalService;
 import src.service.CartaService;
 import src.service.HabilidadService;
 import src.service.HabitatService;
+import src.service.IdService;
 import src.service.JScrollPaneService;
 import src.service.JugadorService;
 
@@ -33,6 +35,9 @@ public class Juego {
         private HabitatService habitatService = new HabitatService();
 
         private JScrollPaneService jScrollPaneService = new JScrollPaneService();
+
+        private Id id = new Id();
+        private IdService idService = new IdService();
 
         public void iniciar() {
 
@@ -100,6 +105,14 @@ public class Juego {
                                                 nombreJugador2 + ", ingresa tu contraseña", "Ingresa tu contraseña.");
 
                                 if (jugadorService.nombresJugadoresDisponibles(nombreJugador1, nombreJugador2)) {
+
+                                        Jugador jugador1 = jugadorService.crearJugadorGuardarloYDevolverlo(
+                                                        nombreJugador1, contrasenaJugador1,
+                                                        idService.devolverIdInicial(id));
+                                        Jugador jugador2 = jugadorService.crearJugadorGuardarloYDevolverlo(
+                                                        nombreJugador2, contrasenaJugador2,
+                                                        idService.devolverIdInicial(id));
+
                                         String[] tiposMazo = { "Terrestre", "Acuatico" };
 
                                         int mazoElegidoJugador1 = JOptionPane.showOptionDialog(null,
@@ -114,12 +127,14 @@ public class Juego {
 
                                                 mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0],
                                                                 animalService,
-                                                                alimentoService, habilidadService, habitatService);
+                                                                alimentoService, habilidadService, habitatService,
+                                                                jugador1.getIdInicial());
                                         } else {
 
                                                 mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1],
                                                                 animalService,
-                                                                alimentoService, habilidadService, habitatService);
+                                                                alimentoService, habilidadService, habitatService,
+                                                                jugador1.getIdInicial());
                                         }
 
                                         int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
@@ -131,19 +146,19 @@ public class Juego {
 
                                                 mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0],
                                                                 animalService,
-                                                                alimentoService, habilidadService, habitatService);
+                                                                alimentoService, habilidadService, habitatService,
+                                                                jugador2.getIdInicial());
 
                                         } else {
 
                                                 mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1],
                                                                 animalService,
-                                                                alimentoService, habilidadService, habitatService);
+                                                                alimentoService, habilidadService, habitatService,
+                                                                jugador2.getIdInicial());
                                         }
 
-                                        Jugador jugador1 = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                        nombreJugador1, contrasenaJugador1, mazoJugador1);
-                                        Jugador jugador2 = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                        nombreJugador2, contrasenaJugador2, mazoJugador2);
+                                        jugador1.setMazoSeleccionado(mazoJugador1);
+                                        jugador2.setMazoSeleccionado(mazoJugador2);
 
                                         iniciarPartida(jugador1, jugador2);
 
@@ -179,6 +194,10 @@ public class Juego {
 
                                         if (jugadorService.nombreJugadorDisponible(nombreJugadorNuevo)) {
 
+                                                Jugador jugadorNuevo = jugadorService.crearJugadorGuardarloYDevolverlo(
+                                                                nombreJugadorNuevo, contrasenaJugadorNuevo,
+                                                                idService.devolverIdInicial(id));
+
                                                 String[] tiposMazo = { "Terrestre", "Acuatico" };
 
                                                 int mazoElegido = JOptionPane.showOptionDialog(null,
@@ -192,17 +211,17 @@ public class Juego {
                                                         mazoJugadorNuevo = cartaService.seleccionarMazoCartas(
                                                                         tiposMazo[0],
                                                                         animalService, alimentoService,
-                                                                        habilidadService, habitatService);
+                                                                        habilidadService, habitatService,
+                                                                        jugadorNuevo.getIdInicial());
                                                 } else {
                                                         mazoJugadorNuevo = cartaService.seleccionarMazoCartas(
                                                                         tiposMazo[1],
                                                                         animalService, alimentoService,
-                                                                        habilidadService, habitatService);
+                                                                        habilidadService, habitatService,
+                                                                        jugadorNuevo.getIdInicial());
                                                 }
 
-                                                Jugador jugadorNuevo = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                                nombreJugadorNuevo, contrasenaJugadorNuevo,
-                                                                mazoJugadorNuevo);
+                                                jugadorNuevo.setMazoSeleccionado(mazoJugadorNuevo);
 
                                                 iniciarPartida(jugadorRegistrado, jugadorNuevo);
 
@@ -279,7 +298,7 @@ public class Juego {
                         iniciarPrimerTurno(jugadorActual);
 
                 } else if (jugadorActual.getTurno() == 2) {
-                        iniciarSegundoTurno(jugadorActual);
+                        iniciarSegundoTurno(jugadorActual, jugadorEnemigo);
 
                 } else {
                         iniciarTercerTurnoEnAdelante(jugadorActual, jugadorEnemigo);
@@ -296,7 +315,7 @@ public class Juego {
                 cartaService.robarCartasDelMazo(jugadorActual, manoInicial);
         }
 
-        private void iniciarSegundoTurno(Jugador jugadorActual) {
+        private void iniciarSegundoTurno(Jugador jugadorActual, Jugador jugadorEnemigo) {
                 String[] opcionesTurno = { "Ver Mano", "Bajar una carta", "Activar un efecto", "Pasar" };
 
                 int opcionElegida = JOptionPane.showOptionDialog(null,
@@ -329,8 +348,22 @@ public class Juego {
                                 bajarUnaCartaAlTablero(jugadorActual);
 
                         } else if (opcionElegida == 2) {
-                                JOptionPane.showMessageDialog(null, "Aún no codeado", "Aun no codeado",
-                                                JOptionPane.ERROR_MESSAGE);
+                                String[] opcionesEfecto = { "Habilidad en Mano", "Volver" };
+
+                                int opcionEfectoElegida = JOptionPane.showOptionDialog(null,
+                                                "¿Dónde se encuentra el efecto que quieres activar?",
+                                                "Activar Efecto", JOptionPane.DEFAULT_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE, null, opcionesEfecto, 0);
+
+                                switch (opcionEfectoElegida) {
+
+                                        case 0:
+                                                activarEfectoHabilidad(jugadorActual, jugadorEnemigo);
+                                                break;
+
+                                        default:
+                                                break;
+                                }
                         }
 
                         opcionElegida = JOptionPane.showOptionDialog(null,
@@ -605,9 +638,9 @@ public class Juego {
                                                                                 opcionesEfectos, 0);
                                                                 switch (opcionElegida) {
                                                                         case 0:
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                "Aún no codeado", "No",
-                                                                                                JOptionPane.ERROR_MESSAGE);
+                                                                                activarEfectoHabilidad(jugadorEnemigo,
+                                                                                                jugadorActual);
+
                                                                                 break;
 
                                                                         case 1:
@@ -794,7 +827,7 @@ public class Juego {
                                                                 Animal defensor = (Animal) animalDefensor;
 
                                                                 if (calculoDaño < 0) {
-                                                                        animalService.mandarCartasAlCementerioPorCalculoDaño(
+                                                                        animalService.mandarCartasAlCementerioPorCalculoDano(
                                                                                         jugadorActual,
                                                                                         Math.abs(calculoDaño));
 
@@ -856,7 +889,7 @@ public class Juego {
                                                                         }
 
                                                                 } else if (calculoDaño > 0) {
-                                                                        animalService.mandarCartasAlCementerioPorCalculoDaño(
+                                                                        animalService.mandarCartasAlCementerioPorCalculoDano(
                                                                                         jugadorEnemigo,
                                                                                         calculoDaño);
                                                                         JOptionPane.showMessageDialog(null,
