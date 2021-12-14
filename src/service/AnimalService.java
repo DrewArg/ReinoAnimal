@@ -104,14 +104,14 @@ public class AnimalService {
 
     }
 
-    public int devolverCantidadAnimalesConEfectoDefensivoPorZona(List<CartaInterface> zona){
+    public int devolverCantidadAnimalesConEfectoDefensivoPorZona(List<CartaInterface> zona) {
         int contador = 0;
         for (CartaInterface carta : zona) {
-            if(carta instanceof Animal){
+            if (carta instanceof Animal) {
                 Animal animal = (Animal) carta;
 
-                if(animal.isEfectoManual()){
-                    if (animal.isTieneEfectoDefensivo()){
+                if (animal.isEfectoManual()) {
+                    if (animal.isTieneEfectoDefensivo()) {
                         contador++;
                     }
                 }
@@ -119,6 +119,7 @@ public class AnimalService {
         }
         return contador;
     }
+
     public List<Integer> devolverIdsAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
         List<Integer> auxiliar = new ArrayList<Integer>();
 
@@ -149,15 +150,15 @@ public class AnimalService {
         return auxiliar;
     }
 
-    public String devolverDescripcionAnimalesConEfectoManualOfensivo(List<CartaInterface>zonaAnimal){
+    public String devolverDescripcionAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
         String cartasInspeccionadas = "";
         for (CartaInterface cartaInterface : zonaAnimal) {
             Animal animal = (Animal) cartaInterface;
             if (animal.isEfectoManual()) {
                 if (!animal.isTieneEfectoDefensivo()) {
-                   cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
-                    + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
-                    + animal.getEfecto() + "\n-----------------------------------------------------";
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                            + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                            + animal.getEfecto() + "\n-----------------------------------------------------";
                 }
 
             }
@@ -203,6 +204,33 @@ public class AnimalService {
 
     }
 
+    public String devolverAnimalesEnZonaComoMensajeExceptuandoUnNombre(List<CartaInterface> zonaAInspeccionar,
+            String nombreExcepcion) {
+
+        if (zonaAInspeccionar.size() == 0) {
+            return "Sin cartas";
+        } else {
+
+            String cartasInspeccionadas = "";
+
+            for (int i = 1; i <= zonaAInspeccionar.size(); i++) {
+
+                CartaInterface carta = zonaAInspeccionar.get(zonaAInspeccionar.size() - i);
+
+                Animal animal = (Animal) carta;
+
+                if (!animal.getNombre().equalsIgnoreCase(nombreExcepcion)) {
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                            + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
+                            + animal.getEfecto() + "\n-----------------------------------------------------";
+                }
+            }
+
+            return cartasInspeccionadas;
+        }
+
+    }
+
     public List<Integer> devolverIDsAnimalesEnZonaPorCosteMaximo(List<CartaInterface> zonaAInspeccionar,
             int costeMaximo) {
 
@@ -214,6 +242,27 @@ public class AnimalService {
             Animal animalActual = (Animal) carta;
 
             if (animalActual.getCoste() <= costeMaximo) {
+                auxiliar.add(animalActual.getId());
+            }
+
+        }
+
+        auxiliar.sort((a1, a2) -> (a1.compareTo(a2)));
+
+        return auxiliar;
+    }
+
+    public List<Integer> devolverIDsAnimalesEnZonaExceptuandoUnNombre(List<CartaInterface> zonaAInspeccionar,
+            String animalExceptuado) {
+
+        List<Integer> auxiliar = new ArrayList<Integer>();
+
+        for (int i = 0; i < zonaAInspeccionar.size(); i++) {
+            CartaInterface carta = zonaAInspeccionar.get(i);
+
+            Animal animalActual = (Animal) carta;
+
+            if (!animalActual.getNombre().equalsIgnoreCase(animalExceptuado)) {
                 auxiliar.add(animalActual.getId());
             }
 

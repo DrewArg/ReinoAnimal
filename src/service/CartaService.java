@@ -245,7 +245,7 @@ public class CartaService {
 
             } else if (tiburonesBlancos > 0) {
                 nombre = "Tiburón Blanco";
-                String efecto = "Puede devorar a un aliado para devorar a un enemigo de coste 3 o menos y adicionar su fuerza a la suya hasta tu próximo turno.";
+                String efecto = "Puede devorar a un aliado en reposo para devorar a un enemigo de coste 3 o menos y adicionar su fuerza a la suya hasta tu próximo turno.";
 
                 int coste = 5;
                 int dano = 4;
@@ -598,6 +598,8 @@ public class CartaService {
                             + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                             + "\n-----------------------------------------------------";
 
+                } else {
+
                 }
             }
 
@@ -606,7 +608,7 @@ public class CartaService {
 
     }
 
-    public int devolerCantidadCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
+    public int devolverCantidadCartasEnZona(List<CartaInterface> zonaAInspeccionar) {
         return zonaAInspeccionar.size();
     }
 
