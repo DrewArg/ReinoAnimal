@@ -12,7 +12,7 @@ _El área de juego es el lugar en donde se ubicarán las cartas para desarrollar
 
 ### Mazo :zap:
 
-_Cada Jugador cuenta con un mazo de 25 cartas. Hasta el momento sólo hay dos tipos de mazos: Acuático y Terrestre._
+_Cada Jugador cuenta con un mazo de 30 cartas. Hasta el momento sólo hay dos tipos de mazos: Acuático y Terrestre._
 
 ### Mano :raised_hand:
 
