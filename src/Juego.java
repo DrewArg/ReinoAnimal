@@ -359,6 +359,8 @@ public class Juego {
 
                 animalService.removerIndestructibleAnimal(jugadorActual);
 
+                habitatService.reiniciarEfectosHabitats(jugadorActual);
+
                 jugadorActual.setPuedeAtacar(true);
 
                 String[] opcionesTurno = { "Ver Mano", "Bajar una carta", "Atacar", "Activar un efecto",
@@ -989,14 +991,16 @@ public class Juego {
                                         "Actualmente no hay cartas en esta zona de juego.",
                                         "Zona vacia", JOptionPane.WARNING_MESSAGE);
                 } else {
+                        if (descripcionCartasZona != "") {
+                                JScrollPane descripcionCartasZonaConScroll = jScrollPaneService
+                                                .instanciarJScrollPaneParaExpandirMensaje(
+                                                                new JTextArea(),
+                                                                descripcionCartasZona);
 
-                        JScrollPane descripcionCartasZonaConScroll = jScrollPaneService
-                                        .instanciarJScrollPaneParaExpandirMensaje(
-                                                        new JTextArea(),
-                                                        descripcionCartasZona);
-
-                        JOptionPane.showMessageDialog(null, descripcionCartasZonaConScroll, "Cartas en esta zona",
-                                        JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, descripcionCartasZonaConScroll,
+                                                "Cartas en esta zona",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                        }
 
                 }
         }
@@ -1194,8 +1198,15 @@ public class Juego {
                                         Animal pulpo = (Animal) animalConEfectoManualOfensivo;
 
                                         List<Integer> opcionesDanoPulpo = new ArrayList<Integer>();
-                                        for (int i = 1; i <= pulpo.getDano(); i++) {
-                                                opcionesDanoPulpo.add(i);
+
+                                        if (jugadorActual.getCartasCementerio().size() < pulpo.getDano()) {
+                                                for (int i = 1; i <= jugadorActual.getCartasCementerio().size(); i++) {
+                                                        opcionesDanoPulpo.add(i);
+                                                }
+                                        } else {
+                                                for (int i = 1; i <= pulpo.getDano(); i++) {
+                                                        opcionesDanoPulpo.add(i);
+                                                }
                                         }
 
                                         Object[] arrayOpcionesPulpo = opcionesDanoPulpo.toArray();
@@ -2541,9 +2552,119 @@ public class Juego {
 
                         Habitat habitat = (Habitat) habitatEnApoyo;
                         switch (habitat.getNombre()) {
-                                case "Orquidea":
-                                        String efectoOrquidea = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego.";
-                                        int costeOrquidea = 6;
+                                case "Orquídea":
+
+                                        String nombreMantis = "Mantis Orquídea";
+
+                                        boolean existeMantisReposo = animalService.existeAnimalEnZonaPorNombre(
+                                                        jugadorActual.getAnimalesEnReposo(), nombreMantis);
+
+                                        boolean existeMantisBatalla = animalService.existeAnimalEnZonaPorNombre(
+                                                        jugadorActual.getAnimalesEnReposo(), nombreMantis);
+
+                                        if (existeMantisBatalla || existeMantisReposo) {
+                                                int alimentosDisponibles = alimentoService
+                                                                .devolverCantidadAlimentosReserva(jugadorActual);
+
+                                                if (!habitat.isEfectoActivo()) {
+                                                        if (alimentosDisponibles >= 5) {
+                                                                int cantidadAnimalesAliadosReposo = cartaService
+                                                                                .devolverCantidadCartasEnZona(
+                                                                                                jugadorActual.getAnimalesEnReposo());
+                                                                int cantidadAnimalesAliadosBatall = cartaService
+                                                                                .devolverCantidadCartasEnZona(
+                                                                                                jugadorActual.getAnimalesEnBatalla());
+                                                                int cantidadAnimalesEnemigosReposo = cartaService
+                                                                                .devolverCantidadCartasEnZona(
+                                                                                                jugadorEnemigo.getAnimalesEnReposo());
+                                                                int cantidadAnimalesEnemigosBatalla = cartaService
+                                                                                .devolverCantidadCartasEnZona(
+                                                                                                jugadorEnemigo.getAnimalesEnBatalla());
+
+                                                                CartaInterface mantisActual = null;
+
+                                                                if (existeMantisReposo) {
+                                                                        mantisActual = animalService
+                                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                        nombreMantis,
+                                                                                                        jugadorActual.getAnimalesEnReposo());
+                                                                } else {
+                                                                        mantisActual = animalService
+                                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                        nombreMantis,
+                                                                                                        jugadorActual.getAnimalesEnBatalla());
+                                                                }
+
+                                                                Animal mantis = (Animal) mantisActual;
+
+                                                                int totalAgregado = cantidadAnimalesAliadosBatall
+                                                                                + cantidadAnimalesAliadosReposo
+                                                                                + cantidadAnimalesEnemigosBatalla
+                                                                                + cantidadAnimalesEnemigosReposo;
+
+                                                                mantis.setDano(mantis.getDanoOriginal()
+                                                                                + totalAgregado);
+
+                                                                habitat.setEfectoActivo(true);
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(null,
+                                                                                "Actualmente no tienes alimentos disponibles suficientes para pagar el coste de este efecto",
+                                                                                "Alimentos faltantes",
+                                                                                JOptionPane.WARNING_MESSAGE);
+                                                        }
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "Este efecto puede ser activado una sola vez por turno",
+                                                                        "Efecto activo",
+                                                                        JOptionPane.WARNING_MESSAGE);
+                                                }
+
+                                        } else {
+                                                boolean existeMantisCementerio = animalService
+                                                                .existeAnimalEnZonaPorNombre(
+                                                                                jugadorActual.getCartasCementerio(),
+                                                                                nombreMantis);
+
+                                                if (existeMantisCementerio) {
+
+                                                        if (!habitat.isEfectoActivo()) {
+                                                                int alimentosDisponibles = alimentoService
+                                                                                .devolverCantidadAlimentosReserva(
+                                                                                                jugadorActual);
+
+                                                                if (alimentosDisponibles >= 5) {
+                                                                        CartaInterface mantisActual = animalService
+                                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                                        nombreMantis,
+                                                                                                        jugadorActual.getCartasCementerio());
+
+                                                                        Animal mantis = (Animal) mantisActual;
+
+                                                                        mantis.setEnReposo(true);
+                                                                        mantis.setEnCementerio(false);
+
+                                                                        habitat.setEfectoActivo(true);
+                                                                } else {
+                                                                        JOptionPane.showMessageDialog(null,
+                                                                                        "Actualmente no tienes alimentos disponibles suficientes para pagar el coste de este efecto",
+                                                                                        "Alimentos faltantes",
+                                                                                        JOptionPane.WARNING_MESSAGE);
+                                                                }
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(null,
+                                                                                "Este efecto puede ser activado una sola vez por turno",
+                                                                                "Efecto activo",
+                                                                                JOptionPane.WARNING_MESSAGE);
+                                                        }
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "Actualmente no tienes una mantis en juego o en tu cementerio.",
+                                                                        "Mantis faltante", JOptionPane.WARNING_MESSAGE);
+                                                }
+                                        }
+
                                         break;
 
                                 case "Alcantarilla":
@@ -2954,8 +3075,44 @@ public class Juego {
                                         break;
 
                                 case "Anemona":
-                                        String efectoAnemona = "Duplica un Pez Payaso en juego.";
-                                        int costeAnemona = 3;
+
+                                        if (habitat.isEfectoActivo()) {
+                                                JOptionPane.showMessageDialog(null,
+                                                                "No puedes activar más de una vez por turno este efecto.",
+                                                                "Efecto ya activado", JOptionPane.WARNING_MESSAGE);
+                                        } else {
+                                                String nombreAnimal = "Pez Payaso";
+                                                int alimentosDisponibles = alimentoService
+                                                                .devolverCantidadAlimentosReserva(jugadorActual);
+                                                if (animalService.existeAnimalEnZonaPorNombre(
+                                                                jugadorActual.getCartasCementerio(), nombreAnimal)) {
+                                                        CartaInterface pezPayasoCementerio = animalService
+                                                                        .devolverPrimerAnimalEncontradoPorNombreEnZona(
+                                                                                        nombreAnimal,
+                                                                                        jugadorActual.getCartasCementerio());
+
+                                                        Animal pezRevivido = (Animal) pezPayasoCementerio;
+
+                                                        if (alimentosDisponibles >= pezRevivido.getCoste()) {
+                                                                alimentoService.consumirAlimentosEnReserva(
+                                                                                jugadorActual, pezRevivido.getCoste());
+                                                                pezRevivido.setEnReposo(true);
+                                                                pezRevivido.setEnCementerio(false);
+
+                                                                habitat.setEfectoActivo(true);
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(null,
+                                                                                "Actualmente no tienes alimentos suficientes para revivir a un Pez Payaso.",
+                                                                                "Alimentos insuficientes",
+                                                                                JOptionPane.WARNING_MESSAGE);
+                                                        }
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "Actualmente no tienes Peces Payaso en tu cementerio",
+                                                                        "Peces faltantes", JOptionPane.WARNING_MESSAGE);
+                                                }
+                                        }
                                         break;
 
                                 default:

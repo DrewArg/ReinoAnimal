@@ -424,13 +424,23 @@ public class AnimalService {
 
         pulpo.setDano(pulpo.getDano() - danoAPerder);
 
+        List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
+
         for (int i = 0; i < jugadorActual.getCartasCementerio().size(); i++) {
             for (int j = 0; j < cartasParaMazo.size(); j++) {
-                if (jugadorActual.getCartasCementerio().get(i).getId() == cartasParaMazo.get(j).getId()) {
-                    jugadorActual.getCartasCementerio().get(i).setEnMazo(true);
-                    jugadorActual.getCartasCementerio().get(i).setEnCementerio(false);
+                if (jugadorActual.getCartasCementerio().size() != 0) {
+                    if (jugadorActual.getCartasCementerio().get(i).getId() == cartasParaMazo.get(j).getId()) {
+                        jugadorActual.getCartasCementerio().get(i).setEnMazo(true);
+                        auxiliar.add(jugadorActual.getCartasCementerio().get(i));
+
+                    }
                 }
+
             }
+        }
+
+        for (CartaInterface cartaInterface : auxiliar) {
+            cartaInterface.setEnCementerio(false);
         }
 
         pulpo.setEfectoActivo(true);

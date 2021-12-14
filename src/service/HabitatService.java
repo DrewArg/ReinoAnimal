@@ -3,6 +3,7 @@ package src.service;
 import java.util.List;
 
 import src.domain.Habitat;
+import src.domain.Jugador;
 import src.inter.CartaInterface;
 
 public class HabitatService {
@@ -46,6 +47,15 @@ public class HabitatService {
         }
 
         return cantidadHabitats;
+
+    }
+
+    public void reiniciarEfectosHabitats(Jugador jugadorActual) {
+
+        for (CartaInterface carta : jugadorActual.getHabitatsEnApoyo()) {
+            Habitat habitat = (Habitat) carta;
+            habitat.setEfectoActivo(false);
+        }
 
     }
 

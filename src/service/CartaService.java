@@ -125,9 +125,9 @@ public class CartaService {
                 cartaRepository.agregarCartaMazoTerrestre(alimentoService.crearAlimento(i, nombre, tipoMazo));
 
             } else if (orquidea > 0) {
-                nombre = "Orquidea";
+                nombre = "Orquídea";
 
-                String efecto = "Si tienes una Mantis Orquídea en juego, esta gana +1 de daño por cada animal aliado en juego. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego.";
+                String efecto = "Si tienes una Mantis Orquídea en juego, puedes pagar 5 alimentos para que esta gana +1 de daño por cada animal en juego hasta tu próximo turno. \nSi Mantis Orquídea está en tu cementerio, puedes ponerla en juego pagando 5 alimentos.";
                 int coste = 6;
 
                 orquidea--;
@@ -280,7 +280,7 @@ public class CartaService {
             } else if (anemona > 0) {
                 nombre = "Anemona";
 
-                String efecto = "Duplica un Pez Payaso en juego.";
+                String efecto = "Puedes revivir un Pez Payaso por turno pagando su coste y ponerla en tu línea de reposo.";
                 int coste = 3;
 
                 anemona--;
