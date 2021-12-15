@@ -24,7 +24,7 @@ public class HabilidadService {
     }
 
     public String devolverDescripcionHabilidadesPorZona(List<CartaInterface> zona) {
-
+        zona.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
         String cartasInspeccionadas = "";
 
         for (int i = 1; i <= zona.size(); i++) {
@@ -35,7 +35,7 @@ public class HabilidadService {
                 Habilidad habilidad = (Habilidad) carta;
 
                 cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\nTipo: "
-                        + habilidad.getTipoCarta() + "\n\n"
+                        + habilidad.getTipoCarta() + "\n"
                         + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                         + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
@@ -55,6 +55,7 @@ public class HabilidadService {
             }
         }
 
+        auxiliar.sort((a1, a2) -> (a1.compareTo(a2)));
         return auxiliar;
     }
 

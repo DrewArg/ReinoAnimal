@@ -12,10 +12,12 @@ public class HabitatService {
     }
 
     public String devolverDescripcionHabitats(List<CartaInterface> zonaConHabitats) {
+
         if (zonaConHabitats.size() == 0) {
             return "Sin cartas";
 
         } else {
+            zonaConHabitats.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
             String cartasInspeccionadas = "";
 
             for (int i = 1; i <= zonaConHabitats.size(); i++) {
@@ -25,7 +27,7 @@ public class HabitatService {
                     Habitat habitat = (Habitat) carta;
 
                     cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\nTipo: "
-                            + habitat.getTipoCarta() + "\n\n" + habitat.getNombre()
+                            + habitat.getTipoCarta() + "\n" + habitat.getNombre()
                             + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                             + "\n-----------------------------------------------------";
 

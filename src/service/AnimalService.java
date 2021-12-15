@@ -121,6 +121,7 @@ public class AnimalService {
     }
 
     public List<Integer> devolverIdsAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
+
         List<Integer> auxiliar = new ArrayList<Integer>();
 
         for (CartaInterface cartaInterface : zonaAnimal) {
@@ -132,10 +133,13 @@ public class AnimalService {
 
             }
         }
+
+        auxiliar.sort((a1, a2) -> ((a1).compareTo(a2)));
         return auxiliar;
     }
 
     public List<Integer> devolverIdsAnimalesConEfectoManualDefensivo(List<CartaInterface> zonaAnimal) {
+
         List<Integer> auxiliar = new ArrayList<Integer>();
 
         for (CartaInterface cartaInterface : zonaAnimal) {
@@ -147,17 +151,21 @@ public class AnimalService {
 
             }
         }
+
+        auxiliar.sort((a1, a2) -> ((a1).compareTo(a2)));
         return auxiliar;
     }
 
     public String devolverDescripcionAnimalesConEfectoManualOfensivo(List<CartaInterface> zonaAnimal) {
         String cartasInspeccionadas = "";
+
+        zonaAnimal.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
         for (CartaInterface cartaInterface : zonaAnimal) {
             Animal animal = (Animal) cartaInterface;
             if (animal.isEfectoManual()) {
                 if (!animal.isTieneEfectoDefensivo()) {
                     cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\nTipo: "
-                            + animal.getTipoCarta() + "\n\n" + animal.getNombre()
+                            + animal.getTipoCarta() + "\n" + animal.getNombre()
                             + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                             + animal.getEfecto() + "\n-----------------------------------------------------";
                 }
@@ -184,7 +192,7 @@ public class AnimalService {
         if (zonaAInspeccionar.size() == 0) {
             return "Sin cartas";
         } else {
-
+            zonaAInspeccionar.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
             String cartasInspeccionadas = "";
 
             for (int i = 1; i <= zonaAInspeccionar.size(); i++) {
@@ -211,7 +219,7 @@ public class AnimalService {
         if (zonaAInspeccionar.size() == 0) {
             return "Sin cartas";
         } else {
-
+            zonaAInspeccionar.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
             String cartasInspeccionadas = "";
 
             for (int i = 1; i <= zonaAInspeccionar.size(); i++) {

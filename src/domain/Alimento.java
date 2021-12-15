@@ -4,7 +4,7 @@ import src.inter.CartaInterface;
 
 public class Alimento implements CartaInterface {
 
-    private int id;
+    private Integer id;
     private String nombre;
     private String tipoMazo;
 
@@ -35,7 +35,7 @@ public class Alimento implements CartaInterface {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

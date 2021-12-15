@@ -3,7 +3,7 @@ package src.domain;
 import src.inter.CartaInterface;
 
 public class Animal implements CartaInterface {
-    private int id;
+    private Integer id;
     private String nombre;
     private String efecto;
     private boolean efectoManual;
@@ -79,7 +79,7 @@ public class Animal implements CartaInterface {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -3,7 +3,7 @@ package src.domain;
 import src.inter.CartaInterface;
 
 public class Habitat implements CartaInterface {
-    private int id;
+    private Integer id;
     private String nombre;
     private String efecto;
     private int coste;
@@ -40,7 +40,7 @@ public class Habitat implements CartaInterface {
         efectoActivo = false;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -1164,6 +1164,8 @@ public class Juego {
                                                 descripcionCartasZona = habitatService.devolverDescripcionHabitats(
                                                                 jugadorActual.getHabitatsEnApoyo());
 
+                                                break;
+
                                         case 3:
                                                 descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
                                                                 jugadorActual.getCartasCementerio());
@@ -1212,6 +1214,7 @@ public class Juego {
                                         case 3:
                                                 descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(
                                                                 jugadorEnemigo.getCartasCementerio());
+                                                break;
 
                                         case 4:
                                                 descripcionCartasZona = cartaService.devolverCartasEnZonaComoMensaje(

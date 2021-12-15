@@ -2,7 +2,7 @@ package src.inter;
 
 public interface CartaInterface {
 
-    public int getId();
+    public Integer getId();
     public String getTipoMazo();
     public String getNombre();
     public boolean isEnMazo();

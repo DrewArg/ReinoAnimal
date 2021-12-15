@@ -441,7 +441,7 @@ public class CartaService {
         if (carta instanceof Animal) {
             Animal animal = (Animal) carta;
 
-            descripcionCarta = "[" + animal.getId() + "]\nTipo: " + animal.getTipoCarta() + "\n\n" + animal.getNombre()
+            descripcionCarta = "[" + animal.getId() + "]\nTipo: " + animal.getTipoCarta() + "\n" + animal.getNombre()
                     + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                     + animal.getEfecto() + "\n-----------------------------------------------------";
 
@@ -455,14 +455,14 @@ public class CartaService {
         } else if (carta instanceof Habilidad) {
             Habilidad habilidad = (Habilidad) carta;
 
-            descripcionCarta = "[" + habilidad.getId() + "]\nTipo: " + habilidad.getTipoCarta() + "\n\n"
+            descripcionCarta = "[" + habilidad.getId() + "]\nTipo: " + habilidad.getTipoCarta() + "\n"
                     + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                     + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
         } else if (carta instanceof Habitat) {
             Habitat habitat = (Habitat) carta;
 
-            descripcionCarta = "[" + habitat.getId() + "]\nTipo: " + habitat.getTipoCarta() + "\n\n"
+            descripcionCarta = "[" + habitat.getId() + "]\nTipo: " + habitat.getTipoCarta() + "\n"
                     + habitat.getNombre()
                     + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                     + "\n-----------------------------------------------------";
@@ -520,6 +520,8 @@ public class CartaService {
             return "Sin cartas";
         } else {
 
+            zonaAInspeccionar.sort((a1, a2) -> ((a2.getId()).compareTo(a1.getId())));
+
             String cartasInspeccionadas = "";
 
             for (int i = 1; i <= zonaAInspeccionar.size(); i++) {
@@ -530,7 +532,7 @@ public class CartaService {
                     Animal animal = (Animal) carta;
 
                     cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\nTipo: "
-                            + animal.getTipoCarta() + "\n\n" + animal.getNombre()
+                            + animal.getTipoCarta() + "\n" + animal.getNombre()
                             + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                             + animal.getEfecto() + "\n-----------------------------------------------------";
 
@@ -545,7 +547,7 @@ public class CartaService {
                     Habilidad habilidad = (Habilidad) carta;
 
                     cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\nTipo: "
-                            + habilidad.getTipoCarta() + "\n\n"
+                            + habilidad.getTipoCarta() + "\n"
                             + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                             + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
@@ -553,7 +555,7 @@ public class CartaService {
                     Habitat habitat = (Habitat) carta;
 
                     cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\nTipo: "
-                            + habitat.getTipoCarta() + "\n\n"
+                            + habitat.getTipoCarta() + "\n"
                             + habitat.getNombre()
                             + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                             + "\n-----------------------------------------------------";
