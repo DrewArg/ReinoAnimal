@@ -396,10 +396,7 @@ public class AnimalService {
                         int cantidadLobos = lobosBatalla + lobosReposo;
 
                         animal.setDano(animal.getDanoOriginal());
-
-                        for (int i = 0; i < cantidadLobos; i++) {
-                            animal.setDano(animal.getDano() + i);
-                        }
+                        animal.setDano(animal.getDano() + cantidadLobos - 1);
 
                         break;
 

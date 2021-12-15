@@ -4,7 +4,7 @@ _"La Batalla del Reino Animal" es un juego de cartas por turnos para dos jugador
 
 ## Notas Versión Actual :notebook_with_decorative_cover:
 
-_En esta versión se podrán jugar todos los tipos de cartas, pero no se podrán activar los efectos de las mismas. Por esta razón las cartas de tipo Habilidad y/o Habitat que se jueguen no tendrían ninguna utilidad hasta el momento._
+_En esta versión se podrán jugar todos los tipos de cartas y se podrán activar todos los efectos. Todas las cartas sirven para algo en especial y funcionan correctamente._
 
 ## Tablero de Juego :game_die:
 
@@ -12,7 +12,7 @@ _El área de juego es el lugar en donde se ubicarán las cartas para desarrollar
 
 ### Mazo :zap:
 
-_Cada Jugador cuenta con un mazo de 30 cartas. Hasta el momento sólo hay dos tipos de mazos: Acuático y Terrestre._
+_Cada Jugador cuenta con un mazo de 30 cartas. Hasta el momento sólo hay dos tipos de mazos: Acuático y Terrestre. Al inicio de la partida se elegirá aleatoriamente quien empieza. El jugador que empiece será el que tenga la opción de elegir el mazo, al otro jugador se le asignará el restante._
 
 ### Mano :raised_hand:
 
@@ -20,11 +20,11 @@ _Es el área dónde se ubican las cartas que robes del mazo antes de ponerlas en
 
 ### Reserva De Alimentos :apple:
 
-_La reserva de alimentos contiene a todos los alimentos que has puesto en juego. Cuando consumes un alimento para bajar una carta, este pasa sólo por el resto de este turno a la zona de Alimentos Consumidos._
+_La reserva de alimentos contiene a todos los alimentos que has puesto en juego. Cuando consumes un alimento para bajar una carta al tablero o bien activar alguna habilidad, este alimento pasa sólo por el resto de este turno a la zona de Alimentos Consumidos._
 
 ### Alimentos Consumidos :green_apple:
 
-_La zona de Alimentos Consumidos es el lugar donde se ubican los alimentos que has consumido para bajar una carta. Mover los alimentos de la Reserva de Alimentos a la zona de Alimentos Consumidos es la forma de representar que estás "consumiendo" los alimentos requeridos para bajar cartas o activar efectos. Al consumir un alimento este permanece en la zona de Alimentos Consumiedos hasta tu próximo turno._
+_La zona de Alimentos Consumidos es el lugar donde se ubican los alimentos que has consumido para bajar una carta o activar alguna habilidad. Mover los alimentos de la Reserva de Alimentos a la zona de Alimentos Consumidos es la forma de representar que estás "consumiendo" los alimentos requeridos para bajar cartas o activar efectos. Al consumir un alimento este permanece en la zona de Alimentos Consumidos hasta tu próximo turno._
 
 ### Línea de Reposo :battery:
 
@@ -36,7 +36,7 @@ _Es el lugar donde se ubican los Animales declarados atacantes o defensores y do
 
 ### Cementerio :ghost:
 
-_Es la zona donde van las cartas cuando son destruidas, ya sea por efectos de cartas o por daño de combate._
+_Es la zona donde van las cartas cuando son destruidas, ya sea por efectos de cartas, activar habilidades o por daño de combate._
 
 ### Línea de Apoyo :telephone_receiver:
 
@@ -70,17 +70,20 @@ _Cada jugador robará de su mazo un total de 4 cartas para iniciar la partida._
 
 ### 2° Turno :two:
 
-_En caso de tener la posibilidad, el jugador podrá ya sea bajar una carta al tablero de juego desde su mano o bien activar un efecto._
+_En caso de tener la posibilidad, el jugador podrá ya sea bajar una carta al tablero de juego desde su mano o bien activar un efecto de una habilidad._
 
-#### 1) Bajar una Carta
 
-_Si la carta seleccionada a bajar es un alimento, el jugador la podrá bajar sin problema. En caso de que la carta sea de otro tipo, el jugador deberá pagar el coste en alimentos de la carta a bajar_
+#### 1) Ver Mano
+_De esta manera el jugador podrá ver las cartas que tiene en ese determinado momento en su mano._
+#### 2) Bajar una Carta
 
-#### 2) Activar un efecto
+_Si la carta seleccionada a bajar es un alimento, el jugador la podrá bajar sin problema. En caso de que la carta sea de otro tipo, el jugador deberá pagar el coste en alimentos de la carta a bajar._
+
+#### 3) Activar un efecto
 
 _Si selecciona esta opción el jugador podrá activar el efecto de alguna de sus cartas de tipo Habilidad en su mano pagando su coste._
 
-#### 3) Pasar
+#### 4) Pasar
 
 _Al seleccionar esta opción, se termina el turno del jugador actual y comienza el turno del próximo jugador._
 
@@ -88,29 +91,33 @@ _Al seleccionar esta opción, se termina el turno del jugador actual y comienza 
 
 _A partir del tercer turno, el jugador podrá:_
 
-#### 1) Bajar una Carta
 
-_Si la carta seleccionada a bajar es un alimento, el jugador la podrá bajar sin problema. En caso de que la carta sea de otro tipo, el jugador deberá pagar el coste en alimentos de la carta a bajar_
+#### 1) Ver Mano
+_De esta manera el jugador podrá ver las cartas que tiene en ese determinado momento en su mano._
 
-#### 2) Atacar
+#### 2) Bajar una Carta
 
-_En caso de que el jugador que decida atacar tenga animales dispuestos en su línea de apoyo, podrá moverlos de uno en uno a la línea de ataque para de esta manera dañar (mandar cartas del mazo al cementerio) el mazo enemigo_
+_Si la carta seleccionada a bajar es un alimento, el jugador la podrá bajar sin problema. En caso de que la carta sea de otro tipo, el jugador deberá pagar el coste en alimentos de la carta a bajar._
 
-#### 3) Activar un efecto
+#### 3) Atacar
 
-_Si selecciona esta opción el jugador podrá activar el efecto de alguna de sus cartas en juego (animal o habitat) y/o una habilidad en su mano_
+_En caso de que el jugador que decida atacar tenga animales dispuestos en su línea de reposo, podrá moverlos de uno en uno a la línea de ataque para de esta manera dañar (mandar cartas del mazo al cementerio) el mazo enemigo._
 
-#### 4) Inspeccionar zona de juego
+#### 4) Activar un efecto
 
-_En caso de que el jugador quiera ver qué cartas (si las tiene) tiene en cada zona de juego, deberá seleccionar esta opción. Sin contar la mano y el mazo del jugador enemigo, el jugador podrá ver también las cartas dispuestas en el tablero enemigo._
+_Si selecciona esta opción el jugador podrá activar el efecto de alguna de sus cartas en juego (animal o habitat) y/o una habilidad en su mano._
 
-#### 5) Pasar
+#### 5) Ver Tablero
+
+_En caso de que el jugador quiera ver qué cartas (si las tiene) tiene en cada zona de juego exceptuando su propio mazo, deberá seleccionar esta opción. Sin contar la mano y el mazo del jugador enemigo, el jugador podrá ver también las cartas dispuestas en el tablero enemigo._
+
+#### 6) Pasar
 
 _Al seleccionar esta opción, se termina el turno del jugador actual y comienza el turno del próximo jugador._
 
 ### Fin de Turno :clapper:
 
-_Al final de cada turno el jugador robará una carta de su mazo_
+_Al final de cada turno el jugador robará una carta de su mazo._
 
 ## Obtención de la victoria :trophy:
 
