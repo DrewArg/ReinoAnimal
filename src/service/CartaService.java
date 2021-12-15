@@ -276,7 +276,7 @@ public class CartaService {
             } else if (costa > 0) {
                 nombre = "Costa";
                 // reveeer efecto
-                String efecto = "Si tienes un Tiburón Blanco en juego, este gana +1 de daño por cada animal que haya devorado hasta ser destruido.Si tienes un Tiburón Blanco en juego, puedes consumir 5 alimentos para activar su efecto una segunda vez este turno";
+                String efecto = "Si tienes un Tiburón Blanco en juego, puedes consumir 5 alimentos para activar su efecto una segunda vez este turno";
                 int coste = 6;
 
                 costa--;
