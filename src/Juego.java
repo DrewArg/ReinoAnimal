@@ -2,6 +2,7 @@ package src;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -10,7 +11,6 @@ import javax.swing.JTextArea;
 import src.domain.Animal;
 import src.domain.Habilidad;
 import src.domain.Habitat;
-import src.domain.Id;
 import src.domain.Jugador;
 
 import src.inter.CartaInterface;
@@ -20,7 +20,6 @@ import src.service.AnimalService;
 import src.service.CartaService;
 import src.service.HabilidadService;
 import src.service.HabitatService;
-import src.service.IdService;
 import src.service.JScrollPaneService;
 import src.service.JugadorService;
 
@@ -36,10 +35,10 @@ public class Juego {
 
         private JScrollPaneService jScrollPaneService = new JScrollPaneService();
 
-        private Id id = new Id();
-        private IdService idService = new IdService();
-
         public void iniciar() {
+
+                cartaService.crearMazosDeJuego(animalService, alimentoService, habilidadService, habitatService);
+                // modificar esta linea
 
                 String[] menuLogin = { "Ingresar 2", "Registrar 2", "Ingresar 1 y Registrar 1", "Salir" };
                 int opcionElegida = JOptionPane.showOptionDialog(null, "¡Bienvenidos a la Batalla del Reino Animal!",
@@ -87,7 +86,82 @@ public class Juego {
                                         Jugador jugador2 = jugadorService.devolverJugadorValidado(nombreJugador2,
                                                         contrasenaJugador2);
 
-                                        iniciarPartida(jugador1, jugador2);
+                                        Random random = new Random();
+
+                                        int empiezaJugador1 = random.nextInt(10);
+                                        int empiezaJugador2 = random.nextInt(10);
+
+                                        while (empiezaJugador1 == empiezaJugador2) {
+                                                empiezaJugador1 = random.nextInt(10);
+                                                empiezaJugador2 = random.nextInt(10);
+                                        }
+
+                                        if (empiezaJugador1 > empiezaJugador2) {
+
+                                                JOptionPane.showMessageDialog(null, "En esta tirada, el jugador "
+                                                                + jugador1.getNombre()
+                                                                + " arranca seleccionando un mazo.\nAl jugador "
+                                                                + jugador2.getNombre()
+                                                                + " se le asignará el mazo restante.");
+
+                                                String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                int mazoElegidoJugador1 = JOptionPane.showOptionDialog(null,
+                                                                nombreJugador1 + ", selecciona tu tipo de mazo.",
+                                                                "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+
+                                                List<CartaInterface> mazoJugador1;
+                                                List<CartaInterface> mazoJugador2;
+
+                                                if (mazoElegidoJugador1 == 0) {
+
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                } else {
+
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                }
+
+                                                jugador1.setMazoSeleccionado(mazoJugador1);
+                                                jugador2.setMazoSeleccionado(mazoJugador2);
+
+                                                iniciarPartida(jugador1, jugador2);
+
+                                        } else {
+                                                JOptionPane.showMessageDialog(null, "En esta tirada, el jugador "
+                                                                + jugador2.getNombre()
+                                                                + " arranca seleccionando un mazo.\nAl jugador "
+                                                                + jugador1.getNombre()
+                                                                + " se le asignará el mazo restante.");
+
+                                                String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
+                                                                nombreJugador2 + ", selecciona tu tipo de mazo.",
+                                                                "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+
+                                                List<CartaInterface> mazoJugador2;
+                                                List<CartaInterface> mazoJugador1;
+
+                                                if (mazoElegidoJugador2 == 0) {
+
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                } else {
+
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                }
+
+                                                jugador1.setMazoSeleccionado(mazoJugador1);
+                                                jugador2.setMazoSeleccionado(mazoJugador2);
+
+                                                iniciarPartida(jugador2, jugador1);
+                                        }
+
                                 }
 
                         } else if (opcionElegida == 1) {
@@ -107,60 +181,85 @@ public class Juego {
                                 if (jugadorService.nombresJugadoresDisponibles(nombreJugador1, nombreJugador2)) {
 
                                         Jugador jugador1 = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                        nombreJugador1, contrasenaJugador1,
-                                                        idService.devolverIdInicial(id));
+                                                        nombreJugador1, contrasenaJugador1);
                                         Jugador jugador2 = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                        nombreJugador2, contrasenaJugador2,
-                                                        idService.devolverIdInicial(id));
+                                                        nombreJugador2, contrasenaJugador2);
 
-                                        String[] tiposMazo = { "Terrestre", "Acuatico" };
+                                        Random random = new Random();
 
-                                        int mazoElegidoJugador1 = JOptionPane.showOptionDialog(null,
-                                                        nombreJugador1 + ", selecciona tu tipo de mazo.",
-                                                        "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
-                                                        JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+                                        int empiezaJugador1 = random.nextInt(10);
+                                        int empiezaJugador2 = random.nextInt(10);
 
-                                        List<CartaInterface> mazoJugador1;
-                                        List<CartaInterface> mazoJugador2;
-
-                                        if (mazoElegidoJugador1 == 0) {
-
-                                                mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0],
-                                                                animalService,
-                                                                alimentoService, habilidadService, habitatService,
-                                                                jugador1.getIdInicial());
-                                        } else {
-
-                                                mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1],
-                                                                animalService,
-                                                                alimentoService, habilidadService, habitatService,
-                                                                jugador1.getIdInicial());
+                                        while (empiezaJugador1 == empiezaJugador2) {
+                                                empiezaJugador1 = random.nextInt(10);
+                                                empiezaJugador2 = random.nextInt(10);
                                         }
 
-                                        int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
-                                                        nombreJugador2 + ", selecciona tu tipo de mazo.",
-                                                        "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
-                                                        JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 1);
+                                        if (empiezaJugador1 > empiezaJugador2) {
 
-                                        if (mazoElegidoJugador2 == 0) {
+                                                JOptionPane.showMessageDialog(null, "En esta tirada, el jugador "
+                                                                + jugador1.getNombre()
+                                                                + " arranca seleccionando un mazo.\nAl jugador "
+                                                                + jugador2.getNombre()
+                                                                + " se le asignará el mazo restante.");
 
-                                                mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0],
-                                                                animalService,
-                                                                alimentoService, habilidadService, habitatService,
-                                                                jugador2.getIdInicial());
+                                                String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                int mazoElegidoJugador1 = JOptionPane.showOptionDialog(null,
+                                                                nombreJugador1 + ", selecciona tu tipo de mazo.",
+                                                                "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+
+                                                List<CartaInterface> mazoJugador1;
+                                                List<CartaInterface> mazoJugador2;
+
+                                                if (mazoElegidoJugador1 == 0) {
+
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                } else {
+
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                }
+
+                                                jugador1.setMazoSeleccionado(mazoJugador1);
+                                                jugador2.setMazoSeleccionado(mazoJugador2);
+
+                                                iniciarPartida(jugador1, jugador2);
 
                                         } else {
+                                                JOptionPane.showMessageDialog(null, "En esta tirada, el jugador "
+                                                                + jugador2.getNombre()
+                                                                + " arranca seleccionando un mazo.\nAl jugador "
+                                                                + jugador1.getNombre()
+                                                                + " se le asignará el mazo restante.");
 
-                                                mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1],
-                                                                animalService,
-                                                                alimentoService, habilidadService, habitatService,
-                                                                jugador2.getIdInicial());
+                                                String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                int mazoElegidoJugador2 = JOptionPane.showOptionDialog(null,
+                                                                nombreJugador2 + ", selecciona tu tipo de mazo.",
+                                                                "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+
+                                                List<CartaInterface> mazoJugador2;
+                                                List<CartaInterface> mazoJugador1;
+
+                                                if (mazoElegidoJugador2 == 0) {
+
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                } else {
+
+                                                        mazoJugador2 = cartaService.seleccionarMazoCartas(tiposMazo[1]);
+                                                        mazoJugador1 = cartaService.seleccionarMazoCartas(tiposMazo[0]);
+                                                }
+
+                                                jugador1.setMazoSeleccionado(mazoJugador1);
+                                                jugador2.setMazoSeleccionado(mazoJugador2);
+
+                                                iniciarPartida(jugador2, jugador1);
                                         }
-
-                                        jugador1.setMazoSeleccionado(mazoJugador1);
-                                        jugador2.setMazoSeleccionado(mazoJugador2);
-
-                                        iniciarPartida(jugador1, jugador2);
 
                                 } else {
                                         JOptionPane.showMessageDialog(null,
@@ -176,13 +275,10 @@ public class Juego {
                                                 nombreJugadorRegistrado + ", ingresa tu contraseña",
                                                 "Ingresa tu contraseña.");
 
-                                Jugador jugadorRegistrado = jugadorService.crearJugadorYDevolverlo(
-                                                nombreJugadorRegistrado, contrasenaJugadorRegistrado);
-
                                 if (jugadorService.validarJugador(nombreJugadorRegistrado,
                                                 contrasenaJugadorRegistrado)) {
 
-                                        jugadorRegistrado = jugadorService.validarJugadorYDevolverlo(
+                                        Jugador jugadorRegistrado = jugadorService.devolverJugadorValidado(
                                                         nombreJugadorRegistrado, contrasenaJugadorRegistrado);
 
                                         String nombreJugadorNuevo = JOptionPane.showInputDialog(null,
@@ -195,35 +291,97 @@ public class Juego {
                                         if (jugadorService.nombreJugadorDisponible(nombreJugadorNuevo)) {
 
                                                 Jugador jugadorNuevo = jugadorService.crearJugadorGuardarloYDevolverlo(
-                                                                nombreJugadorNuevo, contrasenaJugadorNuevo,
-                                                                idService.devolverIdInicial(id));
+                                                                nombreJugadorNuevo, contrasenaJugadorNuevo);
 
-                                                String[] tiposMazo = { "Terrestre", "Acuatico" };
+                                                Random random = new Random();
 
-                                                int mazoElegido = JOptionPane.showOptionDialog(null,
-                                                                nombreJugadorNuevo + ", selecciona tu tipo de mazo.",
-                                                                "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
-                                                                JOptionPane.QUESTION_MESSAGE, null, tiposMazo, 0);
+                                                int empiezaJugadorViejo = random.nextInt(10);
+                                                int empiezaJugadorNuevo = random.nextInt(10);
 
-                                                List<CartaInterface> mazoJugadorNuevo = new ArrayList<CartaInterface>();
-
-                                                if (mazoElegido == 0) {
-                                                        mazoJugadorNuevo = cartaService.seleccionarMazoCartas(
-                                                                        tiposMazo[0],
-                                                                        animalService, alimentoService,
-                                                                        habilidadService, habitatService,
-                                                                        jugadorNuevo.getIdInicial());
-                                                } else {
-                                                        mazoJugadorNuevo = cartaService.seleccionarMazoCartas(
-                                                                        tiposMazo[1],
-                                                                        animalService, alimentoService,
-                                                                        habilidadService, habitatService,
-                                                                        jugadorNuevo.getIdInicial());
+                                                while (empiezaJugadorViejo == empiezaJugadorNuevo) {
+                                                        empiezaJugadorViejo = random.nextInt(10);
+                                                        empiezaJugadorNuevo = random.nextInt(10);
                                                 }
 
-                                                jugadorNuevo.setMazoSeleccionado(mazoJugadorNuevo);
+                                                if (empiezaJugadorViejo > empiezaJugadorNuevo) {
 
-                                                iniciarPartida(jugadorRegistrado, jugadorNuevo);
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "En esta tirada, el jugador "
+                                                                                        + jugadorRegistrado.getNombre()
+                                                                                        + " arranca seleccionando un mazo.\nAl jugador "
+                                                                                        + jugadorNuevo.getNombre()
+                                                                                        + " se le asignará el mazo restante.");
+
+                                                        String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                        int mazoElegidoJugadorViejo = JOptionPane.showOptionDialog(null,
+                                                                        jugadorRegistrado.getNombre()
+                                                                                        + ", selecciona tu tipo de mazo.",
+                                                                        "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                        JOptionPane.QUESTION_MESSAGE, null, tiposMazo,
+                                                                        0);
+
+                                                        List<CartaInterface> mazoJugadorViejo;
+                                                        List<CartaInterface> mazoJugadorNuevo;
+
+                                                        if (mazoElegidoJugadorViejo == 0) {
+
+                                                                mazoJugadorViejo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[0]);
+                                                                mazoJugadorNuevo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[1]);
+                                                        } else {
+
+                                                                mazoJugadorViejo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[1]);
+                                                                mazoJugadorNuevo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[0]);
+                                                        }
+
+                                                        jugadorRegistrado.setMazoSeleccionado(mazoJugadorViejo);
+                                                        jugadorNuevo.setMazoSeleccionado(mazoJugadorNuevo);
+
+                                                        iniciarPartida(jugadorRegistrado, jugadorNuevo);
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "En esta tirada, el jugador "
+                                                                                        + jugadorNuevo.getNombre()
+                                                                                        + " arranca seleccionando un mazo.\nAl jugador "
+                                                                                        + jugadorRegistrado.getNombre()
+                                                                                        + " se le asignará el mazo restante.");
+
+                                                        String[] tiposMazo = { "Terrestre", "Acuatico" };
+
+                                                        int mazoElegidoJugadorNuevo = JOptionPane.showOptionDialog(null,
+                                                                        jugadorNuevo.getNombre()
+                                                                                        + ", selecciona tu tipo de mazo.",
+                                                                        "Tipo de mazo", JOptionPane.DEFAULT_OPTION,
+                                                                        JOptionPane.QUESTION_MESSAGE, null, tiposMazo,
+                                                                        0);
+
+                                                        List<CartaInterface> mazoJugadorNuevo;
+                                                        List<CartaInterface> mazoJugadorViejo;
+
+                                                        if (mazoElegidoJugadorNuevo == 0) {
+
+                                                                mazoJugadorNuevo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[0]);
+                                                                mazoJugadorViejo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[1]);
+                                                        } else {
+
+                                                                mazoJugadorNuevo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[1]);
+                                                                mazoJugadorViejo = cartaService
+                                                                                .seleccionarMazoCartas(tiposMazo[0]);
+                                                        }
+
+                                                        jugadorRegistrado.setMazoSeleccionado(mazoJugadorViejo);
+                                                        jugadorNuevo.setMazoSeleccionado(mazoJugadorNuevo);
+
+                                                        iniciarPartida(jugadorNuevo, jugadorRegistrado);
+                                                }
 
                                         } else {
                                                 JOptionPane.showMessageDialog(null, "Ese nombre de usuario ya existe",

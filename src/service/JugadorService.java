@@ -9,20 +9,12 @@ import src.repository.JugadorRepository;
 
 public class JugadorService {
 
-    JugadorRepository jugadorRepository = new JugadorRepository();
-    CartaService cartaService = new CartaService();
-    AnimalService animalService = new AnimalService();
-    AlimentoService alimentoService = new AlimentoService();
+    private JugadorRepository jugadorRepository = new JugadorRepository();
 
-    public Jugador crearJugadorGuardarloYDevolverlo(String nombre, String contrasena,
-            int idInicial) {
-        Jugador jugador = new Jugador(nombre, contrasena, idInicial);
+    public Jugador crearJugadorGuardarloYDevolverlo(String nombre, String contrasena) {
+        Jugador jugador = new Jugador(nombre, contrasena);
         jugadorRepository.agregarJugador(jugador);
         return jugador;
-    }
-
-    public Jugador crearJugadorYDevolverlo(String nombre, String contrasena) {
-        return new Jugador(nombre, contrasena);
     }
 
     public Jugador devolverJugadorValidado(String nombre, String contrasena) {
