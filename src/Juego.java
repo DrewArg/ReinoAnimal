@@ -2206,9 +2206,9 @@ public class Juego {
                                                                                         }
                                                                                 }
 
-                                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                                jugadorEnemigo.getMazo().remove(
                                                                                                 enemigoHechizado);
-                                                                                jugadorActual.getMazoCartas()
+                                                                                jugadorActual.getMazo()
                                                                                                 .add(enemigoHechizado);
 
                                                                                 habilidad.setEnCementerio(true);
@@ -2256,9 +2256,9 @@ public class Juego {
                                                                                 animalHechizado.setEnBatalla(false);
                                                                                 animalHechizado.setEnReposo(true);
 
-                                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                                jugadorEnemigo.getMazo().remove(
                                                                                                 animalHechizado);
-                                                                                jugadorActual.getMazoCartas()
+                                                                                jugadorActual.getMazo()
                                                                                                 .add(animalHechizado);
 
                                                                                 habilidad.setEnCementerio(true);
@@ -2314,8 +2314,8 @@ public class Juego {
                                                                         }
                                                                 }
 
-                                                                jugadorEnemigo.getMazoCartas().remove(enemigoHechizado);
-                                                                jugadorActual.getMazoCartas().add(enemigoHechizado);
+                                                                jugadorEnemigo.getMazo().remove(enemigoHechizado);
+                                                                jugadorActual.getMazo().add(enemigoHechizado);
 
                                                                 habilidad.setEnCementerio(true);
                                                                 habilidad.setEnMano(false);
@@ -2372,9 +2372,9 @@ public class Juego {
                                                                 animalHechizado.setEnBatalla(false);
                                                                 animalHechizado.setEnReposo(true);
 
-                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                jugadorEnemigo.getMazo().remove(
                                                                                 animalHechizado);
-                                                                jugadorActual.getMazoCartas()
+                                                                jugadorActual.getMazo()
                                                                                 .add(animalHechizado);
 
                                                                 habilidad.setEnCementerio(true);

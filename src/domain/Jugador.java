@@ -37,7 +37,7 @@ public class Jugador {
         return getCartasMazo().size();
     }
 
-    public List<CartaInterface> getMazoCartas(){
+    public List<CartaInterface> getMazo(){
         return mazo;
     }
 
