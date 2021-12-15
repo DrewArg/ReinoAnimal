@@ -365,57 +365,6 @@ public class CartaService {
 
     }
 
-    public void regresarTodasLasCartasAlMazo(Jugador jugadorActual) {
-
-        for (CartaInterface carta : jugadorActual.getCartasMano()) {
-            carta.setEnMazo(true);
-            carta.setEnMano(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getCartasCementerio()) {
-            carta.setEnMazo(true);
-            carta.setEnCementerio(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getAlimentosConsumidos()) {
-            Alimento alimento = (Alimento) carta;
-            alimento.setEnMazo(true);
-            alimento.setEnAlimentoConsumidos(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getAlimentosEnReserva()) {
-            Alimento alimento = (Alimento) carta;
-            alimento.setEnMazo(true);
-            alimento.setEnReservaDeAlimentos(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getAnimalesEnBatalla()) {
-            Animal animal = (Animal) carta;
-            animal.setEnMazo(true);
-            animal.setEnBatalla(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getAnimalesEnReposo()) {
-            Animal animal = (Animal) carta;
-            animal.setEnMazo(true);
-            animal.setEnReposo(false);
-
-        }
-
-        for (CartaInterface carta : jugadorActual.getHabitatsEnApoyo()) {
-            Habitat habitat = (Habitat) carta;
-            habitat.setEnMazo(true);
-            habitat.setEnLineaApoyo(false);
-
-        }
-
-    }
-
     public void robarCartasDelMazo(Jugador jugadorActual, int cantidadCartas) {
 
         if (cantidadCartas >= jugadorActual.getCantidadCartasMazo()) {
@@ -513,7 +462,8 @@ public class CartaService {
         } else if (carta instanceof Habitat) {
             Habitat habitat = (Habitat) carta;
 
-            descripcionCarta = "[" + habitat.getId() + "]\nTipo: " + habitat.getTipoCarta() + "\n\n" + habitat.getNombre()
+            descripcionCarta = "[" + habitat.getId() + "]\nTipo: " + habitat.getTipoCarta() + "\n\n"
+                    + habitat.getNombre()
                     + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                     + "\n-----------------------------------------------------";
 

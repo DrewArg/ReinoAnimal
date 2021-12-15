@@ -37,9 +37,6 @@ public class Juego {
 
         public void iniciar() {
 
-                cartaService.crearMazosDeJuego(animalService, alimentoService, habilidadService, habitatService);
-                // modificar esta linea
-
                 String[] menuLogin = { "Ingresar 2", "Registrar 2", "Ingresar 1 y Registrar 1", "Salir" };
                 int opcionElegida = JOptionPane.showOptionDialog(null, "¡Bienvenidos a la Batalla del Reino Animal!",
                                 "Jugadores", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
@@ -401,11 +398,11 @@ public class Juego {
 
         private void iniciarPartida(Jugador jugador1, Jugador jugador2) {
 
+                cartaService.reiniciarMazos();
+                cartaService.crearMazosDeJuego(animalService, alimentoService, habilidadService, habitatService);
+
                 jugador1.setTurno(1);
                 jugador2.setTurno(1);
-
-                cartaService.regresarTodasLasCartasAlMazo(jugador1);
-                cartaService.regresarTodasLasCartasAlMazo(jugador2);
 
                 jugador1.mezclarMazo();
                 jugador2.mezclarMazo();
@@ -968,6 +965,11 @@ public class Juego {
                                                                                         .devolverCartasEnZonaComoMensaje(
                                                                                                         jugadorEnemigo.getAnimalesEnReposo());
 
+                                                                        JScrollPane descripcionAnimalesDefensoresReposoScroll = jScrollPaneService
+                                                                                        .instanciarJScrollPaneParaExpandirMensaje(
+                                                                                                        new JTextArea(),
+                                                                                                        descripcionAnimalesDefensoresReposo);
+
                                                                         List<Integer> idsAnimalesDefensoresReposo = cartaService
                                                                                         .devolverIDsCartasEnZona(
                                                                                                         jugadorEnemigo.getAnimalesEnReposo());
@@ -978,7 +980,7 @@ public class Juego {
                                                                         Integer cartaDefensoraElegida = JOptionPane
                                                                                         .showOptionDialog(
                                                                                                         null,
-                                                                                                        descripcionAnimalesDefensoresReposo,
+                                                                                                        descripcionAnimalesDefensoresReposoScroll,
                                                                                                         "Animales para defender",
                                                                                                         JOptionPane.DEFAULT_OPTION,
                                                                                                         JOptionPane.INFORMATION_MESSAGE,
@@ -2201,13 +2203,21 @@ public class Juego {
                                                                                         }
                                                                                 }
 
-                                                                                jugadorActual.getAnimalesEnReposo()
+                                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                                                enemigoHechizado);
+                                                                                jugadorActual.getMazoCartas()
                                                                                                 .add(enemigoHechizado);
-                                                                                jugadorEnemigo.getAnimalesEnReposo()
-                                                                                                .remove(enemigoHechizado);
 
                                                                                 habilidad.setEnCementerio(true);
                                                                                 habilidad.setEnMano(false);
+
+                                                                                JOptionPane.showMessageDialog(null,
+                                                                                                enemigoHechizado
+                                                                                                                .getNombre()
+                                                                                                                + " ha sido hechizado y cambió de bando.\nEl animal ahora forma parte de la linea de reposo de "
+                                                                                                                + jugadorActual.getNombre(),
+                                                                                                "Enemigo Hechizado",
+                                                                                                JOptionPane.INFORMATION_MESSAGE);
 
                                                                                 break;
 
@@ -2237,15 +2247,27 @@ public class Juego {
                                                                                                                                 id);
                                                                                         }
                                                                                 }
-                                                                                
-                                                                                jugadorActual.getAnimalesEnReposo()
-                                                                                                .add(enemigoHechizado);
-                                                                                jugadorEnemigo.getAnimalesEnReposo()
-                                                                                                .remove(enemigoHechizado);
+
+                                                                                Animal animalHechizado = (Animal) enemigoHechizado;
+
+                                                                                animalHechizado.setEnBatalla(false);
+                                                                                animalHechizado.setEnReposo(true);
+
+                                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                                                animalHechizado);
+                                                                                jugadorActual.getMazoCartas()
+                                                                                                .add(animalHechizado);
 
                                                                                 habilidad.setEnCementerio(true);
                                                                                 habilidad.setEnMano(false);
 
+                                                                                JOptionPane.showMessageDialog(null,
+                                                                                                enemigoHechizado
+                                                                                                                .getNombre()
+                                                                                                                + " ha sido hechizado y cambió de bando.\nEl animal ahora forma parte de la linea de reposo de "
+                                                                                                                + jugadorActual.getNombre(),
+                                                                                                "Enemigo Hechizado",
+                                                                                                JOptionPane.INFORMATION_MESSAGE);
                                                                                 break;
 
                                                                 }
@@ -2279,6 +2301,7 @@ public class Juego {
                                                                                                 arrayAnimalesReposoEnemigos,
                                                                                                 0);
                                                                 CartaInterface enemigoHechizado = null;
+
                                                                 for (Integer id : idsAnimalesReposoEnemigos) {
                                                                         if (arrayAnimalesReposoEnemigos[enemigoElegido] == id) {
                                                                                 enemigoHechizado = animalService
@@ -2288,14 +2311,18 @@ public class Juego {
                                                                         }
                                                                 }
 
-                                                                jugadorActual.getAnimalesEnReposo()
-                                                                                .add(enemigoHechizado);
-                                                                jugadorEnemigo.getAnimalesEnReposo()
-                                                                                .remove(enemigoHechizado);
+                                                                jugadorEnemigo.getMazoCartas().remove(enemigoHechizado);
+                                                                jugadorActual.getMazoCartas().add(enemigoHechizado);
 
                                                                 habilidad.setEnCementerio(true);
                                                                 habilidad.setEnMano(false);
 
+                                                                JOptionPane.showMessageDialog(null, enemigoHechizado
+                                                                                .getNombre()
+                                                                                + " ha sido hechizado y cambió de bando.\nEl animal ahora forma parte de la linea de reposo de "
+                                                                                + jugadorActual.getNombre(),
+                                                                                "Enemigo Hechizado",
+                                                                                JOptionPane.INFORMATION_MESSAGE);
                                                         }
                                                 } else {
                                                         if (cantidadEnemigosBatalla > 0) {
@@ -2337,13 +2364,25 @@ public class Juego {
                                                                         }
                                                                 }
 
-                                                                jugadorActual.getAnimalesEnReposo()
-                                                                                .add(enemigoHechizado);
-                                                                jugadorEnemigo.getAnimalesEnReposo()
-                                                                                .remove(enemigoHechizado);
+                                                                Animal animalHechizado = (Animal) enemigoHechizado;
+
+                                                                animalHechizado.setEnBatalla(false);
+                                                                animalHechizado.setEnReposo(true);
+
+                                                                jugadorEnemigo.getMazoCartas().remove(
+                                                                                animalHechizado);
+                                                                jugadorActual.getMazoCartas()
+                                                                                .add(animalHechizado);
 
                                                                 habilidad.setEnCementerio(true);
                                                                 habilidad.setEnMano(false);
+
+                                                                JOptionPane.showMessageDialog(null, enemigoHechizado
+                                                                                .getNombre()
+                                                                                + " ha sido hechizado y cambió de bando.\nEl animal ahora forma parte de la linea de reposo de "
+                                                                                + jugadorActual.getNombre(),
+                                                                                "Enemigo Hechizado",
+                                                                                JOptionPane.INFORMATION_MESSAGE);
 
                                                         } else {
                                                                 JOptionPane.showMessageDialog(null,
@@ -2379,6 +2418,15 @@ public class Juego {
                                                         tiburon.setEnReposo(true);
                                                         tiburon.setEnCementerio(false);
 
+                                                        JOptionPane.showMessageDialog(null, "Has revivido un "
+                                                                        + tiburonActual.getNombre()
+                                                                        + " de tu cementerio y lo haz puesto en tu linea de reposo.",
+                                                                        "Olor a sangre",
+                                                                        JOptionPane.INFORMATION_MESSAGE);
+
+                                                        habilidad.setEnCementerio(true);
+                                                        habilidad.setEnMano(false);
+
                                                 } else if (tiburonReposo || tiburonBatalla) {
                                                         if (tiburonReposo) {
                                                                 tiburonActual = cartaService
@@ -2396,10 +2444,22 @@ public class Juego {
 
                                                         tiburon.setDano(tiburon.getDano() + 3);
 
+                                                        JOptionPane.showMessageDialog(null, "Tu "
+                                                                        + tiburonActual.getNombre()
+                                                                        + " ha ganado 3 puntos de daño permanentes.",
+                                                                        "Olor a sangre",
+                                                                        JOptionPane.INFORMATION_MESSAGE);
+
+                                                        habilidad.setEnCementerio(true);
+                                                        habilidad.setEnMano(false);
+
+                                                } else {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                        "No tienes ningún Tiburón Blanco en tu cementerio o en tu tablero de juego.",
+                                                                        "Tiburón faltante",
+                                                                        JOptionPane.WARNING_MESSAGE);
                                                 }
 
-                                                habilidad.setEnCementerio(true);
-                                                habilidad.setEnMano(false);
                                                 break;
 
                                         case "Captura":

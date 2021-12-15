@@ -12,7 +12,7 @@ public class Jugador {
 
     private boolean puedeAtacar;
 
-    private List<CartaInterface> cartas;
+    private List<CartaInterface> mazo;
 
     public Jugador(String nombre, String contrasena) {
         this.nombre = nombre;
@@ -22,7 +22,7 @@ public class Jugador {
     }
 
     public void setMazoSeleccionado(List<CartaInterface> mazoSeleccionado) {
-        this.cartas = mazoSeleccionado;
+        this.mazo = mazoSeleccionado;
     }
 
     public String getNombre() {
@@ -37,10 +37,14 @@ public class Jugador {
         return getCartasMazo().size();
     }
 
+    public List<CartaInterface> getMazoCartas(){
+        return mazo;
+    }
+
     public List<CartaInterface> getCartasMazo() {
 
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta.isEnMazo()) {
                 auxiliar.add(carta);
             }
@@ -51,7 +55,7 @@ public class Jugador {
 
     public List<CartaInterface> getAlimentosEnReserva() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta instanceof Alimento) {
 
                 Alimento alimento = (Alimento) carta;
@@ -66,7 +70,7 @@ public class Jugador {
 
     public List<CartaInterface> getAlimentosConsumidos() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta instanceof Alimento) {
 
                 Alimento alimento = (Alimento) carta;
@@ -81,7 +85,7 @@ public class Jugador {
 
     public List<CartaInterface> getAnimalesEnReposo() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta instanceof Animal) {
                 Animal animal = (Animal) carta;
                 if (animal.isEnReposo()) {
@@ -96,7 +100,7 @@ public class Jugador {
 
     public List<CartaInterface> getAnimalesEnBatalla() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta instanceof Animal) {
 
                 Animal animal = (Animal) carta;
@@ -112,7 +116,7 @@ public class Jugador {
 
     public List<CartaInterface> getHabitatsEnApoyo() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta instanceof Habitat) {
 
                 Habitat habitat = (Habitat) carta;
@@ -127,7 +131,7 @@ public class Jugador {
 
     public List<CartaInterface> getCartasCementerio() {
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta.isEnCementerio()) {
                 auxiliar.add(carta);
 
@@ -141,7 +145,7 @@ public class Jugador {
     public List<CartaInterface> getCartasMano() {
 
         List<CartaInterface> auxiliar = new ArrayList<CartaInterface>();
-        for (CartaInterface carta : cartas) {
+        for (CartaInterface carta : mazo) {
             if (carta.isEnMano()) {
                 auxiliar.add(carta);
             }
@@ -169,7 +173,7 @@ public class Jugador {
 
     public void mezclarMazo() {
 
-        Collections.shuffle(cartas);
+        Collections.shuffle(mazo);
 
     }
 
