@@ -477,7 +477,7 @@ public class Juego {
                 String[] opcionesTurno = { "Ver Mano", "Bajar una carta", "Activar un efecto", "Pasar" };
 
                 int opcionElegida = JOptionPane.showOptionDialog(null,
-                                "Turno" + jugadorActual.getTurno() + "- ¿" + jugadorActual.getNombre()
+                                "Turno " + jugadorActual.getTurno() + "- ¿" + jugadorActual.getNombre()
                                                 + " qué deseas hacer?",
                                 "Turno " + jugadorActual.getTurno(), JOptionPane.DEFAULT_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, opcionesTurno, 2);
@@ -826,9 +826,12 @@ public class Juego {
                                                                                                 animalService.activarEfectoTortugaMarinaManualmente(
                                                                                                                 tortugaActual,
                                                                                                                 jugadorActual);
+
                                                                                                 JOptionPane.showMessageDialog(
                                                                                                                 null,
-                                                                                                                "El jugador "
+                                                                                                                "Tu Tortuga Marina ["
+                                                                                                                                + tortugaActual.getId()
+                                                                                                                                + "] ha activado su efecto y se ha sacrificado.\nEl jugador "
                                                                                                                                 + jugadorActual.getNombre()
                                                                                                                                 + " no puede atacar más por este turno.",
                                                                                                                 "Cese de ataque",
@@ -848,7 +851,9 @@ public class Juego {
                                                                                                                 jugadorActual);
                                                                                                 JOptionPane.showMessageDialog(
                                                                                                                 null,
-                                                                                                                "El jugador "
+                                                                                                                "Tu Tortuga Marina ["
+                                                                                                                                + tortugaActual.getId()
+                                                                                                                                + "] ha activado su efecto y se ha sacrificado.\nEl jugador "
                                                                                                                                 + jugadorActual.getNombre()
                                                                                                                                 + " no puede atacar más por este turno.",
                                                                                                                 "Cese de ataque",
@@ -900,7 +905,9 @@ public class Juego {
 
                                                                                                 JOptionPane.showMessageDialog(
                                                                                                                 null,
-                                                                                                                "El jugador "
+                                                                                                                "Tu Tortuga Marina ["
+                                                                                                                                + tortugaActual.getId()
+                                                                                                                                + "] ha activado su efecto y se ha sacrificado.\nEl jugador "
                                                                                                                                 + jugadorActual.getNombre()
                                                                                                                                 + " no puede atacar más por este turno.",
                                                                                                                 "Cese de ataque",
@@ -916,17 +923,174 @@ public class Juego {
                                                         break;
 
                                                 case 3:
-                                                        int cantidadAnimalesEnReposoDefensa = cartaService
-                                                                        .devolverCantidadCartasEnZona(
-                                                                                        jugadorEnemigo.getAnimalesEnReposo());
 
-                                                        if (cantidadAnimalesEnReposoDefensa == 0) {
-                                                                JOptionPane.showMessageDialog(null, jugadorEnemigo
-                                                                                .getNombre()
-                                                                                + " actualmente no tienes animales disponibles para defender",
-                                                                                "Sin animales reposando",
-                                                                                JOptionPane.WARNING_MESSAGE);
+                                                        String[] opcionesDefensa = { "Sí", "No" };
 
+                                                        int decisionDefensa = JOptionPane.showOptionDialog(null,
+                                                                        jugadorEnemigo.getNombre()
+                                                                                        + " ¿Quieres defender este ataque?",
+                                                                        "Defensa",
+                                                                        JOptionPane.YES_NO_OPTION,
+                                                                        JOptionPane.WARNING_MESSAGE, null,
+                                                                        opcionesDefensa, 0);
+
+                                                        if (decisionDefensa == 0) {
+                                                                int cantidadAnimalesEnReposoDefensa = cartaService
+                                                                                .devolverCantidadCartasEnZona(
+                                                                                                jugadorEnemigo.getAnimalesEnReposo());
+
+                                                                if (cantidadAnimalesEnReposoDefensa == 0) {
+                                                                        JOptionPane.showMessageDialog(null,
+                                                                                        jugadorEnemigo
+                                                                                                        .getNombre()
+                                                                                                        + " actualmente no tienes animales disponibles para defender",
+                                                                                        "Sin animales reposando",
+                                                                                        JOptionPane.WARNING_MESSAGE);
+
+                                                                        int dañoAnimalAtacante = animalService
+                                                                                        .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
+                                                                                                        jugadorEnemigo,
+                                                                                                        animalAtacante);
+
+                                                                        JOptionPane.showMessageDialog(null,
+                                                                                        jugadorEnemigo.getNombre()
+                                                                                                        + " ha botado "
+                                                                                                        + dañoAnimalAtacante
+                                                                                                        + " cartas de su mazo.\nLe quedan: "
+                                                                                                        + jugadorEnemigo.getCantidadCartasMazo()
+                                                                                                        + " cartas en su mazo.",
+                                                                                        "Daño recibido",
+                                                                                        JOptionPane.WARNING_MESSAGE);
+
+                                                                } else {
+
+                                                                        String descripcionAnimalesDefensoresReposo = cartaService
+                                                                                        .devolverCartasEnZonaComoMensaje(
+                                                                                                        jugadorEnemigo.getAnimalesEnReposo());
+
+                                                                        List<Integer> idsAnimalesDefensoresReposo = cartaService
+                                                                                        .devolverIDsCartasEnZona(
+                                                                                                        jugadorEnemigo.getAnimalesEnReposo());
+
+                                                                        Object[] arrayIdsAnimalesDefensoresEnReposo = idsAnimalesDefensoresReposo
+                                                                                        .toArray();
+
+                                                                        Integer cartaDefensoraElegida = JOptionPane
+                                                                                        .showOptionDialog(
+                                                                                                        null,
+                                                                                                        descripcionAnimalesDefensoresReposo,
+                                                                                                        "Animales para defender",
+                                                                                                        JOptionPane.DEFAULT_OPTION,
+                                                                                                        JOptionPane.INFORMATION_MESSAGE,
+                                                                                                        null,
+                                                                                                        arrayIdsAnimalesDefensoresEnReposo,
+                                                                                                        0);
+
+                                                                        CartaInterface animalDefensor = null;
+
+                                                                        for (Integer idAnimalDefensorEnReposo : idsAnimalesDefensoresReposo) {
+                                                                                if (arrayIdsAnimalesDefensoresEnReposo[cartaDefensoraElegida] == idAnimalDefensorEnReposo) {
+                                                                                        animalDefensor = animalService
+                                                                                                        .pasarYDevolverAnimalEnReposoABatallaPorId(
+                                                                                                                        jugadorEnemigo,
+                                                                                                                        idAnimalDefensorEnReposo);
+                                                                                }
+                                                                        }
+
+                                                                        int calculoDaño = animalService
+                                                                                        .calcularDañoCombate(
+                                                                                                        animalAtacante,
+                                                                                                        animalDefensor);
+
+                                                                        Animal atacante = (Animal) animalAtacante;
+                                                                        Animal defensor = (Animal) animalDefensor;
+
+                                                                        if (calculoDaño < 0) {
+                                                                                animalService.mandarCartasAlCementerioPorCalculoDano(
+                                                                                                jugadorActual,
+                                                                                                Math.abs(calculoDaño));
+
+                                                                                if (!atacante.isIndestructible()) {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        jugadorActual.getNombre()
+                                                                                                                        + " ha botado "
+                                                                                                                        + Math.abs(calculoDaño)
+                                                                                                                        + " cartas de su mazo.\nEl animal atacante ha sido destruido. \nLe quedan: "
+                                                                                                                        + jugadorActual.getCantidadCartasMazo()
+                                                                                                                        + " cartas en su mazo.",
+                                                                                                        "Daño recibido",
+                                                                                                        JOptionPane.ERROR_MESSAGE);
+                                                                                } else {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        jugadorActual.getNombre()
+                                                                                                                        + " ha botado "
+                                                                                                                        + Math.abs(calculoDaño)
+                                                                                                                        + " cartas de su mazo.\nEl animal atacante no ha sido destruido por ser indestructible. \nLe quedan: "
+                                                                                                                        + jugadorActual.getCantidadCartasMazo()
+                                                                                                                        + " cartas en su mazo.",
+                                                                                                        "Daño recibido",
+                                                                                                        JOptionPane.ERROR_MESSAGE);
+                                                                                }
+
+                                                                        } else if (calculoDaño == 0) {
+                                                                                if (!atacante.isIndestructible()
+                                                                                                && !defensor.isIndestructible()) {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        "El calculo de daño ha dado "
+                                                                                                                        + calculoDaño
+                                                                                                                        + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nAmbos animales han sido destruidos en la batalla.",
+                                                                                                        "Daño igualado",
+                                                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                                                } else if (atacante.isIndestructible()
+                                                                                                && !defensor.isIndestructible()) {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        "El calculo de daño ha dado "
+                                                                                                                        + calculoDaño
+                                                                                                                        + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nEl animal atacante no ha sido destruido por ser indestructible.\nEl animal defensor ha sido destruido.",
+                                                                                                        "Daño igualado",
+                                                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                                                } else if (!atacante.isIndestructible()
+                                                                                                && defensor.isIndestructible()) {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        "El calculo de daño ha dado "
+                                                                                                                        + calculoDaño
+                                                                                                                        + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nEl animal defensor no ha sido destruido por ser indestructible.\nEl animal atacante ha sido destruido.",
+                                                                                                        "Daño igualado",
+                                                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                                                } else if (atacante.isIndestructible()
+                                                                                                && defensor.isIndestructible()) {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        null,
+                                                                                                        "El calculo de daño ha dado "
+                                                                                                                        + calculoDaño
+                                                                                                                        + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nNingún animal ha sido destruido por ser ambos indestructibles.",
+                                                                                                        "Daño igualado",
+                                                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                                                }
+
+                                                                        } else if (calculoDaño > 0) {
+                                                                                animalService.mandarCartasAlCementerioPorCalculoDano(
+                                                                                                jugadorEnemigo,
+                                                                                                calculoDaño);
+                                                                                JOptionPane.showMessageDialog(null,
+                                                                                                jugadorEnemigo.getNombre()
+                                                                                                                + " ha botado "
+                                                                                                                + calculoDaño
+                                                                                                                + " cartas de su mazo.\nEl animal defensor ha sido destruido.\n Le quedan: "
+                                                                                                                + jugadorEnemigo.getCantidadCartasMazo()
+                                                                                                                + " cartas en su mazo.",
+                                                                                                "Daño recibido",
+                                                                                                JOptionPane.WARNING_MESSAGE);
+
+                                                                        }
+
+                                                                }
+                                                        } else {
                                                                 int dañoAnimalAtacante = animalService
                                                                                 .mandarCartasAlCementerioPorAnimalAtacanteYDevolverDano(
                                                                                                 jugadorEnemigo,
@@ -941,128 +1105,8 @@ public class Juego {
                                                                                                 + " cartas en su mazo.",
                                                                                 "Daño recibido",
                                                                                 JOptionPane.WARNING_MESSAGE);
-
-                                                        } else {
-
-                                                                String descripcionAnimalesDefensoresReposo = cartaService
-                                                                                .devolverCartasEnZonaComoMensaje(
-                                                                                                jugadorEnemigo.getAnimalesEnReposo());
-
-                                                                List<Integer> idsAnimalesDefensoresReposo = cartaService
-                                                                                .devolverIDsCartasEnZona(
-                                                                                                jugadorEnemigo.getAnimalesEnReposo());
-
-                                                                Object[] arrayIdsAnimalesDefensoresEnReposo = idsAnimalesDefensoresReposo
-                                                                                .toArray();
-
-                                                                Integer cartaDefensoraElegida = JOptionPane
-                                                                                .showOptionDialog(
-                                                                                                null,
-                                                                                                descripcionAnimalesDefensoresReposo,
-                                                                                                "Animales para defender",
-                                                                                                JOptionPane.DEFAULT_OPTION,
-                                                                                                JOptionPane.INFORMATION_MESSAGE,
-                                                                                                null,
-                                                                                                arrayIdsAnimalesDefensoresEnReposo,
-                                                                                                0);
-
-                                                                CartaInterface animalDefensor = null;
-
-                                                                for (Integer idAnimalDefensorEnReposo : idsAnimalesDefensoresReposo) {
-                                                                        if (arrayIdsAnimalesDefensoresEnReposo[cartaDefensoraElegida] == idAnimalDefensorEnReposo) {
-                                                                                animalDefensor = animalService
-                                                                                                .pasarYDevolverAnimalEnReposoABatallaPorId(
-                                                                                                                jugadorEnemigo,
-                                                                                                                idAnimalDefensorEnReposo);
-                                                                        }
-                                                                }
-
-                                                                int calculoDaño = animalService.calcularDañoCombate(
-                                                                                animalAtacante,
-                                                                                animalDefensor);
-
-                                                                Animal atacante = (Animal) animalAtacante;
-                                                                Animal defensor = (Animal) animalDefensor;
-
-                                                                if (calculoDaño < 0) {
-                                                                        animalService.mandarCartasAlCementerioPorCalculoDano(
-                                                                                        jugadorActual,
-                                                                                        Math.abs(calculoDaño));
-
-                                                                        if (!atacante.isIndestructible()) {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                jugadorActual.getNombre()
-                                                                                                                + " ha botado "
-                                                                                                                + Math.abs(calculoDaño)
-                                                                                                                + " cartas de su mazo.\nEl animal atacante ha sido destruido. \nLe quedan: "
-                                                                                                                + jugadorActual.getCantidadCartasMazo()
-                                                                                                                + " cartas en su mazo.",
-                                                                                                "Daño recibido",
-                                                                                                JOptionPane.ERROR_MESSAGE);
-                                                                        } else {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                jugadorActual.getNombre()
-                                                                                                                + " ha botado "
-                                                                                                                + Math.abs(calculoDaño)
-                                                                                                                + " cartas de su mazo.\nEl animal atacante no ha sido destruido por ser indestructible. \nLe quedan: "
-                                                                                                                + jugadorActual.getCantidadCartasMazo()
-                                                                                                                + " cartas en su mazo.",
-                                                                                                "Daño recibido",
-                                                                                                JOptionPane.ERROR_MESSAGE);
-                                                                        }
-
-                                                                } else if (calculoDaño == 0) {
-                                                                        if (!atacante.isIndestructible()
-                                                                                        && !defensor.isIndestructible()) {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                "El calculo de daño ha dado "
-                                                                                                                + calculoDaño
-                                                                                                                + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nAmbos animales han sido destruidos en la batalla.",
-                                                                                                "Daño igualado",
-                                                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                                        } else if (atacante.isIndestructible()
-                                                                                        && !defensor.isIndestructible()) {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                "El calculo de daño ha dado "
-                                                                                                                + calculoDaño
-                                                                                                                + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nEl animal atacante no ha sido destruido por ser indestructible.\nEl animal defensor ha sido destruido.",
-                                                                                                "Daño igualado",
-                                                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                                        } else if (!atacante.isIndestructible()
-                                                                                        && defensor.isIndestructible()) {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                "El calculo de daño ha dado "
-                                                                                                                + calculoDaño
-                                                                                                                + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nEl animal defensor no ha sido destruido por ser indestructible.\nEl animal atacante ha sido destruido.",
-                                                                                                "Daño igualado",
-                                                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                                        } else if (atacante.isIndestructible()
-                                                                                        && defensor.isIndestructible()) {
-                                                                                JOptionPane.showMessageDialog(null,
-                                                                                                "El calculo de daño ha dado "
-                                                                                                                + calculoDaño
-                                                                                                                + " y por esta razón ninguno de los jugadores ha botado cartas de su mazo.\nNingún animal ha sido destruido por ser ambos indestructibles.",
-                                                                                                "Daño igualado",
-                                                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                                        }
-
-                                                                } else if (calculoDaño > 0) {
-                                                                        animalService.mandarCartasAlCementerioPorCalculoDano(
-                                                                                        jugadorEnemigo,
-                                                                                        calculoDaño);
-                                                                        JOptionPane.showMessageDialog(null,
-                                                                                        jugadorEnemigo.getNombre()
-                                                                                                        + " ha botado "
-                                                                                                        + calculoDaño
-                                                                                                        + " cartas de su mazo.\nEl animal defensor ha sido destruido.\n Le quedan: "
-                                                                                                        + jugadorEnemigo.getCantidadCartasMazo()
-                                                                                                        + " cartas en su mazo.",
-                                                                                        "Daño recibido",
-                                                                                        JOptionPane.WARNING_MESSAGE);
-
-                                                                }
-
                                                         }
+
                                                         break;
 
                                                 default:
@@ -1253,39 +1297,51 @@ public class Juego {
 
                                 case "Camaleón":
 
-                                        String descripcionAnimalesEnemigosEnReposo = cartaService
-                                                        .devolverCartasEnZonaComoMensaje(
-                                                                        jugadorEnemigo.getAnimalesEnReposo());
+                                        int cantidadAnimalesEnemigosReposo = cartaService.devolverCantidadCartasEnZona(
+                                                        jugadorEnemigo.getAnimalesEnReposo());
 
-                                        List<Integer> idsAnimalesEnemigosEnReposo = cartaService
-                                                        .devolverIDsCartasEnZona(jugadorEnemigo.getAnimalesEnReposo());
+                                        if (cantidadAnimalesEnemigosReposo > 0) {
 
-                                        Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
-                                                        .toArray();
+                                                String descripcionAnimalesEnemigosEnReposo = cartaService
+                                                                .devolverCartasEnZonaComoMensaje(
+                                                                                jugadorEnemigo.getAnimalesEnReposo());
 
-                                        Integer animalSeleccionado = JOptionPane
-                                                        .showOptionDialog(null,
-                                                                        "¿De qué animal enemigo en reposo quieres tomar el ataque? \n"
-                                                                                        + descripcionAnimalesEnemigosEnReposo,
-                                                                        "Activar efecto Camaleón",
-                                                                        JOptionPane.DEFAULT_OPTION,
-                                                                        JOptionPane.QUESTION_MESSAGE,
-                                                                        null,
-                                                                        arrayAnimalesEnemigosEnReposo,
-                                                                        0);
+                                                List<Integer> idsAnimalesEnemigosEnReposo = cartaService
+                                                                .devolverIDsCartasEnZona(
+                                                                                jugadorEnemigo.getAnimalesEnReposo());
 
-                                        CartaInterface animalEnemigoElegido = null;
+                                                Object[] arrayAnimalesEnemigosEnReposo = idsAnimalesEnemigosEnReposo
+                                                                .toArray();
 
-                                        for (Integer id : idsAnimalesEnemigosEnReposo) {
-                                                if (arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id) {
-                                                        animalEnemigoElegido = animalService
-                                                                        .devolverAnimalSeleccionadoPorId(
-                                                                                        jugadorEnemigo.getAnimalesEnReposo(),
-                                                                                        id);
-                                                        animalService.activarEfectoCamaleonManualmente(
-                                                                        animalConEfectoManualOfensivo,
-                                                                        animalEnemigoElegido);
+                                                Integer animalSeleccionado = JOptionPane
+                                                                .showOptionDialog(null,
+                                                                                descripcionAnimalesEnemigosEnReposo,
+                                                                                "¿De qué animal enemigo en reposo quieres tomar el ataque?",
+                                                                                JOptionPane.DEFAULT_OPTION,
+                                                                                JOptionPane.QUESTION_MESSAGE,
+                                                                                null,
+                                                                                arrayAnimalesEnemigosEnReposo,
+                                                                                0);
+
+                                                CartaInterface animalEnemigoElegido = null;
+
+                                                for (Integer id : idsAnimalesEnemigosEnReposo) {
+                                                        if (arrayAnimalesEnemigosEnReposo[animalSeleccionado] == id) {
+                                                                animalEnemigoElegido = animalService
+                                                                                .devolverAnimalSeleccionadoPorId(
+                                                                                                jugadorEnemigo.getAnimalesEnReposo(),
+                                                                                                id);
+
+                                                        }
                                                 }
+
+                                                animalService.activarEfectoCamaleonManualmente(
+                                                                animalConEfectoManualOfensivo,
+                                                                animalEnemigoElegido);
+                                        } else {
+                                                JOptionPane.showMessageDialog(null,
+                                                                "Actualmente tu enemigo no posee animales en reposo.",
+                                                                "Animales faltantes", JOptionPane.WARNING_MESSAGE);
                                         }
 
                                         break;
@@ -1848,12 +1904,9 @@ public class Juego {
 
                         Object[] arrayHabilidadesEnMano = idsHabilidadesEnMano.toArray();
 
-                        JOptionPane.showMessageDialog(null, "¿Qué habilidad deseas activar?", "Selección de habilidad",
-                                        JOptionPane.QUESTION_MESSAGE);
-
                         Integer habilidadSeleccionada = JOptionPane
                                         .showOptionDialog(null, descripcionHabilidadesEnManoConScroll,
-                                                        "Cartas en tu mano",
+                                                        "¿Qué habilidad deseas activar?",
                                                         JOptionPane.DEFAULT_OPTION,
                                                         JOptionPane.QUESTION_MESSAGE,
                                                         null,
@@ -1951,6 +2004,14 @@ public class Juego {
                                                                                 loboSeleccionado.setEnMazo(false);
                                                                                 loboSeleccionado.setEnReposo(true);
 
+                                                                                habilidad.setEnCementerio(true);
+                                                                                habilidad.setEnMano(false);
+
+                                                                                JOptionPane.showMessageDialog(null,
+                                                                                                "Has agregado satisfactoriamente un Lobo Gris a tu linea de apoyo.",
+                                                                                                "Aullido activo",
+                                                                                                JOptionPane.INFORMATION_MESSAGE);
+
                                                                         } else {
 
                                                                                 cartaSeleccionada = animalService
@@ -1961,6 +2022,14 @@ public class Juego {
                                                                                 Animal loboSeleccionado = (Animal) cartaSeleccionada;
                                                                                 loboSeleccionado.setEnCementerio(false);
                                                                                 loboSeleccionado.setEnReposo(true);
+
+                                                                                habilidad.setEnCementerio(true);
+                                                                                habilidad.setEnMano(false);
+
+                                                                                JOptionPane.showMessageDialog(null,
+                                                                                                "Has agregado satisfactoriamente un Lobo Gris a tu linea de apoyo.",
+                                                                                                "Aullido activo",
+                                                                                                JOptionPane.INFORMATION_MESSAGE);
                                                                         }
 
                                                                 } else {
@@ -1973,6 +2042,14 @@ public class Juego {
                                                                         loboSeleccionado.setEnMazo(false);
                                                                         loboSeleccionado.setEnReposo(true);
 
+                                                                        habilidad.setEnCementerio(true);
+                                                                        habilidad.setEnMano(false);
+
+                                                                        JOptionPane.showMessageDialog(null,
+                                                                                        "Has agregado satisfactoriamente un Lobo Gris a tu linea de apoyo.",
+                                                                                        "Aullido activo",
+                                                                                        JOptionPane.INFORMATION_MESSAGE);
+
                                                                 }
                                                         } else {
                                                                 if (lobosCementerio > 0) {
@@ -1984,6 +2061,14 @@ public class Juego {
                                                                         Animal loboSeleccionado = (Animal) cartaSeleccionada;
                                                                         loboSeleccionado.setEnCementerio(false);
                                                                         loboSeleccionado.setEnReposo(true);
+
+                                                                        habilidad.setEnCementerio(true);
+                                                                        habilidad.setEnMano(false);
+
+                                                                        JOptionPane.showMessageDialog(null,
+                                                                                        "Has agregado satisfactoriamente un Lobo Gris a tu linea de apoyo.",
+                                                                                        "Aullido activo",
+                                                                                        JOptionPane.INFORMATION_MESSAGE);
                                                                 } else {
                                                                         JOptionPane.showMessageDialog(null,
                                                                                         "Actualmente no tienes lobos para traer al juego.",
@@ -1992,8 +2077,6 @@ public class Juego {
                                                                 }
 
                                                         }
-                                                        habilidad.setEnCementerio(true);
-                                                        habilidad.setEnMano(false);
 
                                                         animalService.activarPasivamenteEfectoAnimal(jugadorActual,
                                                                         cartaService);
@@ -2123,6 +2206,9 @@ public class Juego {
                                                                                 jugadorEnemigo.getAnimalesEnReposo()
                                                                                                 .remove(enemigoHechizado);
 
+                                                                                habilidad.setEnCementerio(true);
+                                                                                habilidad.setEnMano(false);
+
                                                                                 break;
 
                                                                         case 1:
@@ -2151,11 +2237,14 @@ public class Juego {
                                                                                                                                 id);
                                                                                         }
                                                                                 }
-
+                                                                                
                                                                                 jugadorActual.getAnimalesEnReposo()
                                                                                                 .add(enemigoHechizado);
-                                                                                jugadorEnemigo.getAnimalesEnBatalla()
+                                                                                jugadorEnemigo.getAnimalesEnReposo()
                                                                                                 .remove(enemigoHechizado);
+
+                                                                                habilidad.setEnCementerio(true);
+                                                                                habilidad.setEnMano(false);
 
                                                                                 break;
 
@@ -2204,6 +2293,9 @@ public class Juego {
                                                                 jugadorEnemigo.getAnimalesEnReposo()
                                                                                 .remove(enemigoHechizado);
 
+                                                                habilidad.setEnCementerio(true);
+                                                                habilidad.setEnMano(false);
+
                                                         }
                                                 } else {
                                                         if (cantidadEnemigosBatalla > 0) {
@@ -2247,8 +2339,12 @@ public class Juego {
 
                                                                 jugadorActual.getAnimalesEnReposo()
                                                                                 .add(enemigoHechizado);
-                                                                jugadorEnemigo.getAnimalesEnBatalla()
+                                                                jugadorEnemigo.getAnimalesEnReposo()
                                                                                 .remove(enemigoHechizado);
+
+                                                                habilidad.setEnCementerio(true);
+                                                                habilidad.setEnMano(false);
+
                                                         } else {
                                                                 JOptionPane.showMessageDialog(null,
                                                                                 "Actualmente no hay animales enemigos para hechizar",
@@ -2257,9 +2353,6 @@ public class Juego {
                                                         }
 
                                                 }
-
-                                                habilidad.setEnCementerio(true);
-                                                habilidad.setEnMano(false);
 
                                                 break;
 

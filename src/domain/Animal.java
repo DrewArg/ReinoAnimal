@@ -14,6 +14,8 @@ public class Animal implements CartaInterface {
     private String tipoMazo;
     private int contador;
 
+    private String tipoCarta = "Animal";
+
     private boolean sePuedeBajarTablero;
     private boolean enReposo;
     private boolean enBatalla;
@@ -91,6 +93,10 @@ public class Animal implements CartaInterface {
 
     public String getTipoMazo() {
         return tipoMazo;
+    }
+
+    public String getTipoCarta() {
+        return tipoCarta;
     }
 
     public int getCoste() {

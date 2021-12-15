@@ -24,7 +24,8 @@ public class HabitatService {
                 if (carta instanceof Habitat) {
                     Habitat habitat = (Habitat) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\n" + habitat.getNombre()
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\nTipo: "
+                            + habitat.getTipoCarta() + "\n\n" + habitat.getNombre()
                             + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                             + "\n-----------------------------------------------------";
 
@@ -40,7 +41,7 @@ public class HabitatService {
         for (CartaInterface carta : zona) {
             if (carta instanceof Habitat) {
                 cantidadHabitats++;
-               
+
             }
 
         }

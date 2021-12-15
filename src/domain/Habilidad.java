@@ -9,6 +9,8 @@ public class Habilidad implements CartaInterface {
     private int coste;
     private String tipoMazo;
 
+    private String tipoCarta = "Habilidad";
+
     private boolean sePuedeBajarTablero;
     private boolean enMazo;
     private boolean enCementerio;
@@ -52,6 +54,10 @@ public class Habilidad implements CartaInterface {
 
     public String getTipoMazo() {
         return tipoMazo;
+    }
+
+    public String getTipoCarta() {
+        return tipoCarta;
     }
 
     public boolean isSePuedeBajarTablero() {

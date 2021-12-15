@@ -23,8 +23,8 @@ public class CartaService {
     public void crearMazosDeJuego(AnimalService animalService, AlimentoService alimentoService,
             HabilidadService habilidadService, HabitatService habitatService) {
 
-        crearCartasMazoAcuatico(animalService, alimentoService, habilidadService, habitatService);
-        crearCartasMazoTerrestre(animalService, alimentoService, habilidadService, habitatService);
+        llenarMazoActuaticoConCartas(animalService, alimentoService, habilidadService, habitatService);
+        llenarMazoTerrestreConCartas(animalService, alimentoService, habilidadService, habitatService);
     }
 
     public List<CartaInterface> seleccionarMazoCartas(String tipoMazo) {
@@ -38,7 +38,11 @@ public class CartaService {
 
     }
 
-    private void crearCartasMazoTerrestre(AnimalService animalService, AlimentoService alimentoService,
+    public void reiniciarMazos() {
+        cartaRepository.reiniciarMazos();
+    }
+
+    private void llenarMazoTerrestreConCartas(AnimalService animalService, AlimentoService alimentoService,
             HabilidadService habilidadService, HabitatService habitatService) {
         String nombre;
         String tipoMazo;
@@ -48,7 +52,7 @@ public class CartaService {
         int ratas = 3;
         int camaleon = 2;
         int mantisOrquideas = 1;
-        int alimentos = 14;
+        int alimentos = 13;
         int orquidea = 1;
         int alcantarilla = 2;
         int aullido = 3;
@@ -183,7 +187,7 @@ public class CartaService {
         }
     }
 
-    private void crearCartasMazoAcuatico(AnimalService animalService, AlimentoService alimentoService,
+    private void llenarMazoActuaticoConCartas(AnimalService animalService, AlimentoService alimentoService,
             HabilidadService habilidadService, HabitatService habitatService) {
         String nombre;
         String tipoMazo;
@@ -193,7 +197,7 @@ public class CartaService {
         int pecesPayaso = 3;
         int pulpos = 2;
         int tiburonesBlancos = 1;
-        int alimentos = 14;
+        int alimentos = 13;
         int costa = 1;
         int anemona = 2;
         int coraza = 3;
@@ -488,7 +492,7 @@ public class CartaService {
         if (carta instanceof Animal) {
             Animal animal = (Animal) carta;
 
-            descripcionCarta = "[" + animal.getId() + "]\n" + animal.getNombre()
+            descripcionCarta = "[" + animal.getId() + "]\nTipo: " + animal.getTipoCarta() + "\n\n" + animal.getNombre()
                     + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                     + animal.getEfecto() + "\n-----------------------------------------------------";
 
@@ -502,14 +506,14 @@ public class CartaService {
         } else if (carta instanceof Habilidad) {
             Habilidad habilidad = (Habilidad) carta;
 
-            descripcionCarta = "[" + habilidad.getId() + "]\n"
+            descripcionCarta = "[" + habilidad.getId() + "]\nTipo: " + habilidad.getTipoCarta() + "\n\n"
                     + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                     + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
         } else if (carta instanceof Habitat) {
             Habitat habitat = (Habitat) carta;
 
-            descripcionCarta = "[" + habitat.getId() + "]\n" + habitat.getNombre()
+            descripcionCarta = "[" + habitat.getId() + "]\nTipo: " + habitat.getTipoCarta() + "\n\n" + habitat.getNombre()
                     + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                     + "\n-----------------------------------------------------";
 
@@ -575,7 +579,8 @@ public class CartaService {
                 if (carta instanceof Animal) {
                     Animal animal = (Animal) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\nTipo: "
+                            + animal.getTipoCarta() + "\n\n" + animal.getNombre()
                             + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                             + animal.getEfecto() + "\n-----------------------------------------------------";
 
@@ -589,14 +594,17 @@ public class CartaService {
                 } else if (carta instanceof Habilidad) {
                     Habilidad habilidad = (Habilidad) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\n"
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\nTipo: "
+                            + habilidad.getTipoCarta() + "\n\n"
                             + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                             + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
                 } else if (carta instanceof Habitat) {
                     Habitat habitat = (Habitat) carta;
 
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\n" + habitat.getNombre()
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + habitat.getId() + "]\nTipo: "
+                            + habitat.getTipoCarta() + "\n\n"
+                            + habitat.getNombre()
                             + "\nCoste: " + habitat.getCoste() + "\nEfecto: " + habitat.getEfecto()
                             + "\n-----------------------------------------------------";
 

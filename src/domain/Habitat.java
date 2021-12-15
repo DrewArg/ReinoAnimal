@@ -9,6 +9,8 @@ public class Habitat implements CartaInterface {
     private int coste;
     private String tipoMazo;
 
+    private String tipoCarta = "Habitat";
+
     private boolean sePuedeBajarTablero;
     private boolean enLineaApoyo;
     private boolean enMazo;
@@ -62,6 +64,10 @@ public class Habitat implements CartaInterface {
         return tipoMazo;
     }
 
+    public String getTipoCarta() {
+        return tipoCarta;
+    }
+
     public boolean isSePuedeBajarTablero() {
         return sePuedeBajarTablero;
     }
@@ -102,12 +108,12 @@ public class Habitat implements CartaInterface {
         this.enMano = enMano;
     }
 
-    public boolean isEfectoActivo(){
+    public boolean isEfectoActivo() {
         return efectoActivo;
     }
 
-    public void setEfectoActivo(boolean efectoActivo){
-        this.efectoActivo=efectoActivo;
+    public void setEfectoActivo(boolean efectoActivo) {
+        this.efectoActivo = efectoActivo;
     }
 
 }

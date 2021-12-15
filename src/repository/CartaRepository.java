@@ -13,6 +13,11 @@ public class CartaRepository {
 
     }
 
+    public void reiniciarMazos() {
+        mazoTerrestre.clear();
+        mazoAcuatico.clear();
+    }
+
     public void agregarCartaMazoTerrestre(CartaInterface carta) {
         mazoTerrestre.add(carta);
     }

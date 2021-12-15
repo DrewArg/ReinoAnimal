@@ -156,7 +156,8 @@ public class AnimalService {
             Animal animal = (Animal) cartaInterface;
             if (animal.isEfectoManual()) {
                 if (!animal.isTieneEfectoDefensivo()) {
-                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\n" + animal.getNombre()
+                    cartasInspeccionadas = cartasInspeccionadas + "\n[" + animal.getId() + "]\nTipo: "
+                            + animal.getTipoCarta() + "\n\n" + animal.getNombre()
                             + "\nCoste: " + animal.getCoste() + "\nDaño: " + animal.getDano() + "\nEfecto: "
                             + animal.getEfecto() + "\n-----------------------------------------------------";
                 }

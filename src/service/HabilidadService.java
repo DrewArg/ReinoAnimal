@@ -34,7 +34,8 @@ public class HabilidadService {
             if (carta instanceof Habilidad) {
                 Habilidad habilidad = (Habilidad) carta;
 
-                cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\n"
+                cartasInspeccionadas = cartasInspeccionadas + "\n[" + habilidad.getId() + "]\nTipo: "
+                        + habilidad.getTipoCarta() + "\n\n"
                         + habilidad.getNombre() + "\nCoste: " + habilidad.getCoste() + "\nEfecto: "
                         + habilidad.getEfecto() + "\n-----------------------------------------------------";
 
